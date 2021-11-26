@@ -1,8 +1,10 @@
-package api;
+import api.DirectedWeightedGraph;
+import api.EdgeData;
+import api.NodeData;
 
 import java.util.Iterator;
 
-public class DirectedWeighted implements DirectedWeightedGraph{
+public class DirectedWeighted implements DirectedWeightedGraph {
     @Override
     public NodeData getNode(int key) {
         return null;

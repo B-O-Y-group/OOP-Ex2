@@ -1,6 +1,6 @@
-package api;
+import api.EdgeData;
 
-public class Edge  implements EdgeData{
+public class Edge  implements EdgeData {
     @Override
     public int getSrc() {
         return 0;

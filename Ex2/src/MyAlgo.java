@@ -1,8 +1,10 @@
-package api;
+import api.DirectedWeightedGraph;
+import api.DirectedWeightedGraphAlgorithms;
+import api.NodeData;
 
 import java.util.List;
 
-public class MyAlgo  implements DirectedWeightedGraphAlgorithms{
+public class MyAlgo  implements DirectedWeightedGraphAlgorithms {
     @Override
     public void init(DirectedWeightedGraph g) {
 

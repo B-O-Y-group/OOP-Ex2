@@ -1,6 +1,7 @@
-package api;
+import api.GeoLocation;
+import api.NodeData;
 
-public class Vertex implements NodeData{
+public class Vertex implements NodeData {
     @Override
     public int getKey() {
         return 0;

@@ -22,6 +22,7 @@ public interface NodeData {
 	/**
 	 * Returns the weight associated with this node.
 	 * @return
+	 *
 	 */
 	public double getWeight();
 	/**

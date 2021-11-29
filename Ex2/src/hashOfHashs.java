@@ -4,7 +4,7 @@ import api.NodeData;
 
 import java.util.Iterator;
 
-public class hashOfhash  implements DirectedWeightedGraph {
+public class hashOfHashs implements DirectedWeightedGraph {
     @Override
     public NodeData getNode(int key) {
         return null;

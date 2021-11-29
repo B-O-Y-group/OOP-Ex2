@@ -2,6 +2,22 @@ import api.GeoLocation;
 import api.NodeData;
 
 public class Vertex implements NodeData {
+
+    public int id; // from json
+    public Point3D pos;
+    public double weight;
+    public int tag;
+
+
+
+
+
+    public Vertex(){
+
+    }
+
+
+
     @Override
     public int getKey() {
         return 0;

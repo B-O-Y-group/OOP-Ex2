@@ -2,9 +2,31 @@ import api.DirectedWeightedGraph;
 import api.EdgeData;
 import api.NodeData;
 
+import java.util.HashMap;
 import java.util.Iterator;
 
-public class hashOfHashs implements DirectedWeightedGraph {
+
+
+
+public class HashOfHashes implements DirectedWeightedGraph {
+    private HashMap<Integer, int[]> in, out;
+    private HashMap<Integer, int[]>[] edges ;
+    public HashMap<Vertex, HashMap<Integer, int[]>[]> graph ;
+    public int src;
+
+    public HashOfHashes() {
+        this.src = 0;
+        this.in = new HashMap<>();
+        this.out = new HashMap<>();
+        this.edges = new HashMap[]{in,out};
+        this.graph = new HashMap<>();
+    }
+
+
+
+
+
+
     @Override
     public NodeData getNode(int key) {
         return null;

@@ -1,19 +1,34 @@
 import api.EdgeData;
 
-public class Edge  implements EdgeData {
+public class Edge implements EdgeData {
+
+    public int src;
+    public int dest;
+    public double weight;
+    public int tag;
+
+
+    public Edge(int src, int dest, double weight) {
+        this.src = src;
+        this.dest = dest;
+        this.weight = weight;
+        this.tag = Tags.WHITE.ordinal();
+    }
+
+
     @Override
     public int getSrc() {
-        return 0;
+        return  this.src;
     }
 
     @Override
     public int getDest() {
-        return 0;
+        return this.dest;
     }
 
     @Override
     public double getWeight() {
-        return 0;
+        return this.weight;
     }
 
     @Override
@@ -28,11 +43,11 @@ public class Edge  implements EdgeData {
 
     @Override
     public int getTag() {
-        return 0;
+        return this.tag;
     }
 
     @Override
     public void setTag(int t) {
-
+        this.tag = t;
     }
 }

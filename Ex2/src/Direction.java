@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class Direction {
 
 
-    HashMap<Integer, Double> in, out;
+    HashMap<Integer, Edge> in, out;
 
 
     public Direction() {

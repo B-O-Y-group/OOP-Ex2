@@ -5,26 +5,40 @@ import java.awt.*;
 
 public class Vertex implements NodeData {
 
-   private  final int id; // from json
-   private Point3D pos;
-   private double weight;
-   private int tag;
-   private String info;
+    private final int id; // from json
+    private Point3D pos;
+    private double weight;
+    private int tag;
+    private String info;
+    private Direction d;
+    private int num_of_neighbors;
 
+    public int getNum_of_neighbors() {
+        return num_of_neighbors;
+    }
 
-    public Vertex(int id , Point3D pos ) {
+    public Direction getD() {
+        return d;
+    }
+
+    public void UpdateNum_of_neighbors() {
+        this.num_of_neighbors++;
+    }
+
+    public Vertex(int id, Point3D pos) {
         this.id = id;
         this.pos = pos;
         this.weight = 0; // influenced by edges.
         this.tag = Tags.WHITE.ordinal(); // <white = 0 , grey = 1, black = 2>
-        Direction d = new Direction();
+        this.d = new Direction();
         this.info = "";
+        this.num_of_neighbors = 0;
     }
 
 
     public static void main(String[] args) {
 
-        Vertex v = new Vertex(1,new Point3D(1,1,1));
+        Vertex v = new Vertex(1, new Point3D(1, 1, 1));
 
         System.out.println(v.getTag());
     }
@@ -41,7 +55,7 @@ public class Vertex implements NodeData {
 
     @Override
     public void setLocation(GeoLocation p) {
-        this.pos.x= p.x();
+        this.pos.x = p.x();
         this.pos.y = p.y();
         this.pos.z = p.z();
     }

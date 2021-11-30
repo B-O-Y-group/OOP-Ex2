@@ -6,21 +6,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 
-
-
 public class HashOfHashes implements DirectedWeightedGraph {
-    public HashMap<Integer, Vertex> graph ;
-    private HashMap<Integer, Vertex> list_of_nodes;
+    public HashMap<Integer, Vertex> graph;
+    private int num_of_edges;
 
     public HashOfHashes() {
-        this.list_of_nodes = new HashMap<>();
         this.graph = new HashMap<>();
+        this.num_of_edges = 0;
     }
-
-
-
-
-
 
     @Override
     public NodeData getNode(int key) {
@@ -29,17 +22,21 @@ public class HashOfHashes implements DirectedWeightedGraph {
 
     @Override
     public EdgeData getEdge(int src, int dest) {
-        return null;
+        return graph.get(src).getD().out.get(dest);
     }
 
     @Override
     public void addNode(NodeData n) {
-
+        this.graph.put(n.getKey(), (Vertex) n);
     }
 
     @Override
     public void connect(int src, int dest, double w) {
-
+        this.graph.get(src).getD().out.put(dest, new Edge(src, dest, w));
+        this.graph.get(src).UpdateNum_of_neighbors();
+        this.graph.get(dest).getD().in.put(src, new Edge(src, dest, w));
+        this.graph.get(dest).UpdateNum_of_neighbors();
+        this.num_of_edges ++;
     }
 
     @Override
@@ -59,22 +56,33 @@ public class HashOfHashes implements DirectedWeightedGraph {
 
     @Override
     public NodeData removeNode(int key) {
-        return null;
+        Vertex pop = this.graph.get(key);
+        for (int i = 0; i < pop.getD().out.size(); i++) {
+            removeEdge(pop.getKey(), i);
+        }
+        for (int j = 0; j < pop.getD().in.size(); j++) {
+            removeEdge(j, pop.getKey());
+        }
+        this.graph.remove(key);
+        return pop;
     }
 
     @Override
     public EdgeData removeEdge(int src, int dest) {
-        return null;
+        Edge pop = this.graph.get(src).getD().out.get(dest);
+        this.graph.get(src).getD().out.remove(dest);
+        this.graph.get(dest).getD().in.remove(src);
+        return pop;
     }
 
     @Override
     public int nodeSize() {
-        return 0;
+        return this.graph.size();
     }
 
     @Override
     public int edgeSize() {
-        return 0;
+        return num_of_edges;
     }
 
 

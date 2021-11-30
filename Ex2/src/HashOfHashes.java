@@ -35,7 +35,6 @@ public class HashOfHashes implements DirectedWeightedGraph {
         this.graph.get(src).getD().out.put(dest, new Edge(src, dest, w));
         this.graph.get(src).UpdateNum_of_neighbors();
         this.graph.get(dest).getD().in.put(src, new Edge(src, dest, w));
-        this.graph.get(dest).UpdateNum_of_neighbors();
         this.num_of_edges ++;
     }
 

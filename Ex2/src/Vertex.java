@@ -9,9 +9,7 @@ public class Vertex implements NodeData {
    private Point3D pos;
    private double weight;
    private int tag;
-
-
-
+   private String info;
 
 
     public Vertex(int id , Point3D pos ) {
@@ -19,6 +17,8 @@ public class Vertex implements NodeData {
         this.pos = pos;
         this.weight = 0; // influenced by edges.
         this.tag = Tags.WHITE.ordinal(); // <white = 0 , grey = 1, black = 2>
+        Direction d = new Direction();
+        this.info = "";
     }
 
 
@@ -58,12 +58,12 @@ public class Vertex implements NodeData {
 
     @Override
     public String getInfo() {
-        return "id: " + this.id + "pos: " + this.pos + "tag: " + this.tag ;
+        return this.info;
     }
 
     @Override
     public void setInfo(String s) {
-
+        this.info = s;
     }
 
     @Override

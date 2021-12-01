@@ -13,6 +13,7 @@ public class algo implements DirectedWeightedGraphAlgorithms {
         this.graph = h;
         init(h);
     }
+
     @Override
     public void init(DirectedWeightedGraph g) {
 
@@ -45,32 +46,40 @@ public class algo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public NodeData center() {
-        HashOfHashes a = new HashOfHashes();
 
 
-        List<NodeData> nodeData = new ArrayList<>();
-        nodeData = shortestPath(a.edgeIter(a.getNode(0).getKey()).next().getSrc(),
-                a.edgeIter().next().getDest());
-        double min = count(nodeData);
-        Vertex temp = (Vertex) nodeData.get(0);
+        double min = min(this.graph.nodeIter().next().getKey());
+        NodeData ansNode = this.graph.getNode(0);
+        while (this.graph.nodeIter().hasNext()) {
+            if (this.graph.nodeIter().next().getKey() < 2) {
+                continue;
+            }
+
+            double temp = 0;
 
 
+            for (int i = 0; i < this.graph.nodeSize(); i++) {
+                temp += shortestPathDist(this.graph.nodeIter().next().getKey(), i);
 
-
-        while (a.nodeIter().hasNext()) {
-            for (int i = 1; i < a.nodeSize(); i++) {
-
-                nodeData = shortestPath(a.edgeIter(a.getNode(i).getKey()).next().getSrc(),
-                        a.edgeIter().next().getDest());
-                if (count(nodeData) < min) {
-                    min = count(nodeData);
-                    temp = (Vertex) nodeData.get(i);
-                }
+            }
+            if (temp < min) {
+                min = temp;
+                ansNode = this.graph.nodeIter().next();
             }
 
         }
-        return temp;
+        return ansNode;
 
+
+    }
+
+    private double min(int key) {
+        double temp = 0;
+        for (int i = 0; i < this.graph.nodeSize(); i++) {
+            temp += shortestPathDist(this.graph.nodeIter().next().getKey(), i);
+
+        }
+        return temp;
     }
 
     private double count(List<NodeData> nodeData) {

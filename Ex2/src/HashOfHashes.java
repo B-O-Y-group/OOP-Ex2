@@ -9,10 +9,12 @@ import java.util.Iterator;
 public class HashOfHashes implements DirectedWeightedGraph {
     public HashMap<Integer, Vertex> graph;
     private int num_of_edges;
+    private int MC;
 
     public HashOfHashes() {
         this.graph = new HashMap<>();
         this.num_of_edges = 0;
+        this.MC = 0;
     }
 
     @Override
@@ -28,6 +30,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
     @Override
     public void addNode(NodeData n) {
         this.graph.put(n.getKey(), (Vertex) n);
+        this.MC ++ ;
     }
 
     @Override
@@ -63,6 +66,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
             removeEdge(j, pop.getKey());
         }
         this.graph.remove(key);
+        this.MC++;
         return pop;
     }
 
@@ -71,6 +75,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
         Edge pop = this.graph.get(src).getD().out.get(dest);
         this.graph.get(src).getD().out.remove(dest);
         this.graph.get(dest).getD().in.remove(src);
+        this.MC++;
         return pop;
     }
 
@@ -88,6 +93,6 @@ public class HashOfHashes implements DirectedWeightedGraph {
     /// counter fir every change
     @Override
     public int getMC() {
-        return 0;
+        return this.MC;
     }
 }

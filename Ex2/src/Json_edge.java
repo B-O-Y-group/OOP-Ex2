@@ -1,11 +1,11 @@
 public class Json_edge {
     int src;
-    double weight;
+    double w;
     int dest;
 
     public Json_edge(int src, double weight, int dest) {
         this.src = src;
-        this.weight = weight;
+        this.w = weight;
         this.dest = dest;
     }
 
@@ -17,12 +17,12 @@ public class Json_edge {
         this.src = src;
     }
 
-    public double getWeight() {
-        return weight;
+    public double getW() {
+        return w;
     }
 
-    public void setWeight(double weight) {
-        this.weight = weight;
+    public void setW(double w) {
+        this.w = w;
     }
 
     public int getDest() {
@@ -37,7 +37,7 @@ public class Json_edge {
     public String toString() {
         return "Json_edge{" +
                 "src=" + src +
-                ", weight=" + weight +
+                ", weight=" + w +
                 ", dest=" + dest +
                 '}';
     }

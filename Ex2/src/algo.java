@@ -76,7 +76,9 @@ public class algo implements DirectedWeightedGraphAlgorithms {
     private double min(int key) {
         double temp = 0;
         for (int i = 0; i < this.graph.nodeSize(); i++) {
-            temp += shortestPathDist(this.graph.nodeIter().next().getKey(), i);
+            if (key ==  this.graph.getNode(i).getKey()){
+                continue;}
+            temp += shortestPathDist(key, this.graph.getNode(i).getKey());
 
         }
         return temp;

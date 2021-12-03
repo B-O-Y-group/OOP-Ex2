@@ -1,5 +1,6 @@
 import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
+import api.GeoLocation;
 import api.NodeData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -59,8 +60,6 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
     @Override
     public NodeData center() {
 
-
-        double min = min(this.graph.nodeIter().next().getKey());
         NodeData ansNode = this.graph.getNode(0);
         while (this.graph.nodeIter().hasNext()) {
             if (this.graph.nodeIter().next().getKey() < 2) {
@@ -134,16 +133,23 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
                 double weight = EdgesObjects.get("w").getAsDouble();
                 int dest = EdgesObjects.get("dest").getAsInt();
 
+                this.graph.connect(src, dest, weight);
+
             }
 
             JsonArray jsonArrayOfNodes = fileObject.get("Nodes").getAsJsonArray();
             for (JsonElement NodesElement : jsonArrayOfNodes) {
                 JsonObject NodeObjects = NodesElement.getAsJsonObject();
 
+                GeoLocation g = new Point3D(NodeObjects.get("pos").getAsJsonArray().get(0).getAsDouble()
+                        , NodeObjects.get("pos").getAsJsonArray().get(1).getAsDouble()
+                        , NodeObjects.get("pos").getAsJsonArray().get(2).getAsDouble());
 
-                double pos = NodeObjects.get("pos").getAsDouble();
                 int id = NodeObjects.get("id").getAsInt();
 
+                NodeData n = new Vertex(id, g);
+
+                this.graph.addNode(n);
 
             }
         } catch (FileNotFoundException e) {

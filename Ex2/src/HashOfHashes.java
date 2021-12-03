@@ -44,11 +44,18 @@ public class HashOfHashes implements DirectedWeightedGraph {
 
     @Override
     public Iterator<NodeData> nodeIter() {
+        if (this.nodes.isEmpty()) {
+            System.out.println("Error : this graph has no nodes.");
+            return null;
+        }
         return this.nodes.values().iterator();
     }
 
     @Override
     public Iterator<EdgeData> edgeIter() {
+        if (this.graph.isEmpty()) {
+            System.out.println("Error : no edges in the graph");
+        }
         return this.graph.values().iterator().next().values().iterator();
     }
 

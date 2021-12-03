@@ -36,16 +36,21 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
         return null;
     }
 
+    // check if each node has (n-1) pathes.
     @Override
     public boolean isConnected() {
         return false;
     }
 
+
+    // get by shortedpath().
     @Override
     public double shortestPathDist(int src, int dest) {
         return 0;
     }
 
+
+    // implement by dixtra algorithm. data structure for this algorithm --> Fibonacci heap
     @Override
     public List<NodeData> shortestPath(int src, int dest) {
         return null;
@@ -128,6 +133,7 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
                 int src = EdgesObjects.get("src").getAsInt();
                 double weight = EdgesObjects.get("w").getAsDouble();
                 int dest = EdgesObjects.get("dest").getAsInt();
+
             }
 
             JsonArray jsonArrayOfNodes = fileObject.get("Nodes").getAsJsonArray();

@@ -13,7 +13,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
     private int MC;
 
     public HashOfHashes() {
-        this.graph = new HashMap<>();
+        this.nodes = new HashMap<>();
         this.graph = new HashMap<>();
         this.num_of_edges = 0;
         this.MC = 0;
@@ -33,6 +33,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
     public void addNode(NodeData n) {
         this.nodes.put(n.getKey(), n);
     }
+
     // TODO
     @Override
     public void connect(int src, int dest, double w) {
@@ -50,6 +51,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
     public Iterator<EdgeData> edgeIter() {
         return this.graph.values().iterator().next().values().iterator();
     }
+
     // TODO
     @Override
     public Iterator<EdgeData> edgeIter(int node_id) {
@@ -59,6 +61,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
         }
         return this.graph.get(node_id).values().iterator();
     }
+
     // TODO
     @Override
     public NodeData removeNode(int key) {
@@ -70,6 +73,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
         this.MC++;
         return null;
     }
+
     // TODO
     @Override
     public EdgeData removeEdge(int src, int dest) {
@@ -97,4 +101,6 @@ public class HashOfHashes implements DirectedWeightedGraph {
     public int getMC() {
         return this.MC;
     }
+
+
 }

@@ -8,6 +8,8 @@ import java.util.Iterator;
 
 public class HashOfHashes implements DirectedWeightedGraph {
     private HashMap<Integer, NodeData> nodes;
+    private HashMap<Integer, EdgeData> edge; // dd
+
     private HashMap<Integer, HashMap<Integer, EdgeData>> graph;
     private int num_of_edges;
     private int MC;
@@ -15,6 +17,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
     public HashOfHashes() {
         this.nodes = new HashMap<>();
         this.graph = new HashMap<>();
+        this.edge = new HashMap<>();
         this.num_of_edges = 0;
         this.MC = 0;
     }
@@ -26,12 +29,23 @@ public class HashOfHashes implements DirectedWeightedGraph {
 
     @Override
     public EdgeData getEdge(int src, int dest) {
-        return graph.get(src).get(dest);
+
+        return graph.get(src).get(src);
     }
 
     @Override
     public void addNode(NodeData n) {
         this.nodes.put(n.getKey(), n);
+
+
+    }
+
+    public void addEdge(EdgeData edge ){
+        this.edge.put(edge.getSrc(),edge);
+        this.graph.put(edge.getSrc(), this.edge);
+
+        this.edge.put(edge.getDest(),edge);
+        this.edge.put(edge.getDest(),edge);
     }
 
     // TODO
@@ -44,8 +58,9 @@ public class HashOfHashes implements DirectedWeightedGraph {
 
     @Override
     public Iterator<NodeData> nodeIter() {
-        return this.nodes.values().iterator();
-    }
+            return this.nodes.values().iterator();
+        }
+
 
     @Override
     public Iterator<EdgeData> edgeIter() {

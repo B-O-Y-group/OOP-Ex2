@@ -40,26 +40,31 @@ public class HashOfHashes implements DirectedWeightedGraph {
 
     }
 
-    public void addEdge(EdgeData edge ){
-        this.edge.put(edge.getSrc(),edge);
-        this.graph.put(edge.getSrc(), this.edge);
 
-        this.edge.put(edge.getDest(),edge);
-        this.edge.put(edge.getDest(),edge);
-    }
 
-    // TODO
+    
     @Override
     public void connect(int src, int dest, double w) {
-        this.graph.get(src).put(dest, new Edge(src, dest, w));
-        this.graph.get(dest).put(src, new Edge(src, dest, w));
+
+        EdgeData edge = new Edge(src, dest, w);
+
+        this.edge.put(src, edge);
+        this.graph.put(src, this.edge);
+
+
+        this.edge.put(dest, edge);
+        this.graph.put(dest, this.edge);
+
+
+//        this.graph.get(src).put(dest, new Edge(src, dest, w));
+//        this.graph.get(dest).put(src, new Edge(src, dest, w));
         this.num_of_edges++;
     }
 
     @Override
     public Iterator<NodeData> nodeIter() {
-            return this.nodes.values().iterator();
-        }
+        return this.nodes.values().iterator();
+    }
 
 
     @Override

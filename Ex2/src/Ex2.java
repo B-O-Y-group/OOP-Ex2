@@ -21,7 +21,8 @@ public class Ex2 {
 
         Edge e= new Edge(a.getKey(), b.getKey(), 1);
 
-        graph.addEdge(e);
+        graph.connect(a.getKey(),b.getKey(),1);
+
 
         System.out.println(graph.getEdge(e.src,e.dest));
 //       while (graph.nodeIter().hasNext()) {

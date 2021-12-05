@@ -65,8 +65,6 @@ public class HashOfHashes implements DirectedWeightedGraph {
         this.graph.put(dest, this.edge);
 
 
-//        this.graph.get(src).put(dest, new Edge(src, dest, w));
-//        this.graph.get(dest).put(src, new Edge(src, dest, w));
         this.num_of_edges++;
     }
 
@@ -106,12 +104,21 @@ public class HashOfHashes implements DirectedWeightedGraph {
     // TODO
     @Override
     public EdgeData removeEdge(int src, int dest) {
+
+        EdgeData ans = new Edge(src,dest,edge.get(src).getWeight());
+        this.graph.get(src).remove(src,ans);
+        this.graph.get(dest).remove(dest,ans);
+        this.edge.remove(src,ans);
+        this.edge.remove(dest,ans);
+
+
+
 //        Edge pop = this.graph.get(src).getD().out.get(dest);
 //        this.graph.get(src).getD().out.remove(dest);
 //        this.graph.get(dest).getD().in.remove(src);
-//        this.MC++;
+        this.MC++;
 //        return pop;
-        return null;
+        return ans;
     }
 
     @Override

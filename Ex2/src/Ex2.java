@@ -1,5 +1,8 @@
 import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
+import api.NodeData;
+
+import java.util.ArrayList;
 
 /**
  * This class is the main class for Ex2 - your implementation will be tested using this class.
@@ -12,10 +15,10 @@ public class Ex2 {
 
 //        runGUI("G1.json");
 
-        HashOfHashes graph = new HashOfHashes();
-        Vertex a = new Vertex(1,new Point3D(1,1,0));
-        Vertex b = new Vertex(2,new Point3D(2,2,0));
-        Vertex c = new Vertex(3,new Point3D(3,3,0));
+        DirectedWeightedGraph graph = new HashOfHashes();
+        NodeData a = new Vertex(1,new Point3D(1,1,0));
+        NodeData b = new Vertex(2,new Point3D(2,2,0));
+        NodeData c = new Vertex(3,new Point3D(3,3,0));
 
         graph.addNode(a);
         graph.addNode(b);
@@ -24,7 +27,7 @@ public class Ex2 {
 
         Edge e= new Edge(a.getKey(), b.getKey(), 1);
 
-        graph.connect(a.getKey(),b.getKey(),1);
+        graph.connect(e.src,e.dest,1);
 
         //System.out.println();
 
@@ -33,6 +36,11 @@ public class Ex2 {
 
         graph.removeEdge(a.getKey(),b.getKey());
         System.out.println(graph.getEdge(e.src,e.dest));
+
+        ArrayList<Integer> test = new ArrayList<>();
+        test.add(0,3);
+        test.add(1, 9);
+        System.out.println(test);
 
 //       while (graph.nodeIter().hasNext()) {
 //         graph.nodeIter().forEachRemaining(nodeData ->  System.out.println( nodeData.getKey()));

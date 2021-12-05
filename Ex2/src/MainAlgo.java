@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainAlgo implements DirectedWeightedGraphAlgorithms {
@@ -28,12 +29,34 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public DirectedWeightedGraph getGraph() {
-        return null;
+        return this.graph;
+    }
+
+
+    //TODO
+    @Override
+    public DirectedWeightedGraph copy() {
+        HashOfHashes copy = new HashOfHashes();
+
+        copy = this.graph;
+        return copy;
+//        try {
+//            return (DirectedWeightedGraph) super.clone();
+//        }
+//        catch (CloneNotSupportedException e){
+//            return (DirectedWeightedGraph) new MainAlgo(this.graph);
+//        }
     }
 
     @Override
-    public DirectedWeightedGraph copy() {
-        return null;
+    protected Object clone() {
+
+        try {
+            return super.clone();
+        }
+        catch (CloneNotSupportedException e){
+            return new MainAlgo(this.graph);
+        }
     }
 
     // check if each node has (n-1) pathes.

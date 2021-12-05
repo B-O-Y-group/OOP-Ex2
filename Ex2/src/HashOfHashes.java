@@ -20,6 +20,8 @@ public class HashOfHashes implements DirectedWeightedGraph {
         this.edge = new HashMap<>();
         this.num_of_edges = 0;
         this.MC = 0;
+
+
     }
 
     @Override
@@ -40,9 +42,16 @@ public class HashOfHashes implements DirectedWeightedGraph {
 
     }
 
+//  ///_____________for test____________________
+
+    public void setMC(int MC) {
+        this.MC = MC;
+    }
 
 
-    
+    ///_____________________________________________
+
+
     @Override
     public void connect(int src, int dest, double w) {
 

@@ -8,6 +8,8 @@ import java.util.Iterator;
 
 public class HashOfHashes implements DirectedWeightedGraph {
     private HashMap<Integer, NodeData> nodes;
+    private HashMap<Integer, EdgeData> edge; // dd
+
     private HashMap<Integer, HashMap<Integer, EdgeData>> graph;
     private int num_of_edges;
     private int MC;
@@ -15,6 +17,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
     public HashOfHashes() {
         this.nodes = new HashMap<>();
         this.graph = new HashMap<>();
+        this.edge = new HashMap<>();
         this.num_of_edges = 0;
         this.MC = 0;
     }
@@ -26,19 +29,35 @@ public class HashOfHashes implements DirectedWeightedGraph {
 
     @Override
     public EdgeData getEdge(int src, int dest) {
-        return graph.get(src).get(dest);
+
+        return graph.get(src).get(src);
     }
 
     @Override
     public void addNode(NodeData n) {
         this.nodes.put(n.getKey(), n);
+
+
     }
 
-    // TODO
+
+
+    
     @Override
     public void connect(int src, int dest, double w) {
-        this.graph.get(src).put(dest, new Edge(src, dest, w));
-        this.graph.get(dest).put(src, new Edge(src, dest, w));
+
+        EdgeData edge = new Edge(src, dest, w);
+
+        this.edge.put(src, edge);
+        this.graph.put(src, this.edge);
+
+
+        this.edge.put(dest, edge);
+        this.graph.put(dest, this.edge);
+
+
+//        this.graph.get(src).put(dest, new Edge(src, dest, w));
+//        this.graph.get(dest).put(src, new Edge(src, dest, w));
         this.num_of_edges++;
     }
 
@@ -50,6 +69,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
         }
         return this.nodes.values().iterator();
     }
+
 
     @Override
     public Iterator<EdgeData> edgeIter() {

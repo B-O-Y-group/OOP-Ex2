@@ -87,4 +87,14 @@ public class Vertex implements NodeData {
     public void setTag(int t) {
         this.tag = t;
     }
+
+    @Override
+    public String toString() {
+        return "Vertex{" +
+                "id=" + id +
+                ", pos=" + pos +
+                ", weight=" + weight +
+                ", tag=" + tag +
+                '}';
+    }
 }

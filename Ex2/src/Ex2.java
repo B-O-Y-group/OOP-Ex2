@@ -13,41 +13,45 @@ public class Ex2 {
     //some test
     public static void main(String[] args) {
 
-//        runGUI("G1.json");
+       runGUI("G1.json");
 
         DirectedWeightedGraph graph = new HashOfHashes();
-        NodeData a = new Vertex(1,new Point3D(1,1,0));
-        NodeData b = new Vertex(2,new Point3D(2,2,0));
-        NodeData c = new Vertex(3,new Point3D(3,3,0));
+        NodeData a = new Vertex(1, new Point3D(1, 1, 0));
+        NodeData b = new Vertex(2, new Point3D(2, 2, 0));
+        NodeData c = new Vertex(3, new Point3D(3, 3, 0));
 
         graph.addNode(a);
         graph.addNode(b);
         graph.addNode(c);
         System.out.println(graph.getNode(1));
 
-        Edge e= new Edge(a.getKey(), b.getKey(), 1);
+        Edge e = new Edge(a.getKey(), b.getKey(), 1);
 
-        graph.connect(e.src,e.dest,1);
+
+        // graph.connect(a.getKey(),b.getKey(),1);
 
         //System.out.println();
 
+//        ArrayList <String> list = new ArrayList<>();
+//        list.add(0,null);
+//        list.add(1,"BRA");
 //
-        System.out.println(graph.getEdge(e.src,e.dest));
-
-        graph.removeEdge(a.getKey(),b.getKey());
-        System.out.println(graph.getEdge(e.src,e.dest));
-
-        ArrayList<Integer> test = new ArrayList<>();
-        test.add(0,3);
-        test.add(1, 9);
-        System.out.println(test);
-
-//       while (graph.nodeIter().hasNext()) {
-//         graph.nodeIter().forEachRemaining(nodeData ->  System.out.println( nodeData.getKey()));
 
 
-       }
+        // System.out.println(list);
 
+//        System.out.println(graph.getEdge(e.src,e.dest));
+//
+//        graph.removeEdge(a.getKey(),b.getKey());
+//        System.out.println(graph.getEdge(e.src,e.dest));
+
+//            while (graph.nodeIter().hasNext()) {
+  //              System.out.println(graph.nodeIter().next());
+
+
+            //graph.nodeIter().forEachRemaining(nodeData -> System.out.println(nodeData.getKey()));
+
+        }
 
 
 

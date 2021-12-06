@@ -10,16 +10,14 @@ public class Vertex implements NodeData {
     private double weight;
     private int tag;
     private String info;
-    private Direction d;
+
     private int num_of_neighbors;
 
     public int getNum_of_neighbors() {
         return num_of_neighbors;
     }
 
-    public Direction getD() {
-        return d;
-    }
+
 
     public void UpdateNum_of_neighbors() {
         this.num_of_neighbors++;
@@ -30,7 +28,7 @@ public class Vertex implements NodeData {
         this.pos = pos;
         this.weight = 0; // influenced by edges.
         this.tag = Tags.WHITE.ordinal(); // <white = 0 , grey = 1, black = 2>
-        this.d = new Direction();
+
         this.info = "";
         this.num_of_neighbors = 0;
     }

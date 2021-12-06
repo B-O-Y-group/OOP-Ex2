@@ -1,5 +1,6 @@
 import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
+import api.EdgeData;
 import api.NodeData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -9,22 +10,19 @@ import com.google.gson.JsonParser;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class MainAlgo implements DirectedWeightedGraphAlgorithms {
 
     public DirectedWeightedGraph graph;
 
     public MainAlgo(HashOfHashes h) {
-        this.graph = h;
         init(h);
     }
 
     @Override
     public void init(DirectedWeightedGraph g) {
-
+        this.graph = g;
     }
 
     @Override
@@ -33,13 +31,23 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
     }
 
 
-    //TODO
+    //TODO  does not test yet
     @Override
     public DirectedWeightedGraph copy() {
-        HashOfHashes copy = new HashOfHashes();
+        DirectedWeightedGraph copy = new HashOfHashes();
 
-        //   copy = this.graph;
+        Iterator<NodeData> nodeDataIterator = this.graph.nodeIter();
+        while (nodeDataIterator.hasNext()) {
+            copy.addNode(nodeDataIterator.next());
+        }
+
+        Iterator<EdgeData> edgeDataIterator  = this.graph.edgeIter();
+        while (edgeDataIterator.hasNext()){
+            copy.connect(edgeDataIterator.next().getSrc(),edgeDataIterator.next().getDest(),edgeDataIterator.next().getWeight());
+        }
+
         return copy;
+
     }
 
     // check if each node has (n-1) pathes.

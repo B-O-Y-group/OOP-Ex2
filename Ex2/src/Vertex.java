@@ -6,7 +6,7 @@ import java.awt.*;
 public class Vertex implements NodeData {
 
     private final int id; // from json
-    private Point3D pos;
+    private GeoLocation pos;
     private double weight;
     private int tag;
     private String info;
@@ -23,7 +23,7 @@ public class Vertex implements NodeData {
         this.num_of_neighbors++;
     }
 
-    public Vertex(int id, Point3D pos) {
+    public Vertex(int id, GeoLocation pos) {
         this.id = id;
         this.pos = pos;
         this.weight = 0; // influenced by edges.
@@ -53,9 +53,7 @@ public class Vertex implements NodeData {
 
     @Override
     public void setLocation(GeoLocation p) {
-        this.pos.x = p.x();
-        this.pos.y = p.y();
-        this.pos.z = p.z();
+        this.pos = new Point3D(p.x(), p.y(), p.z());
     }
 
     @Override

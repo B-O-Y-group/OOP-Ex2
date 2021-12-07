@@ -29,14 +29,15 @@ public class Ex2 {
 
         graph.connect(a.getKey(), b.getKey(), 1);
         graph.connect(a.getKey(), c.getKey(), 1);
+        graph.removeEdge(a.getKey(), c.getKey());
         graph.connect(c.getKey(), b.getKey(), 1);
+//        System.out.println(graph.getEdge(a.getKey(), b.getKey()));
 
 
         Iterator<EdgeData> it = graph.edgeIter();
         while (it.hasNext()) {
-
-            EdgeData test = it.next();
-            System.out.println(test);
+//            EdgeData test = it.next();
+            System.out.println(it.next());
 
         }
 //

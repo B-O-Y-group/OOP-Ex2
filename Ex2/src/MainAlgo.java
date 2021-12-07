@@ -16,7 +16,7 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
 
     public DirectedWeightedGraph graph;
 
-    public MainAlgo(HashOfHashes h) {
+    public MainAlgo(DirectedWeightedGraph h) {
         init(h);
     }
 
@@ -53,6 +53,80 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
     // check if each node has (n-1) pathes.
     @Override
     public boolean isConnected() {
+        if (this.graph.nodeSize() == 1) return true;
+
+
+        if (hasEdge()) {
+            // run on all node in the graph
+            while (this.graph.nodeIter().hasNext()) {
+
+                int src = this.graph.nodeIter().next().getKey();
+                ArrayList<Integer> c = new ArrayList<>();
+                if (!hasPath(src, c)) {
+                    return false;
+                }
+
+
+            }
+            return true;
+
+
+        }
+        return false;
+
+
+    }
+
+
+    private boolean hasEdge() {
+
+        while (this.graph.nodeIter().hasNext()) {
+
+            int i = this.graph.nodeIter().next().getKey();
+
+            if (this.graph.edgeIter(i).next() == null) {
+                return false;
+
+            }
+
+        }
+        return true;
+
+    }
+
+    private boolean hasPath(int src, ArrayList<Integer> c) {
+
+
+        Iterator<EdgeData> temp = this.graph.edgeIter();
+
+        this.graph.getNode(src).setTag(1); // set Node --> grey
+
+
+        if (!c.contains(src)) {
+            c.add(src);
+        }
+
+        if (c.size() == this.graph.nodeSize()) {
+            return true;
+        }
+
+        while (temp.hasNext()) {
+
+            NodeData node = this.graph.getNode(temp.next().getDest());
+            if (!c.contains(node.getKey()))
+                c.add(node.getKey());
+        }
+
+
+
+        for (int i = 0; i < this.graph.nodeSize(); i++) {
+            NodeData index = this.graph.getNode(c.get(i));
+            if (index.getTag() == 0) {
+                System.out.println("hereeelllllllllllllllllllllll" + i );
+                return hasPath(index.getKey(), c);
+            }
+        }
+
         return false;
     }
 

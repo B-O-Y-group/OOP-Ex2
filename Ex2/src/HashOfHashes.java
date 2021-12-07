@@ -53,25 +53,40 @@ public class HashOfHashes implements DirectedWeightedGraph {
         EdgeData edge = new Edge(src, dest, w);
         if (this.graph.containsKey(src) && this.graph.containsKey(dest)) {
             if (this.graph.get(src).containsKey(dest)) {
+                System.out.println("here 1");
                 this.graph.get(src).get(dest).add(0, edge);
                 this.graph.get(dest).get(src).add(1, edge);
+
             } else {
+                // init new list for src and dest hash
                 this.graph.get(src).put(dest, new ArrayList<>(2));
+                this.graph.get(dest).put(src, new ArrayList<>(2));
+
+                // adding the new edge to the hash
                 this.graph.get(src).get(dest).add(0, edge);
-                this.graph.get(dest).get(src).add(1, edge);
+
+                // the list is empty so need to init the first index
+                if (this.graph.get(dest).get(src).isEmpty()) {
+                    this.graph.get(dest).get(src).add(0, null);
+                    this.graph.get(dest).get(src).add(1, edge);
+                } else {
+                    this.graph.get(dest).get(src).add(1, edge);
+                }
+
             }
             this.edge.put(src, edge);
             this.num_of_edges++;
+            this.MC++;
         } else {
             throw new NoSuchElementException("no such nodes");
         }
     }
 
+
+    // todo trow exception
     @Override
     public Iterator<NodeData> nodeIter() {
-
-        //  NodeIter e = new NodeIter(this.nodes.values())
-        return this.nodes.values().stream().iterator();
+        return this.nodes.values().iterator();
     }
 
 
@@ -117,27 +132,27 @@ public class HashOfHashes implements DirectedWeightedGraph {
             this.graph.get(src).get(dest).remove(0);
             this.graph.get(dest).get(src).remove(1);
         }
-            this.MC++;
+        this.MC++;
 
         return this.edge.remove(src);
-        }
-
-        @Override
-        public int nodeSize () {
-            return this.graph.size();
-        }
-
-        @Override
-        public int edgeSize () {
-            return num_of_edges;
-        }
-
-
-        /// counter every change
-        @Override
-        public int getMC () {
-            return this.MC;
-        }
-
-
     }
+
+    @Override
+    public int nodeSize() {
+        return this.graph.size();
+    }
+
+    @Override
+    public int edgeSize() {
+        return num_of_edges;
+    }
+
+
+    /// counter every change
+    @Override
+    public int getMC() {
+        return this.MC;
+    }
+
+
+}

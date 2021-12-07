@@ -41,9 +41,9 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
             copy.addNode(nodeDataIterator.next());
         }
 
-        Iterator<EdgeData> edgeDataIterator  = this.graph.edgeIter();
-        while (edgeDataIterator.hasNext()){
-            copy.connect(edgeDataIterator.next().getSrc(),edgeDataIterator.next().getDest(),edgeDataIterator.next().getWeight());
+        Iterator<EdgeData> edgeDataIterator = this.graph.edgeIter();
+        while (edgeDataIterator.hasNext()) {
+            copy.connect(edgeDataIterator.next().getSrc(), edgeDataIterator.next().getDest(), edgeDataIterator.next().getWeight());
         }
 
         return copy;
@@ -111,17 +111,6 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
         return temp;
     }
 
-    private double count(List<NodeData> nodeData) {
-        double sum = 0;
-
-//        for (int i = 0, j = i + 1; j < nodeData.size(); i++, j++) {
-//            sum += this.graph.graph.get(nodeData.get(i).getKey()).getD().out.get(nodeData.get(j).getKey()).weight;
-//        }
-
-
-        return sum;
-
-    }
 
     @Override
     public List<NodeData> tsp(List<NodeData> cities) {

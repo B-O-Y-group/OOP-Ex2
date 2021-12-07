@@ -1,6 +1,6 @@
 import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
-import api.GeoLocation;
+import api.EdgeData;
 import api.NodeData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -10,22 +10,19 @@ import com.google.gson.JsonParser;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class MainAlgo implements DirectedWeightedGraphAlgorithms {
 
     public DirectedWeightedGraph graph;
 
     public MainAlgo(HashOfHashes h) {
-        this.graph = h;
         init(h);
     }
 
     @Override
     public void init(DirectedWeightedGraph g) {
-
+        this.graph = g;
     }
 
     @Override
@@ -34,31 +31,24 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
     }
 
 
-    //TODO
+    //TODO  does not test yet
     @Override
     public DirectedWeightedGraph copy() {
-        HashOfHashes copy = new HashOfHashes();
+        DirectedWeightedGraph copy = new HashOfHashes();
 
-     //   copy = this.graph;
+        Iterator<NodeData> nodeDataIterator = this.graph.nodeIter();
+        while (nodeDataIterator.hasNext()) {
+            copy.addNode(nodeDataIterator.next());
+        }
+
+        Iterator<EdgeData> edgeDataIterator = this.graph.edgeIter();
+        while (edgeDataIterator.hasNext()) {
+            copy.connect(edgeDataIterator.next().getSrc(), edgeDataIterator.next().getDest(), edgeDataIterator.next().getWeight());
+        }
+
         return copy;
-//        try {
-//            return (DirectedWeightedGraph) super.clone();
-//        }
-//        catch (CloneNotSupportedException e){
-//            return (DirectedWeightedGraph) new MainAlgo(this.graph);
-//        }
-    }
 
-//    @Override
-//    protected Object clone() {
-//
-//        try {
-//            return super.clone();
-//        }
-//        catch (CloneNotSupportedException e){
-//            return new MainAlgo(this.graph);
-//        }
-//    }
+    }
 
     // check if each node has (n-1) pathes.
     @Override
@@ -83,6 +73,8 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
     @Override
     public NodeData center() {
 
+
+        double min = min(this.graph.nodeIter().next().getKey());
         NodeData ansNode = this.graph.getNode(0);
         while (this.graph.nodeIter().hasNext()) {
             if (this.graph.nodeIter().next().getKey() < 2) {
@@ -119,17 +111,6 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
         return temp;
     }
 
-    private double count(List<NodeData> nodeData) {
-        double sum = 0;
-
-//        for (int i = 0, j = i + 1; j < nodeData.size(); i++, j++) {
-//            sum += this.graph.graph.get(nodeData.get(i).getKey()).getD().out.get(nodeData.get(j).getKey()).weight;
-//        }
-
-
-        return sum;
-
-    }
 
     @Override
     public List<NodeData> tsp(List<NodeData> cities) {
@@ -156,23 +137,16 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
                 double weight = EdgesObjects.get("w").getAsDouble();
                 int dest = EdgesObjects.get("dest").getAsInt();
 
-                this.graph.connect(src, dest, weight);
-
             }
 
             JsonArray jsonArrayOfNodes = fileObject.get("Nodes").getAsJsonArray();
             for (JsonElement NodesElement : jsonArrayOfNodes) {
                 JsonObject NodeObjects = NodesElement.getAsJsonObject();
 
-                GeoLocation g = new Point3D(NodeObjects.get("pos").getAsJsonArray().get(0).getAsDouble()
-                        , NodeObjects.get("pos").getAsJsonArray().get(1).getAsDouble()
-                        , NodeObjects.get("pos").getAsJsonArray().get(2).getAsDouble());
 
+                double pos = NodeObjects.get("pos").getAsDouble();
                 int id = NodeObjects.get("id").getAsInt();
 
-                NodeData n = new Vertex(id, g);
-
-                this.graph.addNode(n);
 
             }
         } catch (FileNotFoundException e) {

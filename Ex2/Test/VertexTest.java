@@ -4,10 +4,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class VertexTest {
 
+
+
+
+
     @Test
     void getNum_of_neighbors() {
-
-
 
     }
 

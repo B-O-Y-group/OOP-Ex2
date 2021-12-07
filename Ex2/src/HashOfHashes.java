@@ -87,6 +87,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
             this.edges_list.add(edge);
 
             System.out.println("edge list: " + this.edge.values());
+            System.out.println("REAL edges LIST: " + this.edges_list);
             this.num_of_edges++;
             this.MC++;
         } else {
@@ -109,8 +110,8 @@ public class HashOfHashes implements DirectedWeightedGraph {
             for (EdgeData e :
                     falses_list) {
                 edges_list.remove(e);
-//                falses_list.remove(e);
             }
+            falses_list.clear();
             ed_list_removed = false;
         }
         return this.edges_list.iterator();
@@ -123,7 +124,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
             System.err.println("No such node in the graph !");
             return null;
         }
-        return this.graph.get(node_id).values().iterator().next().iterator();
+        return this.edge.get(node_id).values().iterator();
     }
 
     // TODO

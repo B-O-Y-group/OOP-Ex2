@@ -15,7 +15,7 @@ public class Ex2 {
     //some test
     public static void main(String[] args) {
 
-        //runGUI("G1.json");
+       // runGUI("G1.json");
 
         DirectedWeightedGraph graph = new HashOfHashes();
         NodeData a = new Vertex(1, new Point3D(2, 1, 0));

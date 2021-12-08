@@ -7,9 +7,13 @@ import java.util.*;
 
 public class HashOfHashes implements DirectedWeightedGraph {
     private HashMap<Integer, NodeData> nodes;
-    private HashMap<Integer, EdgeData> edge;
-
+    private HashMap<Integer, HashMap<Integer, EdgeData>> edge;
     private HashMap<Integer, HashMap<Integer, List<EdgeData>>> graph;
+
+    private ArrayList<EdgeData> edges_list;
+    boolean ed_list_removed;
+    private ArrayList<EdgeData> falses_list;
+
     private int num_of_edges;
     private int MC;
 
@@ -17,6 +21,10 @@ public class HashOfHashes implements DirectedWeightedGraph {
         this.nodes = new HashMap<>();
         this.graph = new HashMap<>();
         this.edge = new HashMap<>();
+
+        this.edges_list = new ArrayList<>();
+        this.ed_list_removed = false;
+        this.falses_list = new ArrayList<>();
 
         this.num_of_edges = 0;
         this.MC = 0;
@@ -68,13 +76,18 @@ public class HashOfHashes implements DirectedWeightedGraph {
                 // the list is empty so need to init the first index
                 if (this.graph.get(dest).get(src).isEmpty()) {
                     this.graph.get(dest).get(src).add(0, null);
-                    this.graph.get(dest).get(src).add(1, edge);
-                } else {
-                    this.graph.get(dest).get(src).add(1, edge);
                 }
+                this.graph.get(dest).get(src).add(1, edge);
 
             }
-            this.edge.put(src, edge);
+            if (!this.edge.containsKey(src)) {
+                this.edge.put(src, new HashMap<>());
+            }
+            this.edge.get(src).put(dest, edge);
+            this.edges_list.add(edge);
+
+            System.out.println("edge list: " + this.edge.values());
+            System.out.println("REAL edges LIST: " + this.edges_list);
             this.num_of_edges++;
             this.MC++;
         } else {
@@ -92,7 +105,16 @@ public class HashOfHashes implements DirectedWeightedGraph {
 
     @Override
     public Iterator<EdgeData> edgeIter() {
-        return this.edge.values().iterator();
+        if (ed_list_removed) {
+            System.out.println("Happened");
+            for (EdgeData e :
+                    falses_list) {
+                edges_list.remove(e);
+            }
+            falses_list.clear();
+            ed_list_removed = false;
+        }
+        return this.edges_list.iterator();
     }
 
     // TODO.
@@ -102,7 +124,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
             System.err.println("No such node in the graph !");
             return null;
         }
-        return this.graph.get(node_id).values().iterator().next().iterator();
+        return this.edge.get(node_id).values().iterator();
     }
 
     // TODO
@@ -129,12 +151,21 @@ public class HashOfHashes implements DirectedWeightedGraph {
     @Override
     public EdgeData removeEdge(int src, int dest) {
         if (this.graph.get(src).get(dest).get(0) != null) {
+
+            falses_list.add(this.graph.get(src).get(dest).get(0));
+            ed_list_removed = true;
+
             this.graph.get(src).get(dest).remove(0);
             this.graph.get(dest).get(src).remove(1);
-        }
-        this.MC++;
+            this.MC++;
+            num_of_edges --;
 
-        return this.edge.remove(src);
+
+            return this.edge.get(src).remove(dest);
+        }
+        else {
+            return null;
+        }
     }
 
     @Override

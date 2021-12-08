@@ -114,8 +114,64 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public List<NodeData> tsp(List<NodeData> cities) {
-        return null;
+        double temp = Double.POSITIVE_INFINITY;
+        List<NodeData> path = Collections.emptyList();
+
+
+        while (this.graph.nodeIter().hasNext()) {
+            List<NodeData> path_init = Collections.emptyList();
+            path_init.add(this.graph.nodeIter().next());
+
+            ArrayList<NodeData> miss = new ArrayList<>(cities);
+            miss.remove(this.graph.nodeIter().next());
+
+
+            List<NodeData> list_t = tspRec(path_init, miss, 0, temp);
+
+            double curr_weight = shortestPathDist(list_t.get(0).getKey(), list_t.get(list_t.size() - 1).getKey());
+            if (curr_weight < temp) {
+                path = list_t;
+                temp = curr_weight;
+            }
+
+        }
+        return path;
     }
+
+
+    public List<NodeData> tspRec(List<NodeData> path, ArrayList<NodeData> miss, double val, double final_v) {
+
+        if (miss.isEmpty()) {
+            return path;
+        }
+
+        for (int i = 0; i < miss.size(); i++) {
+            double t_val = val + shortestPathDist(path.get(path.size() - 1).getKey(), miss.get(i).getKey());
+            ArrayList<NodeData> t_miss = new ArrayList<>(miss);
+            List<NodeData> t_path = update(path, shortestPath(path.get(path.size() - 1).getKey(), miss.get(i).getKey()), t_miss);
+
+            List<NodeData> temp_list = tspRec(t_path, t_miss, t_val, final_v);
+
+            if (t_val < final_v) {
+                path = temp_list;
+                final_v = t_val;
+            }
+
+        }
+        return path;
+    }
+
+    public List<NodeData> update(List<NodeData> path, List<NodeData> shortest, ArrayList<NodeData> miss) {
+
+        for (int i = 1; i < shortest.size(); i++) {
+            path.add(shortest.get(i));
+            miss.remove(shortest.get(i));
+        }
+        return path;
+    }
+
+
+
 
     @Override
     public boolean save(String file) {

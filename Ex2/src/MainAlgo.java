@@ -1,7 +1,4 @@
-import api.DirectedWeightedGraph;
-import api.DirectedWeightedGraphAlgorithms;
-import api.EdgeData;
-import api.NodeData;
+import api.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -16,8 +13,14 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
 
     public DirectedWeightedGraph graph;
 
+    private double[] dist;
+
+    private int size;
+
     public MainAlgo(HashOfHashes h) {
         init(h);
+        HashMap<>
+
     }
 
     @Override
@@ -60,13 +63,36 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
     // get by shortedpath().
     @Override
     public double shortestPathDist(int src, int dest) {
-        return 0;
-    }
+        dist = new double[size];
+        Arrays.fill(dist, Double.POSITIVE_INFINITY);
+        dist[src] = 0;
+        PriorityQueue<NodeData> queue = new PriorityQueue<>();//comparable
+        queue.add(this.graph.getNode(src));
 
+        boolean[] visit = new boolean[size];
+        while (this.graph.edgeIter(src).hasNext()) {
+            EdgeData e = new Edge(this.graph.edgeIter(src).next().getSrc(),
+                    this.graph.edgeIter(src).next().getDest(), this.graph.edgeIter(src).next().getWeight());
+            dist[e.getDest()] = e.getWeight();
+
+
+            int[] prev = new int[size];
+
+
+            while (!queue.isEmpty()) {
+                NodeData u = queue.poll();
+
+            }
+
+
+            return 0;
+        }
+    }
 
     // implement by dixtra algorithm. data structure for this algorithm --> Fibonacci heap
     @Override
     public List<NodeData> shortestPath(int src, int dest) {
+
         return null;
     }
 
@@ -137,6 +163,7 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
                 double weight = EdgesObjects.get("w").getAsDouble();
                 int dest = EdgesObjects.get("dest").getAsInt();
 
+                this.graph.connect(src, dest, weight);
             }
 
             JsonArray jsonArrayOfNodes = fileObject.get("Nodes").getAsJsonArray();
@@ -146,6 +173,14 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
 
                 double pos = NodeObjects.get("pos").getAsDouble();
                 int id = NodeObjects.get("id").getAsInt();
+
+                GeoLocation g = new Point3D(NodeObjects.get("pos").getAsJsonArray().get(0).getAsDouble()
+                        , NodeObjects.get("pos").getAsJsonArray().get(1).getAsDouble()
+                        , NodeObjects.get("pos").getAsJsonArray().get(2).getAsDouble());
+
+                NodeData n = new Vertex(id, g);
+
+                this.graph.addNode(n);
 
 
             }
@@ -159,5 +194,20 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
             return false;
         }
         return true;
+    }
+
+    public static void main(String[] args) {
+        HashOfHashes a = new HashOfHashes();
+        NodeData aa = new Vertex(0, new Point3D(1, 1, 1));
+        NodeData bb = new Vertex(1, new Point3D(2, 2, 2));
+        NodeData cc = new Vertex(2, new Point3D(3, 3, 3));
+        List<EdgeData> A = new ArrayList<>();
+        a.addNode(aa);
+        a.addNode(bb);
+        a.addNode(cc);
+        A.add(1, new Edge(aa.getKey(), bb.getKey(), 12));
+        A.add(2, new Edge(aa.getKey(), cc.getKey(), 6));
+        A.add(3, new Edge(bb.getKey(), cc.getKey(), 15));
+        System.out.println();
     }
 }

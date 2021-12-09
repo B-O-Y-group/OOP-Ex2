@@ -16,7 +16,7 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
 
     public DirectedWeightedGraph graph;
 
-    public MainAlgo(HashOfHashes h) {
+    public MainAlgo(DirectedWeightedGraph h) {
         init(h);
     }
 
@@ -57,17 +57,93 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
     }
 
 
-    // get by shortedpath().
+    // get by shortest().
     @Override
     public double shortestPathDist(int src, int dest) {
-        return 0;
+        int[] visited = new int[this.graph.nodeSize()];
+        int visits = 0;
+        double[] dist = new double[this.graph.nodeSize()];
+        Arrays.fill(dist, Double.POSITIVE_INFINITY);
+        PriorityQueue<EdgeData> queue = new PriorityQueue<>();
+
+        int curr_ver = this.graph.getNode(src).getKey();
+        dist[curr_ver] = 0;
+        while (visits < this.graph.nodeSize()) {
+            visits++;
+            if (visits != 1) {
+                curr_ver = Objects.requireNonNull(queue.poll()).getDest();
+            }
+            if (curr_ver == dest) {
+                break;
+            }
+            visited[curr_ver] = 2;
+            Iterator<EdgeData> it = this.graph.edgeIter(curr_ver);
+            while (it.hasNext()) {
+                EdgeData next = it.next();
+                if (visited[next.getDest()] != 2) {
+                    queue.offer(next);
+                    double temp_dist = dist[curr_ver] + next.getWeight();
+                    if (temp_dist < dist[next.getDest()]) {
+                        dist[next.getDest()] = temp_dist;
+                        visited[next.getDest()] = 1;
+                    }
+                }
+            }
+
+        }
+        return dist[dest];
+
     }
 
 
     // implement by dixtra algorithm. data structure for this algorithm --> Fibonacci heap
     @Override
     public List<NodeData> shortestPath(int src, int dest) {
-        return null;
+
+        int[] visited = new int[this.graph.nodeSize()];
+        int visits = 0;
+        double[] dist = new double[this.graph.nodeSize()];
+        Arrays.fill(dist, Double.POSITIVE_INFINITY);
+        int[] prev = new int[this.graph.nodeSize()];
+        Arrays.fill(prev, -1);
+        PriorityQueue<EdgeData> queue = new PriorityQueue<>();
+
+        int curr_ver = this.graph.getNode(src).getKey();
+        dist[curr_ver] = 0;
+        while (visits < this.graph.nodeSize()) {
+            visits++;
+            if (visits != 1) {
+                curr_ver = Objects.requireNonNull(queue.poll()).getDest();
+            }
+            if (curr_ver == dest) {
+                break;
+            }
+            visited[curr_ver] = 2;
+            Iterator<EdgeData> it = this.graph.edgeIter(curr_ver);
+            while (it.hasNext()) {
+                EdgeData next = it.next();
+                if (visited[next.getDest()] != 2) {
+                    queue.offer(next);
+                    double temp_dist = dist[curr_ver] + next.getWeight();
+                    if (temp_dist < dist[next.getDest()]) {
+                        dist[next.getDest()] = temp_dist;
+                        prev[next.getDest()] = curr_ver;
+                        visited[next.getDest()] = 1;
+                    }
+                }
+            }
+
+        }
+        List<NodeData> ans = new ArrayList<>();
+        ans.add(this.graph.getNode(dest));
+        int pointer = prev[dest];
+        while (pointer != -1) {
+            ans.add(this.graph.getNode(pointer));
+            pointer = prev[pointer];
+        }
+        Collections.reverse(ans);
+
+        return ans;
     }
 
     @Override
@@ -119,7 +195,7 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
 
 
         while (this.graph.nodeIter().hasNext()) {
-            List<NodeData> path_init = Collections.emptyList();
+            List<NodeData> path_init = new ArrayList<>(Collections.emptyList());
             path_init.add(this.graph.nodeIter().next());
 
             ArrayList<NodeData> miss = new ArrayList<>(cities);
@@ -169,8 +245,6 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
         }
         return path;
     }
-
-
 
 
     @Override

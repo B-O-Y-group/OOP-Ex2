@@ -61,7 +61,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
         EdgeData edge = new Edge(src, dest, w);
         if (this.graph.containsKey(src) && this.graph.containsKey(dest)) {
             if (this.graph.get(src).containsKey(dest)) {
-                System.out.println("here 1");
+
                 this.graph.get(src).get(dest).add(0, edge);
                 this.graph.get(dest).get(src).add(1, edge);
 
@@ -86,8 +86,8 @@ public class HashOfHashes implements DirectedWeightedGraph {
             this.edge.get(src).put(dest, edge);
             this.edges_list.add(edge);
 
-            System.out.println("edge list: " + this.edge.values());
-            System.out.println("REAL edges LIST: " + this.edges_list);
+           // System.out.println("edge list: " + this.edge.values());
+         //   System.out.println("REAL edges LIST: " + this.edges_list);
             this.num_of_edges++;
             this.MC++;
         } else {

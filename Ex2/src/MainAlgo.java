@@ -193,18 +193,23 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
         double temp = Double.POSITIVE_INFINITY;
         List<NodeData> path = Collections.emptyList();
 
-
-        while (this.graph.nodeIter().hasNext()) {
+        Iterator<NodeData> it = this.graph.nodeIter();
+        while (it.hasNext()) {
+            NodeData next = it.next();
             List<NodeData> path_init = new ArrayList<>(Collections.emptyList());
-            path_init.add(this.graph.nodeIter().next());
+            path_init.add(next);
 
             ArrayList<NodeData> miss = new ArrayList<>(cities);
-            miss.remove(this.graph.nodeIter().next());
+            miss.remove(next);
 
+            double curr_weight = 0;
 
-            List<NodeData> list_t = tspRec(path_init, miss, 0, temp);
+            List<NodeData> list_t = tspRec(path_init, miss, 0, Double.POSITIVE_INFINITY);
 
-            double curr_weight = shortestPathDist(list_t.get(0).getKey(), list_t.get(list_t.size() - 1).getKey());
+            for (int i = 0; i < list_t.size() - 1; i++) {
+                curr_weight += this.graph.getEdge(list_t.get(i).getKey(), list_t.get(i+1).getKey()).getWeight();
+            }
+
             if (curr_weight < temp) {
                 path = list_t;
                 temp = curr_weight;
@@ -222,13 +227,22 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
         }
 
         for (int i = 0; i < miss.size(); i++) {
+//            System.out.println("check path: " + path);
+            System.out.println("check miss: " + miss);
+            System.out.println("curr i: " + i);
+
             double t_val = val + shortestPathDist(path.get(path.size() - 1).getKey(), miss.get(i).getKey());
             ArrayList<NodeData> t_miss = new ArrayList<>(miss);
+            System.out.println("shortest list: " + shortestPath(path.get(path.size() - 1).getKey(), miss.get(i).getKey()));
             List<NodeData> t_path = update(path, shortestPath(path.get(path.size() - 1).getKey(), miss.get(i).getKey()), t_miss);
+
+            System.out.println("check missNUM2: " + t_miss);
+
 
             List<NodeData> temp_list = tspRec(t_path, t_miss, t_val, final_v);
 
             if (t_val < final_v) {
+                System.out.println("curr_ PATH: " + temp_list);
                 path = temp_list;
                 final_v = t_val;
             }
@@ -238,12 +252,16 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
     }
 
     public List<NodeData> update(List<NodeData> path, List<NodeData> shortest, ArrayList<NodeData> miss) {
+        List<NodeData> ans = new ArrayList<>(path);
+        System.out.println("ANSSSSSSSSSSSSSSSSSSSSSS: " + ans);
+        for (int i = 0; i < shortest.size(); i++) {
+            if (i > 0) {
+                ans.add(shortest.get(i));
+            }
+            System.out.println(miss.remove(shortest.get(i)));
 
-        for (int i = 1; i < shortest.size(); i++) {
-            path.add(shortest.get(i));
-            miss.remove(shortest.get(i));
         }
-        return path;
+        return ans;
     }
 
 

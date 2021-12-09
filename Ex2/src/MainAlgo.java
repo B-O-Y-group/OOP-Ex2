@@ -2,10 +2,7 @@ import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
 import api.EdgeData;
 import api.NodeData;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,9 +12,18 @@ import java.util.*;
 public class MainAlgo implements DirectedWeightedGraphAlgorithms {
 
     public DirectedWeightedGraph graph;
+    private NodeData[] color, partition, Adj;
+    private double[] dist;
+
+
+    private int n;
+
 
     public MainAlgo(DirectedWeightedGraph h) {
+
         init(h);
+
+
     }
 
     @Override
@@ -34,111 +40,165 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
     //TODO  does not test yet
     @Override
     public DirectedWeightedGraph copy() {
+        if (this.graph == null)
+            return null;
+
         DirectedWeightedGraph copy = new HashOfHashes();
 
         Iterator<NodeData> nodeDataIterator = this.graph.nodeIter();
         while (nodeDataIterator.hasNext()) {
-            copy.addNode(nodeDataIterator.next());
+            NodeData n = nodeDataIterator.next();
+            copy.addNode(n);
         }
 
-        Iterator<EdgeData> edgeDataIterator = this.graph.edgeIter();
-        while (edgeDataIterator.hasNext()) {
-            copy.connect(edgeDataIterator.next().getSrc(), edgeDataIterator.next().getDest(), edgeDataIterator.next().getWeight());
-        }
+
+            Iterator<EdgeData> edgeDataIterator = this.graph.edgeIter();//nodeDataIterator.next().getKey());
+                while (edgeDataIterator.hasNext()) {
+                    copy.connect(edgeDataIterator.next().getSrc(),
+                            edgeDataIterator.next().getDest(),
+                            edgeDataIterator.next().getWeight());
+                    System.out.println("ze tov ");
+                }
+
 
         return copy;
 
     }
 
+
     // check if each node has (n-1) pathes.
+    // todo BFS  algorithm
     @Override
     public boolean isConnected() {
-        if (this.graph.nodeSize() == 1) return true;
+
+//        boolean ans = true;
+//        BFS(0);
+//        for (int i = 0; ans && i < copy().nodeSize(); i++) {
+//            if (dist[i] == null) ans = false;
+//        }
+//        return ans;
 
 
-        if (hasEdge()) {
-            // run on all node in the graph
-            while (this.graph.nodeIter().hasNext()) {
-
-                int src = this.graph.nodeIter().next().getKey();
-                ArrayList<Integer> c = new ArrayList<>();
-                if (!hasPath(src, c)) {
-                    return false;
-                }
-
-
-            }
-            return true;
-
-
-        }
+//
+//        if (this.graph.nodeSize() == 1) return true;
+//
+//
+//        if (hasEdge()) {
+//            System.out.println("--------------------1");
+//            // run on all node in the graph
+//            while (this.graph.nodeIter().hasNext()) {
+//                System.out.println("--------------------2");
+//                int src = this.graph.nodeIter().next().getKey();
+//                ArrayList<Integer> c = new ArrayList<>();
+//                if (!hasPath(src, c)) {
+//                    return false;
+//                }
+//
+//
+//            }
+//            return true;
+//
+//
+//        }
+//        return false;
+//
         return false;
+    }
 
+    private void BFS(DirectedWeightedGraph g, int src) {
+        while (g.nodeIter().hasNext()) {
+            g.nodeIter().next().setTag(0);
+            Arrays.fill(dist, Integer.MAX_VALUE); //all of the dist infinity
+            Arrays.fill(partition, null);
+        }
+        this.graph.getNode(src).setTag(1);
+        dist[src] = 0;
+        partition[src] = null; // the pointer of src is null
+        Queue<Integer> queue = new LinkedList<>();
+        while (!queue.isEmpty()) {
+            int u = queue.poll();
+            for (NodeData n : Adj) {
+                if (g.nodeIter().next().getTag() == 0)
+                    g.nodeIter().next().setTag(1);
+                dist[n.getKey()] = dist[n.getKey()] + 1;
+                partition[n.getKey()] = g.getNode(u);
+                queue.add(n.getKey());
+            }
+            g.getNode(u).setTag(2);
+        }
 
     }
 
 
     private boolean hasEdge() {
 
-        while (this.graph.nodeIter().hasNext()) {
+        Iterator<NodeData> nodeIter = this.graph.nodeIter();
 
-            int i = this.graph.nodeIter().next().getKey();
+        while (nodeIter.hasNext()) {
 
-            if (this.graph.edgeIter(i).next() == null) {
+            NodeData i = nodeIter.next();
+
+            if (this.graph.edgeIter(i.getKey()).next() == null) {
                 return false;
 
             }
 
+
+            // System.out.println(this.graph.edgeIter(i.getKey()).next());
+            //    System.out.println(i);
         }
         return true;
 
     }
 
-    private boolean hasPath(int src, ArrayList<Integer> c) {
+    private boolean hasPath(int src, ArrayList<Integer> list) {
 
 
-        Iterator<EdgeData> temp = this.graph.edgeIter();
+        Iterator<EdgeData> edgeIter = this.graph.edgeIter();
 
         this.graph.getNode(src).setTag(1); // set Node --> grey
 
 
-        if (!c.contains(src)) {
-            c.add(src);
+        if (!list.contains(src)) {
+            list.add(src);
         }
 
-        if (c.size() == this.graph.nodeSize()) {
+        if (list.size() == this.graph.nodeSize()) {
             return true;
         }
 
-        while (temp.hasNext()) {
+        while (edgeIter.hasNext()) {
 
-            NodeData node = this.graph.getNode(temp.next().getDest());
-            if (!c.contains(node.getKey()))
-                c.add(node.getKey());
+            NodeData node = this.graph.getNode(edgeIter.next().getDest());
+            if (!list.contains(node.getKey()))
+                list.add(node.getKey());
         }
 
 
+        System.out.println(list);
 
         for (int i = 0; i < this.graph.nodeSize(); i++) {
-            NodeData index = this.graph.getNode(c.get(i));
-            if (index.getTag() == 0) {
-                System.out.println("hereeelllllllllllllllllllllll" + i );
-                return hasPath(index.getKey(), c);
+            if (this.graph.getNode(i) != null) {
+                if (this.graph.getNode(i).getTag() == 0) {
+                    return hasPath(this.graph.getNode(i).getTag(), list);
+                }
             }
         }
-
         return false;
     }
 
 
     // get by shortedpath().
+    //implement of dijkstra algorithm
+
+
     @Override
     public double shortestPathDist(int src, int dest) {
         return 0;
     }
 
 
-    // implement by dixtra algorithm. data structure for this algorithm --> Fibonacci heap
+    // implement by dijkstra  algorithm. data structure for this algorithm --> Fibonacci heap
     @Override
     public List<NodeData> shortestPath(int src, int dest) {
         return null;
@@ -193,7 +253,12 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public boolean save(String file) {
+
         return false;
+
+
+
+
     }
 
     @Override

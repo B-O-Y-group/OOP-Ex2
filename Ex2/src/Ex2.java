@@ -1,12 +1,5 @@
 import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
-import api.EdgeData;
-import api.NodeData;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 /**
  * This class is the main class for Ex2 - your implementation will be tested using this class.
  */
@@ -20,40 +13,13 @@ public class Ex2 {
 
         DirectedWeightedGraph graph = new HashOfHashes();
         DirectedWeightedGraphAlgorithms g_algo = new MainAlgo(graph);
-        NodeData s = new Vertex(0, new Point3D(3, 3, 0));
-        NodeData a = new Vertex(1, new Point3D(2, 1, 0));
-        NodeData b = new Vertex(2, new Point3D(2, 2, 0));
-        NodeData c = new Vertex(3, new Point3D(3, 3, 0));
+        g_algo.load("C:\\Users\\oron\\Desktop\\GitHub\\OOP-Ex2\\Ex2\\data\\G1.json");
 
-        graph.addNode(s);
-        graph.addNode(a);
-        graph.addNode(b);
-        graph.addNode(c);
-
-
-        graph.connect(s.getKey(), a.getKey(), 1);
-        graph.connect(s.getKey(), b.getKey(), 2);
-        graph.connect(a.getKey(), b.getKey(), 2);
-        graph.connect(a.getKey(), c.getKey(), 3);
-        graph.connect(b.getKey(), c.getKey(), 0);
-//        graph.connect(c.getKey(), s.getKey(), 1);
-
-        Iterator<EdgeData> it = graph.edgeIter(s.getKey());
-        while (it.hasNext()) {
-            System.out.println(it.next());
-
-        }
-
-        List<NodeData> tsp_test = new ArrayList<>();
-        Iterator<NodeData> n_it = graph.nodeIter();
-        while (n_it.hasNext()) {
-            tsp_test.add(n_it.next());
-        }
 
         System.out.println("isConnected: " + g_algo.isConnected());
-        System.out.println("NODE LIST: " + tsp_test);
+//        System.out.println("NODE LIST: " + tsp_test);
 //        System.out.println("SHORTEST DIST: " + g_algo.shortestPathDist(s.getKey(), c.getKey()));
-        System.out.println("ANSWER SHORTEST: " + g_algo.shortestPath(s.getKey(), c.getKey()));
+//        System.out.println("ANSWER SHORTEST: " + g_algo.shortestPath(s.getKey(), c.getKey()));
 //        System.out.println("TSP: " + g_algo.tsp(tsp_test));
         System.out.println("Center: " + g_algo.center());
 

@@ -302,17 +302,6 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
             JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
             JsonObject fileObject = fileElement.getAsJsonObject();
 
-            JsonArray jsonArrayOfEdge = fileObject.get("Edges").getAsJsonArray();
-            for (JsonElement EdgesElement : jsonArrayOfEdge) {
-                JsonObject EdgesObjects = EdgesElement.getAsJsonObject();
-
-                int src = EdgesObjects.get("src").getAsInt();
-                double weight = EdgesObjects.get("w").getAsDouble();
-                int dest = EdgesObjects.get("dest").getAsInt();
-
-                this.graph.connect(src, dest, weight);
-            }
-
             JsonArray jsonArrayOfNodes = fileObject.get("Nodes").getAsJsonArray();
             for (JsonElement NodesElement : jsonArrayOfNodes) {
                 JsonObject NodeObjects = NodesElement.getAsJsonObject();
@@ -320,15 +309,24 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
 
                 int id = NodeObjects.get("id").getAsInt();
 
-                GeoLocation g = new Point3D(NodeObjects.get("pos").getAsJsonArray().get(0).getAsDouble()
-                        , NodeObjects.get("pos").getAsJsonArray().get(1).getAsDouble()
-                        , NodeObjects.get("pos").getAsJsonArray().get(2).getAsDouble());
-
-                NodeData n = new Vertex(id, g);
-
+                String[] g = NodeObjects.get("pos").getAsString().split(",");
+                GeoLocation geoLocation = new Point3D(Double.parseDouble(g[0]), Double.parseDouble(g[1]), Double.parseDouble(g[2]));
+                NodeData n = new Vertex(id, geoLocation);
+                System.out.println(n);
                 this.graph.addNode(n);
-
             }
+                JsonArray jsonArrayOfEdge = fileObject.get("Edges").getAsJsonArray();
+            for (JsonElement EdgesElement : jsonArrayOfEdge) {
+                JsonObject EdgesObjects = EdgesElement.getAsJsonObject();
+
+                int src = EdgesObjects.get("src").getAsInt();
+                double weight = EdgesObjects.get("w").getAsDouble();
+                int dest = EdgesObjects.get("dest").getAsInt();
+                System.out.println(new Edge(src, dest, weight));
+                this.graph.connect(src, dest, weight);
+            }
+
+
         } catch (FileNotFoundException e) {
             System.err.println("Error input file not found!");
             e.printStackTrace();

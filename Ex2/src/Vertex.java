@@ -1,8 +1,6 @@
 import api.GeoLocation;
 import api.NodeData;
 
-import java.awt.*;
-
 public class Vertex implements NodeData {
 
     private final int id; // from json
@@ -16,7 +14,6 @@ public class Vertex implements NodeData {
     public int getNum_of_neighbors() {
         return num_of_neighbors;
     }
-
 
 
     public void UpdateNum_of_neighbors() {

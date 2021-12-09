@@ -1,6 +1,6 @@
 import api.EdgeData;
 
-public class Edge implements EdgeData {
+public class Edge implements EdgeData, Comparable<EdgeData> {
 
     public int src;
     public int dest;
@@ -58,5 +58,10 @@ public class Edge implements EdgeData {
                 ", dest=" + dest +
                 ", weight=" + weight +
                 '}';
+    }
+
+    @Override
+    public int compareTo(EdgeData o) {
+        return Double.compare(this.weight, o.getWeight());
     }
 }

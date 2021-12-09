@@ -31,20 +31,20 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
     //TODO  does not test yet
     @Override
     public DirectedWeightedGraph copy() {
-        DirectedWeightedGraph copy = new HashOfHashes();
+        DirectedWeightedGraph new_g = new HashOfHashes();
 
-        Iterator<NodeData> nodeDataIterator = this.graph.nodeIter();
-        while (nodeDataIterator.hasNext()) {
-            copy.addNode(nodeDataIterator.next());
+        Iterator<NodeData> copyN = this.graph.nodeIter();
+        while (copyN.hasNext()) {
+            NodeData next = copyN.next();
+            new_g.addNode(next);
+
         }
-
-        Iterator<EdgeData> edgeDataIterator = this.graph.edgeIter();
-        while (edgeDataIterator.hasNext()) {
-            copy.connect(edgeDataIterator.next().getSrc(), edgeDataIterator.next().getDest(), edgeDataIterator.next().getWeight());
+        Iterator<EdgeData> copyE = this.graph.edgeIter();
+        while (copyE.hasNext()){
+            EdgeData next = copyE.next();
+            new_g.connect(next.getSrc(), next.getDest(), next.getWeight());
         }
-
-        return copy;
-
+        return new_g;
     }
 
     // check if each node has (n-1) pathes.
@@ -79,8 +79,7 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
                     }
 
                 }
-            }
-            catch (NullPointerException e) {
+            } catch (NullPointerException e) {
                 return false;
             }
 
@@ -128,8 +127,7 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
                         }
                     }
                 }
-            }
-            catch (NullPointerException ignored) {
+            } catch (NullPointerException ignored) {
             }
 
         }

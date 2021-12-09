@@ -1,7 +1,4 @@
-import api.DirectedWeightedGraph;
-import api.DirectedWeightedGraphAlgorithms;
-import api.EdgeData;
-import api.NodeData;
+import api.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -207,7 +204,7 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
             List<NodeData> list_t = tspRec(path_init, miss, 0, Double.POSITIVE_INFINITY);
 
             for (int i = 0; i < list_t.size() - 1; i++) {
-                curr_weight += this.graph.getEdge(list_t.get(i).getKey(), list_t.get(i+1).getKey()).getWeight();
+                curr_weight += this.graph.getEdge(list_t.get(i).getKey(), list_t.get(i + 1).getKey()).getWeight();
             }
 
             if (curr_weight < temp) {
@@ -285,6 +282,7 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
                 double weight = EdgesObjects.get("w").getAsDouble();
                 int dest = EdgesObjects.get("dest").getAsInt();
 
+                this.graph.connect(src, dest, weight);
             }
 
             JsonArray jsonArrayOfNodes = fileObject.get("Nodes").getAsJsonArray();
@@ -292,9 +290,15 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
                 JsonObject NodeObjects = NodesElement.getAsJsonObject();
 
 
-                double pos = NodeObjects.get("pos").getAsDouble();
                 int id = NodeObjects.get("id").getAsInt();
 
+                GeoLocation g = new Point3D(NodeObjects.get("pos").getAsJsonArray().get(0).getAsDouble()
+                        , NodeObjects.get("pos").getAsJsonArray().get(1).getAsDouble()
+                        , NodeObjects.get("pos").getAsJsonArray().get(2).getAsDouble());
+
+                NodeData n = new Vertex(id, g);
+
+                this.graph.addNode(n);
 
             }
         } catch (FileNotFoundException e) {

@@ -31,20 +31,20 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
     //TODO  does not test yet
     @Override
     public DirectedWeightedGraph copy() {
-        DirectedWeightedGraph copy = new HashOfHashes();
+        DirectedWeightedGraph new_g = new HashOfHashes();
 
-        Iterator<NodeData> nodeDataIterator = this.graph.nodeIter();
-        while (nodeDataIterator.hasNext()) {
-            copy.addNode(nodeDataIterator.next());
+        Iterator<NodeData> copyN = this.graph.nodeIter();
+        while (copyN.hasNext()) {
+            NodeData next = copyN.next();
+            new_g.addNode(next);
+
         }
-
-        Iterator<EdgeData> edgeDataIterator = this.graph.edgeIter();
-        while (edgeDataIterator.hasNext()) {
-            copy.connect(edgeDataIterator.next().getSrc(), edgeDataIterator.next().getDest(), edgeDataIterator.next().getWeight());
+        Iterator<EdgeData> copyE = this.graph.edgeIter();
+        while (copyE.hasNext()){
+            EdgeData next = copyE.next();
+            new_g.connect(next.getSrc(), next.getDest(), next.getWeight());
         }
-
-        return copy;
-
+        return new_g;
     }
 
     // check if each node has (n-1) pathes.
@@ -69,15 +69,20 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
 
         while (!queue.isEmpty()) {
             int u = queue.poll();
-            Iterator<EdgeData> it = this.graph.edgeIter(u);
-            while (it.hasNext()) {
-                EdgeData v = it.next();
-                if (dist[v.getDest()] == Double.POSITIVE_INFINITY) {
-                    queue.add(v.getDest());
-                    dist[v.getDest()] = dist[u] + 1;
-                }
+            try {
+                Iterator<EdgeData> it = this.graph.edgeIter(u);
+                while (it.hasNext()) {
+                    EdgeData v = it.next();
+                    if (dist[v.getDest()] == Double.POSITIVE_INFINITY) {
+                        queue.add(v.getDest());
+                        dist[v.getDest()] = dist[u] + 1;
+                    }
 
+                }
+            } catch (NullPointerException e) {
+                return false;
             }
+
         }
         for (double i :
                 dist) {
@@ -102,27 +107,31 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
         dist[curr_ver] = 0;
         while (visits < this.graph.nodeSize()) {
             visits++;
-            if (visits != 1) {
+            if (visits != 1 && !queue.isEmpty()) {
                 curr_ver = Objects.requireNonNull(queue.poll()).getDest();
             }
             if (curr_ver == dest) {
                 break;
             }
             visited[curr_ver] = 2;
-            Iterator<EdgeData> it = this.graph.edgeIter(curr_ver);
-            while (it.hasNext()) {
-                EdgeData next = it.next();
-                if (visited[next.getDest()] != 2) {
-                    queue.offer(next);
-                    double temp_dist = dist[curr_ver] + next.getWeight();
-                    if (temp_dist < dist[next.getDest()]) {
-                        dist[next.getDest()] = temp_dist;
-                        visited[next.getDest()] = 1;
+            try {
+                Iterator<EdgeData> it = this.graph.edgeIter(curr_ver);
+                while (it.hasNext()) {
+                    EdgeData next = it.next();
+                    if (visited[next.getDest()] != 2) {
+                        queue.offer(next);
+                        double temp_dist = dist[curr_ver] + next.getWeight();
+                        if (temp_dist < dist[next.getDest()]) {
+                            dist[next.getDest()] = temp_dist;
+                            visited[next.getDest()] = 1;
+                        }
                     }
                 }
+            } catch (NullPointerException ignored) {
             }
 
         }
+
         return dist[dest];
 
     }

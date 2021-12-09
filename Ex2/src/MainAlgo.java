@@ -50,7 +50,42 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
     // check if each node has (n-1) pathes.
     @Override
     public boolean isConnected() {
-        return false;
+        Iterator<NodeData> it = this.graph.nodeIter();
+        while (it.hasNext()) {
+            NodeData next = it.next();
+            if (!BFS(next.getKey())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean BFS(int s) {
+        double[] dist = new double[this.graph.nodeSize()];
+        Arrays.fill(dist, Double.POSITIVE_INFINITY);
+        Queue<Integer> queue = new LinkedList<>();
+        dist[s] = 0;
+        queue.add(s);
+
+        while (!queue.isEmpty()) {
+            int u = queue.poll();
+            Iterator<EdgeData> it = this.graph.edgeIter(u);
+            while (it.hasNext()) {
+                EdgeData v = it.next();
+                if (dist[v.getDest()] == Double.POSITIVE_INFINITY) {
+                    queue.add(v.getDest());
+                    dist[v.getDest()] = dist[u] + 1;
+                }
+
+            }
+        }
+        for (double i :
+                dist) {
+            if (i == Double.POSITIVE_INFINITY) {
+                return false;
+            }
+        }
+        return true;
     }
 
 
@@ -145,43 +180,27 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public NodeData center() {
-
-
-        double min = min(this.graph.nodeIter().next().getKey());
-        NodeData ansNode = this.graph.getNode(0);
-        while (this.graph.nodeIter().hasNext()) {
-            if (this.graph.nodeIter().next().getKey() < 2) {
-                continue;
-            }
-
+        Iterator<NodeData> it = this.graph.nodeIter();
+        double min_path = Double.POSITIVE_INFINITY;
+        NodeData center = null;
+        while (it.hasNext()) {
             double temp = 0;
-
-
-            for (int i = 0; i < this.graph.nodeSize(); i++) {
-                temp += shortestPathDist(this.graph.nodeIter().next().getKey(), i);
-
+            NodeData next = it.next();
+            Iterator<NodeData> sum_it = this.graph.nodeIter();
+            while (sum_it.hasNext()) {
+                NodeData curr = sum_it.next();
+                if (next.getKey() != curr.getKey()) {
+                    temp += shortestPathDist(next.getKey(), curr.getKey());
+                }
             }
-            if (temp < min) {
-                min = temp;
-                ansNode = this.graph.nodeIter().next();
+            if (temp < min_path) {
+                min_path = temp;
+                center = next;
             }
-
         }
-        return ansNode;
+        return center;
 
 
-    }
-
-    private double min(int key) {
-        double temp = 0;
-        for (int i = 0; i < this.graph.nodeSize(); i++) {
-            if (key == this.graph.getNode(i).getKey()) {
-                continue;
-            }
-            temp += shortestPathDist(key, this.graph.getNode(i).getKey());
-
-        }
-        return temp;
     }
 
 

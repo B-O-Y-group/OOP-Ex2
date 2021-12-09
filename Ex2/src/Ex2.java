@@ -35,7 +35,7 @@ public class Ex2 {
         graph.connect(s.getKey(), b.getKey(), 2);
         graph.connect(a.getKey(), b.getKey(), 2);
         graph.connect(a.getKey(), c.getKey(), 3);
-        graph.connect(b.getKey(), c.getKey(), 80);
+        graph.connect(b.getKey(), c.getKey(), 0);
         graph.connect(c.getKey(), s.getKey(), 1);
 
         Iterator<EdgeData> it = graph.edgeIter(s.getKey());
@@ -53,6 +53,7 @@ public class Ex2 {
         System.out.println("SHORTEST DIST: " + g_algo.shortestPathDist(s.getKey(), c.getKey()));
         System.out.println("ANSWER SHORTEST: " + g_algo.shortestPath(s.getKey(), c.getKey()));
         System.out.println("TSP: " + g_algo.tsp(tsp_test));
+        System.out.println("Center: " + g_algo.center());
 
 
 //

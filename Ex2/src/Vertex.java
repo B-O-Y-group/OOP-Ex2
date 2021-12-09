@@ -22,7 +22,7 @@ public class Vertex implements NodeData {
 
     public Vertex(int id, GeoLocation pos) {
         this.id = id;
-        this.pos = pos;
+        this.pos = pos ;
         this.weight = 0; // influenced by edges.
         this.tag = Tags.WHITE.ordinal(); // <white = 0 , grey = 1, black = 2>
 
@@ -50,7 +50,7 @@ public class Vertex implements NodeData {
 
     @Override
     public void setLocation(GeoLocation p) {
-        this.pos = new Point3D(p.x(), p.y(), p.z());
+        this.pos = p;
     }
 
     @Override

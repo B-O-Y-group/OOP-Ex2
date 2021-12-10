@@ -103,27 +103,36 @@ public class Ex2 {
      * @param json_file - a json file (e.g., G1.json - G3.gson)
      */
     public static void runGUI(String json_file) {
-       // DirectedWeightedGraphAlgorithms alg = getGrapgAlgo(json_file);
+        // DirectedWeightedGraphAlgorithms alg = getGrapgAlgo(json_file);
         // ****** Add your code here ******
 
         DirectedWeightedGraph graph = new HashOfHashes();
-        NodeData s = new Vertex(0, new Point3D(30, 30, 0));
-        NodeData a = new Vertex(1, new Point3D(100, 100, 0));
-        NodeData b = new Vertex(2, new Point3D(200, 200, 0));
-        NodeData c = new Vertex(3, new Point3D(300, 300, 0));
+        NodeData s = new Vertex(0, new Point3D(100, 100, 0));
+        NodeData a = new Vertex(1, new Point3D(200, 100, 0));
+        NodeData b = new Vertex(2, new Point3D(300, 200, 0));
+        NodeData c = new Vertex(3, new Point3D(400, 200, 0));
         graph.addNode(s);
         graph.addNode(a);
         graph.addNode(b);
         graph.addNode(c);
 
-        Iterator<NodeData> n =graph.nodeIter();
+        graph.connect(s.getKey(), a.getKey(), 1);
+        graph.connect(s.getKey(), b.getKey(), 2);
+        graph.connect(s.getKey(), c.getKey(), 1);
+
+        graph.connect(a.getKey(), b.getKey(), 2);
+        graph.connect(a.getKey(), c.getKey(), 3);
+
+        graph.connect(b.getKey(), c.getKey(), 4);
+
+
+        Iterator<EdgeData> n = graph.edgeIter();
 
         while (n.hasNext()){
             System.out.println(n.next());
         }
 
         window w = new window(graph);
-
 
 
         //

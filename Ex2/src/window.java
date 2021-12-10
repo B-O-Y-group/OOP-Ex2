@@ -1,33 +1,27 @@
 import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
+import api.NodeData;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class window extends JFrame implements ActionListener {
 
     public DirectedWeightedGraph graph;
-    public DirectedWeightedGraphAlgorithms graphAlgo;
     private int MC;
     private MenuItem menuItem1, menuItem2, menuItem3;
     private MenuItem isConnected, shortestPathDist, shortestPath, center, tsp;
 
 
-//    public window() {
-//        this.graph = new HashOfHashes();
-//        this.MC = 0;
-//
-//    }
 
-    public window(DirectedWeightedGraph G) {
-        this.graph = G;
+    public window(DirectedWeightedGraphAlgorithms G) {
+        this.graph = G.getGraph();
         intiGraph(graph);
         MC = graph.getMC();
 
@@ -42,7 +36,6 @@ public class window extends JFrame implements ActionListener {
         int high = fullScreen.height / 2;
         this.setSize(width, high);
         addMenu();
-
 
 
         //todo panel9
@@ -118,20 +111,26 @@ public class window extends JFrame implements ActionListener {
         } else if (e.getSource() == menuItem3) {
             //TODO open file
             System.out.println("json 3 clicked");
+
+
+            // --------------Algorithm-------------------
         } else if (e.getSource() == isConnected) {
-            // isConneceted();
-            //todo open the func
+            isConnected();
             System.out.println("isConnected clicked");
         } else if (e.getSource() == center) {
-            //todo open the func
+            //todo draw
+            FindCenter();
             System.out.println("center clicked");
         } else if (e.getSource() == shortestPath) {
-            //todo open the func
+            ShortestPath();
+            //todo maybe draw
             System.out.println("shortestPath clicked");
         } else if (e.getSource() == shortestPathDist) {
-            //todo open the func
+            shortestPathDist();
+            //todo maybe draw
             System.out.println("shortestPathDist clicked");
         } else if (e.getSource() == tsp) {
+            TSP();
             //todo open the func
             System.out.println("tsp clicked ");
         }
@@ -139,7 +138,147 @@ public class window extends JFrame implements ActionListener {
 
     }
 
-    private void initPanel(){
+    private void TSP() {
+        DirectedWeightedGraphAlgorithms graphAl = new MainAlgo(this.graph);
+        DirectedWeightedGraphAlgorithms graphAl2 = new MainAlgo(this.graph);
+        graphAl.init(this.graph);
+        graphAl2.init(graphAl.copy());
+
+        List<NodeData> list = new ArrayList<>();
+        List<NodeData> listN ;
+
+        String max = JOptionPane.showInputDialog(this,
+                "Please enter a number of cities you want to visit  <= " + graphAl2.getGraph().nodeSize());
+
+        int cities = Integer.parseInt(max);
+        try {
+            String ans = "";
+
+            for (int i = 0; i < cities; i++) {
+                String path = JOptionPane.showInputDialog(this,
+                        "Please enter a node  " + graphAl2.getGraph().getNode(i));
+                int nodeT = Integer.parseInt(path);
+                list.add(graphAl2.getGraph().getNode(nodeT));
+                System.out.println("---------------------------> " + graphAl2.getGraph().getNode(nodeT));
+            }
+
+            listN = graphAl2.tsp(list);
+
+            for (int i = 0; i < listN.size(); i++) {
+                ans += listN.get(i).getKey();
+                System.out.println("--------------------------------------------------------");
+                System.out.println(ans);
+                System.out.println("--------------------------------------------------------");
+
+                JOptionPane.showMessageDialog(null, "Tsp :  " + ans,  "Tsp",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (NumberFormatException exception) {
+            if (cities > graphAl2.getGraph().nodeSize()) {
+                JOptionPane.showMessageDialog(null, "Your number is bigger from  the node size of the graph  ",
+                        "Tsp",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+        }catch (Exception exception){
+            JOptionPane.showMessageDialog(null, "ex  ",
+                    "Tsp",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+
+    }
+
+    private void shortestPathDist() {
+        DirectedWeightedGraphAlgorithms graphAl = new MainAlgo(this.graph);
+        DirectedWeightedGraphAlgorithms graphAl2 = new MainAlgo(this.graph);
+        graphAl.init(this.graph);
+        graphAl2.init(graphAl.copy());
+
+
+        String srcN = JOptionPane.showInputDialog(this, "Insert source node","ShortestPathDist", -1 );
+        String destN = JOptionPane.showInputDialog(this, "Insert destination node", "ShortestPathDist", -1);
+
+        int src = Integer.parseInt(srcN);
+        int dest = Integer.parseInt(destN);
+        double distPath = graphAl2.shortestPathDist((int) src, (int) dest);
+
+        if (distPath == Double.POSITIVE_INFINITY) {
+            JOptionPane.showMessageDialog(null, "There isn't a shortest path distance", "Shortest Path Dist",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "The shortest path distance is: " + distPath, "Shortest Path Dist",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+        }
+
+
+    }
+
+    private void ShortestPath() {
+        DirectedWeightedGraphAlgorithms graphAl = new MainAlgo(this.graph);
+        DirectedWeightedGraphAlgorithms graphAl2 = new MainAlgo(this.graph);
+        graphAl.init(this.graph);
+        graphAl2.init(graphAl.copy());
+        String srcN = JOptionPane.showInputDialog(this, "insert source node");
+        String destN = JOptionPane.showInputDialog(this, "insert destination node");
+        List<NodeData> list;
+
+        try {
+            int src = Integer.parseInt(srcN);
+            int dest = Integer.parseInt(destN);
+
+            list = graphAl2.shortestPath(src, dest);
+            String ans = "";
+            if (list != null) {
+                ans += list.get(0) + "\n";
+                for (int i = 1; i < list.size(); i++) {
+                    ans += " --> " +list.get(i) + "\n";
+
+                }
+            } else {
+                ans = " There  are no path between the two given nodes ";
+
+            }
+            JOptionPane.showMessageDialog(null, "The Shortest Path is :  \n" + ans, " ShortestPath ",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+
+        } catch (Exception exception) {
+            JOptionPane.showMessageDialog(this, "Error : " + exception.getMessage(), "ShortestPath",
+                    JOptionPane.WARNING_MESSAGE);
+
+        }
+    }
+
+    private void FindCenter() {
+        DirectedWeightedGraphAlgorithms graphAl = new MainAlgo(this.graph);
+        DirectedWeightedGraphAlgorithms graphAl2 = new MainAlgo(this.graph);
+
+        graphAl.init(this.graph);
+        graphAl2.init(graphAl.copy());
+        //todo in  PANEL
+    }
+
+    private void isConnected() {
+        DirectedWeightedGraphAlgorithms graphAl = new MainAlgo(this.graph);
+        DirectedWeightedGraphAlgorithms graphAl2 = new MainAlgo(this.graph);
+
+        graphAl.init(this.graph);
+        graphAl2.init(graphAl.copy());
+        boolean ans = graphAl2.isConnected();
+        if (ans) {
+            JOptionPane.showMessageDialog(null, "The graph is connected ", " isConnected ",
+                    JOptionPane.QUESTION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "The graph is not  connected ", " isConnected ",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+        }
+
+
+    }
+
+    private void initPanel() {
         Panel panel = new Panel(this.graph);
         this.add(panel);
     }

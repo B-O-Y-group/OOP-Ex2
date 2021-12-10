@@ -1,5 +1,9 @@
 import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
+import api.NodeData;
+
+import java.util.Iterator;
+
 /**
  * This class is the main class for Ex2 - your implementation will be tested using this class.
  */
@@ -8,36 +12,9 @@ public class Ex2 {
 
     //some test
     public static void main(String[] args) {
-
-        //runGUI("G1.json");
-
-        DirectedWeightedGraph graph = new HashOfHashes();
-        DirectedWeightedGraphAlgorithms g_algo = new MainAlgo(graph);
-        g_algo.load("C:\\Users\\oron\\Desktop\\GitHub\\OOP-Ex2\\Ex2\\data\\G1.json");
-
-
-        System.out.println("isConnected: " + g_algo.isConnected());
-//        System.out.println("NODE LIST: " + tsp_test);
-//        System.out.println("SHORTEST DIST: " + g_algo.shortestPathDist(s.getKey(), c.getKey()));
-//        System.out.println("ANSWER SHORTEST: " + g_algo.shortestPath(s.getKey(), c.getKey()));
-//        System.out.println("TSP: " + g_algo.tsp(tsp_test));
-        System.out.println("Center: " + g_algo.center());
-
-
-
-//
-
-
-//        Iterator<NodeData> t = graph.nodeIter();
-//        while (t.hasNext()) {
-//            NodeData temp = t.next();
-//            System.out.println(temp);
-//        }
-
-        //graph.nodeIter().forEachRemaining(nodeData -> System.out.println(nodeData.getKey()));
+        runGUI("Ex2/data/G1.json");
 
     }
-
 
     /**
      * This static function will be used to test your implementation
@@ -46,11 +23,14 @@ public class Ex2 {
      * @return
      */
     public static DirectedWeightedGraph getGrapg(String json_file) {
-        DirectedWeightedGraph ans = null;
+        DirectedWeightedGraph graph   = new HashOfHashes();
+        DirectedWeightedGraphAlgorithms algo = new MainAlgo(graph);
+        algo.load(json_file);
+        graph = algo.getGraph();
         // ****** Add your code here ******
         //
         // ********************************
-        return ans;
+        return graph;
     }
 
     /**
@@ -60,11 +40,14 @@ public class Ex2 {
      * @return
      */
     public static DirectedWeightedGraphAlgorithms getGrapgAlgo(String json_file) {
-        DirectedWeightedGraphAlgorithms ans = null;
+
+        DirectedWeightedGraphAlgorithms algo = new MainAlgo(getGrapg(json_file));
+        algo.init(getGrapg(json_file));
+
         // ****** Add your code here ******
         //
         // ********************************
-        return ans;
+        return algo;
     }
 
     /**
@@ -75,7 +58,8 @@ public class Ex2 {
     public static void runGUI(String json_file) {
         DirectedWeightedGraphAlgorithms alg = getGrapgAlgo(json_file);
         // ****** Add your code here ******
-        window w = new window();
+
+        window w = new window(alg);
 
 
         //

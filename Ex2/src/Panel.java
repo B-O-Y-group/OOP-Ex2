@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -14,7 +15,11 @@ public class Panel extends JPanel implements MouseListener {
     public int x, y;
     DirectedWeightedGraph graph;
     DirectedWeightedGraphAlgorithms algo1, algo2;
-    // LinkedList<Point2D> point = new LinkedList<>();
+
+
+
+
+
 
     public Panel(DirectedWeightedGraph g) {
         algo1 = new MainAlgo(g);
@@ -27,7 +32,8 @@ public class Panel extends JPanel implements MouseListener {
         repaint();
 
 
-        this.setBackground(Color.cyan);
+
+        this.setBackground(Color.LIGHT_GRAY);
         this.addMouseListener(this);
     }
 
@@ -41,10 +47,13 @@ public class Panel extends JPanel implements MouseListener {
     }
 
     private void Draw(Graphics g) {
+
         nodeDraw(g);
-        edgeDraw(g);
-
-
+        //   edgeDraw(g);
+        //-------for Graphics2D g----------------
+        Graphics2D g1 = (Graphics2D) g;
+        edgeDraw(g1);
+        //---------------------------------------
     }
 
 
@@ -60,14 +69,13 @@ public class Panel extends JPanel implements MouseListener {
             double x = next.getLocation().x();
             double y = next.getLocation().y();
 
-           // System.out.println("key --> " + next.getKey() + " (" + x + "," + y + ")");
+            // System.out.println("key --> " + next.getKey() + " (" + x + "," + y + ")");
             String key = "";
             key += "key " + next.getKey();
-                g.fillOval((int) x, (int) y, 10, 10);
-                g.setColor(Color.black);
+            g.fillOval((int) x, (int) y, 10, 10);
+            g.setColor(Color.black);
 
-                g.drawString(key + "", (int) x, (int) y);
-
+            g.drawString(key + "", (int) x, (int) y);
 
 
             // todo start , center and end --> point
@@ -75,7 +83,8 @@ public class Panel extends JPanel implements MouseListener {
         }
 
     }
-    private void edgeDraw(Graphics g) {
+
+    private void edgeDraw(Graphics2D g) {
         Iterator<EdgeData> edgeIt = this.algo2.getGraph().edgeIter();
         while (edgeIt.hasNext()) {
             EdgeData next = edgeIt.next();
@@ -91,19 +100,26 @@ public class Panel extends JPanel implements MouseListener {
             weight += next.getWeight();
             g.setColor(Color.black);
             //todo draw arrow
-            g.drawLine((int) srcX, (int) srcY, (int) destX, (int) destY);
-          //  drawArrowLine(g,(int) srcX, 0, (int)destX, (int) destY,0,0 );
 
-            int midX = (int)(srcX + destX)/2;
-            int midY = (int)(srcY + destY)/2;
+            //-------for Graphics2D g----------------
+            g.setStroke(new BasicStroke(2.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL)); // g2 is an instance of Graphics2D
+            g.draw(new Line2D.Double(srcX, srcY, destX, destY));
+
+            //-------------------------------------------
+
+            // g.drawLine((int) srcX, (int) srcY, (int) destX, (int) destY);
+            //  drawArrowLine(g,(int) srcX, 0, (int)destX, (int) destY,0,0 );
+
+            int midX = (int) (srcX + destX) / 2;
+            int midY = (int) (srcY + destY) / 2;
 
             System.out.println("mid x -> " + midX + " mid y -> " + midY);
             g.setColor(Color.magenta);
-            g.drawString(weight + "", midX,midY);
+            g.drawString(weight + "", midX, midY);
 
         }
     }
-    
+
 
 
     @Override

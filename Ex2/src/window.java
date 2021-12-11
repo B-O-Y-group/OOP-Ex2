@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class window extends JFrame implements ActionListener {
 
     public DirectedWeightedGraph graph;
     private int MC;
-    private MenuItem menuItem1, menuItem2, menuItem3;
+    private MenuItem save, load, menuItem3;
     private MenuItem isConnected, shortestPathDist, shortestPath, center, tsp;
 
 
@@ -33,9 +34,13 @@ public class window extends JFrame implements ActionListener {
 
         Dimension fullScreen = Toolkit.getDefaultToolkit().getScreenSize();
         int width = fullScreen.width / 2;
-        int high = fullScreen.height / 2;
+        int high = fullScreen.height/ 2;
         this.setSize(width, high);
         addMenu();
+
+       // JScrollPane pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+               // JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+      //  this.setContentPane(pane);
 
 
         //todo panel9
@@ -47,6 +52,10 @@ public class window extends JFrame implements ActionListener {
 
 
     }
+    private void initPanel() {
+        Panel panel = new Panel(this.graph);
+        this.add(panel);
+    }
 
     private void addMenu() {
 
@@ -54,7 +63,7 @@ public class window extends JFrame implements ActionListener {
         this.setMenuBar(menuBar);
 
 
-        Menu json_file = new Menu("json file");
+        Menu json_file = new Menu("File");
         Menu Algorithm = new Menu("Algorithm");
         // Algorithm.addActionListener(this);
 
@@ -79,40 +88,38 @@ public class window extends JFrame implements ActionListener {
         Algorithm.add(tsp);
 
 
-        menuItem1 = new MenuItem("G1.json");
-        menuItem1.addActionListener(this); // --> listed to menuItem 1 , this
+        save = new MenuItem("save");
+        save.addActionListener(this); // --> listed to menuItem 1 , this
 
-        menuItem2 = new MenuItem("G2.json");
-        menuItem2.addActionListener(this);
+        load = new MenuItem("load");
+        load.addActionListener(this);
 
         menuItem3 = new MenuItem("G3.json");
         menuItem3.addActionListener(this);
 
 
-        json_file.add(menuItem1);
-        json_file.add(menuItem2);
+        json_file.add(save);
+        json_file.add(load);
         json_file.add(menuItem3);
     }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == menuItem1) {
+        if (e.getSource() == save) {
+        if (e.getSource() == save) {
             //TODO open file
-            try {
-                FileReader r = new FileReader("C:\\Users\\97252\\Documents\\GitHub\\OOP-Ex2\\Ex2\\data\\G1.json");
-            } catch (FileNotFoundException fileNotFoundException) {
-                fileNotFoundException.printStackTrace();
-            }
-            System.out.println("json 1 clicked");
-        } else if (e.getSource() == menuItem2) {
+            System.out.println("save clicked");
+            save();
+
+        } else if (e.getSource() == load) {
             //TODO open file
-            System.out.println("json 2 clicked");
+            System.out.println("load 2 clicked");
         } else if (e.getSource() == menuItem3) {
             //TODO open file
             System.out.println("json 3 clicked");
 
-
+        }
             // --------------Algorithm-------------------
         } else if (e.getSource() == isConnected) {
             isConnected();
@@ -138,6 +145,29 @@ public class window extends JFrame implements ActionListener {
 
     }
 
+    private void save() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("save file ");
+
+        int userS  = fileChooser.showSaveDialog(this);
+
+        DirectedWeightedGraphAlgorithms algo1 = new MainAlgo(graph);
+        DirectedWeightedGraphAlgorithms algo2 = new MainAlgo(graph);;
+        algo1.init(graph);
+        algo2.init(algo1.copy());
+
+        if (userS  == JFileChooser.APPROVE_OPTION)
+        {
+            File Save = fileChooser.getSelectedFile();
+            String FileName= Save.getAbsolutePath();
+            algo2.save(FileName);
+            System.out.println("Save as file: " + Save.getAbsolutePath());
+        }
+
+    }
+
+
+    //todo need to fix
     private void TSP() {
         DirectedWeightedGraphAlgorithms graphAl = new MainAlgo(this.graph);
         DirectedWeightedGraphAlgorithms graphAl2 = new MainAlgo(this.graph);
@@ -199,7 +229,7 @@ public class window extends JFrame implements ActionListener {
 
         int src = Integer.parseInt(srcN);
         int dest = Integer.parseInt(destN);
-        double distPath = graphAl2.shortestPathDist((int) src, (int) dest);
+        double distPath = graphAl2.shortestPathDist( src, dest);
 
         if (distPath == Double.POSITIVE_INFINITY) {
             JOptionPane.showMessageDialog(null, "There isn't a shortest path distance", "Shortest Path Dist",
@@ -210,6 +240,7 @@ public class window extends JFrame implements ActionListener {
                     JOptionPane.INFORMATION_MESSAGE);
 
         }
+
 
 
     }
@@ -230,9 +261,9 @@ public class window extends JFrame implements ActionListener {
             list = graphAl2.shortestPath(src, dest);
             String ans = "";
             if (list != null) {
-                ans += list.get(0) + "\n";
+                ans += list.get(0).getKey() ;
                 for (int i = 1; i < list.size(); i++) {
-                    ans += " --> " +list.get(i) + "\n";
+                    ans += " --> " +list.get(i).getKey() ;
 
                 }
             } else {
@@ -278,10 +309,9 @@ public class window extends JFrame implements ActionListener {
 
     }
 
-    private void initPanel() {
-        Panel panel = new Panel(this.graph);
-        this.add(panel);
-    }
+
+
+
 
 
 }

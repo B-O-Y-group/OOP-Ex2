@@ -1,5 +1,7 @@
 import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
+import api.NodeData;
+
 /**
  * This class is the main class for Ex2 - your implementation will be tested using this class.
  */
@@ -13,15 +15,46 @@ public class Ex2 {
 
         DirectedWeightedGraph graph = new HashOfHashes();
         DirectedWeightedGraphAlgorithms g_algo = new MainAlgo(graph);
-        g_algo.load("C:\\Users\\oron\\Desktop\\GitHub\\OOP-Ex2\\Ex2\\data\\G1.json");
+//        g_algo.load("Ex2/data/G1.json");
 
 
-        System.out.println("isConnected: " + g_algo.isConnected());
+        DirectedWeightedGraph test = new HashOfHashes();
+        DirectedWeightedGraphAlgorithms test_algo = new MainAlgo(test);
+
+        NodeData s = new Vertex(0,new Point3D(1,1,1));
+        NodeData a = new Vertex(1,new Point3D(1,1,1));
+        NodeData b = new Vertex(2,new Point3D(1,1,1));
+        NodeData c = new Vertex(3,new Point3D(1,1,1));
+        NodeData d = new Vertex(4,new Point3D(1,1,1));
+
+        test.addNode(s);
+        test.addNode(a);
+        test.addNode(b);
+        test.addNode(c);
+        test.addNode(d);
+
+        test.connect(s.getKey(), a.getKey(), 1);
+        test.connect(s.getKey(), b.getKey(), 0);
+        test.connect(s.getKey(), c.getKey(), 1);
+        test.connect(s.getKey(), d.getKey(), 1);
+
+        test.connect(a.getKey(), b.getKey(), 0);
+        test.connect(a.getKey(), c.getKey(), 1);
+        test.connect(a.getKey(), d.getKey(), 1);
+
+
+        test.connect(b.getKey(), c.getKey(), 0);
+        test.connect(c.getKey(), d.getKey(), 0);
+        test.connect(d.getKey(), s.getKey(), 1);
+
+
+
+        System.out.println("isConnected: " + test_algo.isConnected());
 //        System.out.println("NODE LIST: " + tsp_test);
-//        System.out.println("SHORTEST DIST: " + g_algo.shortestPathDist(s.getKey(), c.getKey()));
-//        System.out.println("ANSWER SHORTEST: " + g_algo.shortestPath(s.getKey(), c.getKey()));
+        System.out.println("SHORTEST DIST: " + test_algo.shortestPathDist(s.getKey(), d.getKey()));
+        System.out.println("ANSWER SHORTEST: " + test_algo.shortestPath(s.getKey(), d.getKey()));
 //        System.out.println("TSP: " + g_algo.tsp(tsp_test));
-        System.out.println("Center: " + g_algo.center());
+//        System.out.println("Center: " + g_algo.center());
 
 
 

@@ -46,7 +46,6 @@ class MainAlgoTest {
 
     @Test
     void copy() {
-
         System.out.println("here we are ");
         DirectedWeightedGraph copy = gAlgo.copy();
 

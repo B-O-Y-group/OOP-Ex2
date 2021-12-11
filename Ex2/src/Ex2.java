@@ -13,6 +13,9 @@ public class Ex2 {
 
     //some test
     public static void main(String[] args) {
+
+
+
         runGUI("Ex2/data/G3.json");
     }
 
@@ -27,9 +30,7 @@ public class Ex2 {
         DirectedWeightedGraphAlgorithms algo = new MainAlgo(graph);
         algo.load(json_file);
         graph = algo.getGraph();
-        // ****** Add your code here ******
-        //
-        // ********************************
+
         return graph;
     }
 
@@ -44,9 +45,6 @@ public class Ex2 {
         DirectedWeightedGraphAlgorithms algo = new MainAlgo(getGrapg(json_file));
         algo.init(getGrapg(json_file));
 
-        // ****** Add your code here ******
-        //
-        // ********************************
         return algo;
     }
 
@@ -116,7 +114,7 @@ public class Ex2 {
         DirectedWeightedGraphAlgorithms al = new MainAlgo(graph);
 
 
-        window win = new window(al);
+        window win = new window(alg);
 
 
         //

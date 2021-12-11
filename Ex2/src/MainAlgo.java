@@ -1,12 +1,7 @@
 import api.*;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.*;
 
 public class MainAlgo implements DirectedWeightedGraphAlgorithms {
@@ -293,7 +288,14 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public boolean save(String file) {
-        return false;
+        Gson gson = new Gson();
+        try {
+            gson.toJson(this.graph,new FileWriter(file));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return  false;
+        }
+        return true;
     }
 
     @Override

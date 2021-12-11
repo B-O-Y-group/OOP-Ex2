@@ -7,6 +7,7 @@ import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.text.Format;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -22,8 +23,8 @@ public class Panel extends JPanel implements MouseListener {
 
     public Panel(DirectedWeightedGraph g) {
         Dimension fullScreen = Toolkit.getDefaultToolkit().getScreenSize();
-        width = fullScreen.width / 2;
-        high = fullScreen.height / 2;
+        width = fullScreen.width ;
+        high = fullScreen.height ;
         //   System.out.println("w "+ width + " h " + high );
         algo1 = new MainAlgo(g);
         algo2 = new MainAlgo(g);
@@ -110,12 +111,13 @@ public class Panel extends JPanel implements MouseListener {
 
             // System.out.println("key --> " + next.getKey() + " (" + x + "," + y + ")");
 
-            g.fillOval((int) x, (int) y, 10, 10);
+            g.fillOval((int) x, (int) y, 12, 12);
 
             ///------draw key----------------
             String key = "";
             key += "key " + next.getKey();
             g.setColor(Color.black);
+            g.setFont(new Font("",Font.BOLD,15));
             g.drawString(key + "", (int) x, (int) y);
 
 
@@ -164,11 +166,11 @@ public class Panel extends JPanel implements MouseListener {
             int midY = (int) (srcY + destY) / 2;
             g.setColor(Color.red);
             String weight = "";
-            weight += next.getWeight();
+            weight += (int)next.getWeight();
             g.setColor(Color.black);
             //draw  weight
-            // g.setColor(Color.magenta);
-            //  g.drawString(weight + "", midX, midY);
+             g.setColor(Color.black);
+              g.drawString(weight + "", midX, midY);
 
         }
     }

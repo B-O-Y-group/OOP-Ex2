@@ -31,18 +31,16 @@ public class window extends JFrame implements ActionListener {
 
         this.setTitle("EX-2 - Graph - BOY ");
 
+
+        // todo  add edge button and  add node button
+
         Dimension fullScreen = Toolkit.getDefaultToolkit().getScreenSize();
-        int width = fullScreen.width/2 ;
-        int high = fullScreen.height /2;
+        int width = fullScreen.width / 2;
+        int high = fullScreen.height / 2;
         this.setSize(width, high);
         addMenu();
 
-        // JScrollPane pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-        // JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        //  this.setContentPane(pane);
-
-
-        //todo panel9
+        
         initPanel(this.graph);
 
 
@@ -64,11 +62,11 @@ public class window extends JFrame implements ActionListener {
         this.setMenuBar(menuBar);
 
 
-        Menu json_file = new Menu("File");
+        Menu file = new Menu("File");
         Menu Algorithm = new Menu("Algorithm");
         // Algorithm.addActionListener(this);
 
-        menuBar.add(json_file);
+        menuBar.add(file);
         menuBar.add(Algorithm);
 
         isConnected = new MenuItem("isConnected");
@@ -95,12 +93,9 @@ public class window extends JFrame implements ActionListener {
         load = new MenuItem("load");
         load.addActionListener(this);
 
-//        menuItem3 = new MenuItem("G3.json");
-//        menuItem3.addActionListener(this);
 
-
-        json_file.add(save);
-        json_file.add(load);
+        file.add(save);
+        file.add(load);
         //   json_file.add(menuItem3);
     }
 
@@ -108,7 +103,6 @@ public class window extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == save) {
-            //TODO open file
             System.out.println("save clicked");
             save();
 
@@ -144,6 +138,7 @@ public class window extends JFrame implements ActionListener {
 
     }
 
+    // todo not working well
     private void load() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("load file ");
@@ -160,6 +155,7 @@ public class window extends JFrame implements ActionListener {
                 algo2.init(algo1.copy());
 
                 initPanel(algo2.getGraph());
+
             } catch (Exception exception) {
                 System.out.println(exception.getMessage());
 
@@ -185,7 +181,6 @@ public class window extends JFrame implements ActionListener {
             File Save = fileChooser.getSelectedFile();
             String FileName = Save.getAbsolutePath();
             algo2.save(FileName);
-            //  System.out.println("Save as file: " + Save.getAbsolutePath());
         }
 
     }
@@ -219,7 +214,7 @@ public class window extends JFrame implements ActionListener {
             listN = graphAl2.tsp(list);
 
             for (int i = 0; i < listN.size(); i++) {
-                ans += listN.get(i).getKey();
+                ans += "" + listN.get(i).getKey();
                 System.out.println("--------------------------------------------------------");
                 System.out.println(ans);
                 System.out.println("--------------------------------------------------------");

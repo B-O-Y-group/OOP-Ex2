@@ -17,25 +17,64 @@ class MainAlgoTest {
     NodeData n3 = new Vertex(3, new Point3D(9, -1, 0));
     NodeData n4 = new Vertex(4, new Point3D(-4, 0, 0));
 
+
+    //TODO for shortest
+    DirectedWeightedGraphAlgorithms sAlgo;
+    DirectedWeightedGraph s;
+
+
+
+
+
+
+
+
+
+
+
     @BeforeEach
     void init() {
         g = new HashOfHashes();
         gAlgo = new MainAlgo(g);
-        g.addNode(n0);
-        g.addNode(n1);
-        g.addNode(n2);
-        g.addNode(n3);
-        g.addNode(n4);
-        g.connect(0, 1, 10);
-        g.connect(0, 4, 5);
-        g.connect(1, 4, 2);
-        g.connect(1, 2, 1);
-        g.connect(2, 3, 4);
-        g.connect(3, 0, 7);
-        g.connect(3, 2, 6);
-        g.connect(4, 1, 3);
-        g.connect(4, 2, 9);
-        g.connect(4, 3, 2);
+
+        NodeData k0 = new Vertex(0, new Point3D(1, 2, 0));
+        NodeData k1 = new Vertex(1, new Point3D(2, 3, 0));
+        NodeData k2 = new Vertex(2, new Point3D(4, 3, 0));
+        NodeData k3 = new Vertex(3, new Point3D(5, 3, 0));
+        NodeData k4 = new Vertex(4, new Point3D(6, 2, 0));
+        NodeData k5 = new Vertex(5, new Point3D(5, 1, 0));
+        NodeData k6 = new Vertex(6, new Point3D(4, 1, 0));
+        NodeData k7 = new Vertex(7, new Point3D(2, 1, 0));
+        NodeData k8 = new Vertex(8, new Point3D(3, 2, 0));
+
+        g.addNode(k0);
+        g.addNode(k1);
+        g.addNode(k2);
+        g.addNode(k3);
+        g.addNode(k4);
+        g.addNode(k5);
+        g.addNode(k6);
+        g.addNode(k7);
+        g.addNode(k8);
+
+        g.connect(k0.getKey(), k1.getKey(), 4);
+        g.connect(k0.getKey(), k7.getKey(), 8);
+        g.connect(k1.getKey(), k7.getKey(), 11);
+        g.connect(k2.getKey(), k1.getKey(), 8);
+        g.connect(k2.getKey(), k3.getKey(), 7);
+        g.connect(k3.getKey(), k4.getKey(), 9);
+        g.connect(k4.getKey(), k5.getKey(), 10);
+        g.connect(k5.getKey(), k2.getKey(), 4);
+        g.connect(k5.getKey(), k3.getKey(), 14);
+        g.connect(k6.getKey(), k5.getKey(), 2);
+        g.connect(k7.getKey(), k8.getKey(), 7);
+        g.connect(k7.getKey(), k6.getKey(), 1);
+        g.connect(k8.getKey(), k6.getKey(), 6);
+        g.connect(k8.getKey(), k2.getKey(), 2);
+        g.connect(k0.getKey(), k7.getKey(), 8);
+
+
+
         gAlgo.init(g);
 
     }
@@ -73,6 +112,7 @@ class MainAlgoTest {
 
     @Test
     void shortestPath() {
+
     }
 
     @Test

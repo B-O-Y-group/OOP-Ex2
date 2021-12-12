@@ -1,11 +1,6 @@
 import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
-import api.EdgeData;
 import api.NodeData;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * This class is the main class for Ex2 - your implementation will be tested using this class.
@@ -20,42 +15,89 @@ public class Ex2 {
 
         DirectedWeightedGraph graph = new HashOfHashes();
         DirectedWeightedGraphAlgorithms g_algo = new MainAlgo(graph);
-        NodeData s = new Vertex(0, new Point3D(3, 3, 0));
-        NodeData a = new Vertex(1, new Point3D(2, 1, 0));
-        NodeData b = new Vertex(2, new Point3D(2, 2, 0));
-        NodeData c = new Vertex(3, new Point3D(3, 3, 0));
-
-        graph.addNode(s);
-        graph.addNode(a);
-        graph.addNode(b);
-        graph.addNode(c);
+        g_algo.load("Ex2/data/G1.json");
 
 
-        graph.connect(s.getKey(), a.getKey(), 1);
-        graph.connect(s.getKey(), b.getKey(), 2);
-        graph.connect(a.getKey(), b.getKey(), 2);
-        graph.connect(a.getKey(), c.getKey(), 3);
-        graph.connect(b.getKey(), c.getKey(), 0);
-//        graph.connect(c.getKey(), s.getKey(), 1);
+        DirectedWeightedGraph test = new HashOfHashes();
+        DirectedWeightedGraphAlgorithms test_algo = new MainAlgo(test);
 
-        Iterator<EdgeData> it = graph.edgeIter(s.getKey());
-        while (it.hasNext()) {
-            System.out.println(it.next());
+        DirectedWeightedGraphAlgorithms hAlgo;
+        DirectedWeightedGraph h;
+        h = new HashOfHashes();
+        hAlgo = new MainAlgo(h);
 
-        }
+        NodeData h1 = new Vertex(1, new Point3D(2, 1, 0));
+        NodeData h2 = new Vertex(2, new Point3D(3, 1, 0));
+        NodeData h3 = new Vertex(3, new Point3D(4, 2, 0));
+        NodeData h4 = new Vertex(4, new Point3D(3, 3, 0));
+        NodeData h5 = new Vertex(5, new Point3D(2, 3, 0));
+        NodeData h6 = new Vertex(6, new Point3D(1, 2, 0));
 
-        List<NodeData> tsp_test = new ArrayList<>();
-        Iterator<NodeData> n_it = graph.nodeIter();
-        while (n_it.hasNext()) {
-            tsp_test.add(n_it.next());
-        }
+        h.addNode(h1);
+        h.addNode(h2);
+        h.addNode(h3);
+        h.addNode(h4);
+        h.addNode(h5);
+        h.addNode(h6);
 
-        System.out.println("isConnected: " + g_algo.isConnected());
-        System.out.println("NODE LIST: " + tsp_test);
-//        System.out.println("SHORTEST DIST: " + g_algo.shortestPathDist(s.getKey(), c.getKey()));
-        System.out.println("ANSWER SHORTEST: " + g_algo.shortestPath(s.getKey(), c.getKey()));
-//        System.out.println("TSP: " + g_algo.tsp(tsp_test));
-        System.out.println("Center: " + g_algo.center());
+
+
+        h.connect(h1.getKey(), h2.getKey(), 1);
+        h.connect(h1.getKey(), h6.getKey(), 1);
+        h.connect(h1.getKey(), h5.getKey(), 1);
+        h.connect(h2.getKey(), h1.getKey(), 1);
+        h.connect(h2.getKey(), h3.getKey(), 1);
+        h.connect(h2.getKey(), h4.getKey(), 1);
+        h.connect(h2.getKey(), h5.getKey(), 1);
+        h.connect(h3.getKey(), h2.getKey(), 1);
+        h.connect(h3.getKey(), h4.getKey(), 1);
+        h.connect(h4.getKey(), h2.getKey(), 1);
+        h.connect(h4.getKey(), h3.getKey(), 1);
+        h.connect(h4.getKey(), h5.getKey(), 1);
+        h.connect(h5.getKey(), h1.getKey(), 1);
+        h.connect(h5.getKey(), h2.getKey(), 1);
+        h.connect(h5.getKey(), h6.getKey(), 1);
+        h.connect(h5.getKey(), h4.getKey(), 1);
+        h.connect(h6.getKey(), h1.getKey(), 1);
+        h.connect(h6.getKey(), h5.getKey(), 1);
+
+        hAlgo.init(h);
+    }
+
+//        NodeData s = new Vertex(0,new Point3D(1,1,1));
+//        NodeData a = new Vertex(1,new Point3D(1,1,1));
+//        NodeData b = new Vertex(2,new Point3D(1,1,1));
+//        NodeData c = new Vertex(3,new Point3D(1,1,1));
+//        NodeData d = new Vertex(4,new Point3D(1,1,1));
+//
+//        test.addNode(s);
+//        test.addNode(a);
+//        test.addNode(b);
+//        test.addNode(c);
+//        test.addNode(d);
+//
+//        test.connect(s.getKey(), a.getKey(), 1);
+//        test.connect(s.getKey(), b.getKey(), 0);
+//        test.connect(s.getKey(), c.getKey(), 1);
+//        test.connect(s.getKey(), d.getKey(), 1);
+//
+//        test.connect(a.getKey(), b.getKey(), 0);
+//        test.connect(a.getKey(), c.getKey(), 1);
+//        test.connect(a.getKey(), d.getKey(), 1);
+//
+//
+//        test.connect(b.getKey(), c.getKey(), 0);
+//        test.connect(c.getKey(), d.getKey(), 0);
+//        test.connect(d.getKey(), s.getKey(), 1);
+//
+
+
+//        System.out.println("isConnected: " + test_algo.isConnected());
+////        System.out.println("NODE LIST: " + tsp_test);
+//        System.out.println("SHORTEST DIST: " + test_algo.shortestPathDist(s.getKey(), d.getKey()));
+//        System.out.println("ANSWER SHORTEST: " + test_algo.shortestPath(s.getKey(), d.getKey()));
+////        System.out.println("TSP: " + g_algo.tsp(tsp_test));
+//        System.out.println("Center: " + g_algo.center());
 
 
 
@@ -70,7 +112,7 @@ public class Ex2 {
 
         //graph.nodeIter().forEachRemaining(nodeData -> System.out.println(nodeData.getKey()));
 
-    }
+//    }
 
 
     /**
@@ -109,7 +151,7 @@ public class Ex2 {
     public static void runGUI(String json_file) {
         DirectedWeightedGraphAlgorithms alg = getGrapgAlgo(json_file);
         // ****** Add your code here ******
-        window w = new window();
+//        window w = new window();
 
 
         //

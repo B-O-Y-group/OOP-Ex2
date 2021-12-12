@@ -20,7 +20,7 @@ public class Point3D implements GeoLocation {
 
     @Override
     public double y() {
-        return this.z;
+        return this.y;
     }
 
     @Override

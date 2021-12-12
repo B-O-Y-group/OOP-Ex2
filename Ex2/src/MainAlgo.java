@@ -110,9 +110,9 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
                 System.out.println(queue);
                 curr_ver = queue.poll().getDest();
             }
-            if (curr_ver == dest) {
-                break;
-            }
+//            if (curr_ver == dest) {
+//                break;
+//            }
             visited[curr_ver] = 2;
             //FOR TEST
             System.out.println(TEST);

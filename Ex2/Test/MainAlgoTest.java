@@ -12,8 +12,8 @@ class MainAlgoTest {
 
 
     DirectedWeightedGraphAlgorithms gAlgo;
-    DirectedWeightedGraphAlgorithms hAlgo;
     DirectedWeightedGraph g;
+    DirectedWeightedGraphAlgorithms hAlgo;
     DirectedWeightedGraph h;
     NodeData n0 = new Vertex(0, new Point3D(-10, 4, 0));
     NodeData n1 = new Vertex(1, new Point3D(-5, 10, 0));
@@ -81,6 +81,12 @@ class MainAlgoTest {
         NodeData h5 = new Vertex(5, new Point3D(2, 3, 0));
         NodeData h6 = new Vertex(6, new Point3D(1, 2, 0));
 
+        h.addNode(h1);
+        h.addNode(h2);
+        h.addNode(h3);
+        h.addNode(h4);
+        h.addNode(h5);
+        h.addNode(h6);
 
         h.connect(h1.getKey(), h2.getKey(), 1);
         h.connect(h1.getKey(), h6.getKey(), 1);
@@ -132,8 +138,8 @@ class MainAlgoTest {
 
     @Test
     void shortestPathDist() {
-        assertEquals(4,gAlgo.shortestPathDist(0,1));
-        assertEquals(31,gAlgo.shortestPathDist(0,4));
+        assertEquals(1,gAlgo.shortestPathDist(1,2));
+//        assertEquals(2,gAlgo.shortestPathDist(1,4));
 
     }
 
@@ -145,7 +151,7 @@ class MainAlgoTest {
 
     @Test
     void center() {
-        assertEquals(2,hAlgo.center());
+        assertEquals(5,hAlgo.center());
         
     }
 

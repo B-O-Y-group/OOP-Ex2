@@ -96,29 +96,42 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
         int visits = 0;
         double[] dist = new double[this.graph.nodeSize()];
         Arrays.fill(dist, Double.POSITIVE_INFINITY);
-        PriorityQueue<EdgeData> queue = new PriorityQueue<>();
+        PriorityQueue<EdgeData> queue = new PriorityQueue<>(Comparator.comparingDouble(EdgeData::getWeight));
+
+        //FOR TEST
+        ArrayList<Integer> TEST = new ArrayList<>();
+        //FOR TEST
 
         int curr_ver = this.graph.getNode(src).getKey();
         dist[curr_ver] = 0;
         while (visits < this.graph.nodeSize()) {
             visits++;
             if (visits != 1 && !queue.isEmpty()) {
+                System.out.println(queue);
                 curr_ver = Objects.requireNonNull(queue.poll()).getDest();
             }
-            if (curr_ver == dest) {
-                break;
-            }
+//            if (curr_ver == dest) {
+//                break;
+//            }
             visited[curr_ver] = 2;
+            //FOR TEST
+            System.out.println(TEST);
+            TEST.clear();
+            //FOR TEST
             try {
                 Iterator<EdgeData> it = this.graph.edgeIter(curr_ver);
                 while (it.hasNext()) {
                     EdgeData next = it.next();
+                    //FOR TEST
+                    TEST.add(next.getDest());
+                    //FOR TEST
                     if (visited[next.getDest()] != 2) {
-                        queue.offer(next);
+
                         double temp_dist = dist[curr_ver] + next.getWeight();
                         if (temp_dist < dist[next.getDest()]) {
                             dist[next.getDest()] = temp_dist;
                             visited[next.getDest()] = 1;
+                            queue.add(next);
                         }
                     }
                 }
@@ -126,7 +139,7 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
             }
 
         }
-
+        System.out.println(visits);
         return dist[dest];
 
     }
@@ -142,7 +155,7 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
         Arrays.fill(dist, Double.POSITIVE_INFINITY);
         int[] prev = new int[this.graph.nodeSize()];
         Arrays.fill(prev, -1);
-        PriorityQueue<EdgeData> queue = new PriorityQueue<>();
+        PriorityQueue<EdgeData> queue = new PriorityQueue<>(Comparator.comparingDouble(EdgeData::getWeight));
 
         int curr_ver = this.graph.getNode(src).getKey();
         dist[curr_ver] = 0;
@@ -159,12 +172,13 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
             while (it.hasNext()) {
                 EdgeData next = it.next();
                 if (visited[next.getDest()] != 2) {
-                    queue.offer(next);
+
                     double temp_dist = dist[curr_ver] + next.getWeight();
                     if (temp_dist < dist[next.getDest()]) {
                         dist[next.getDest()] = temp_dist;
                         prev[next.getDest()] = curr_ver;
                         visited[next.getDest()] = 1;
+                        queue.add(next);
                     }
                 }
             }

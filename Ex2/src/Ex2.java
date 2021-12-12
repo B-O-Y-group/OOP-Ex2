@@ -15,7 +15,7 @@ public class Ex2 {
 
         DirectedWeightedGraph graph = new HashOfHashes();
         DirectedWeightedGraphAlgorithms g_algo = new MainAlgo(graph);
-//        g_algo.load("Ex2/data/G1.json");
+        g_algo.load("Ex2/data/G1.json");
 
 
         DirectedWeightedGraph test = new HashOfHashes();
@@ -54,7 +54,7 @@ public class Ex2 {
         System.out.println("SHORTEST DIST: " + test_algo.shortestPathDist(s.getKey(), d.getKey()));
         System.out.println("ANSWER SHORTEST: " + test_algo.shortestPath(s.getKey(), d.getKey()));
 //        System.out.println("TSP: " + g_algo.tsp(tsp_test));
-//        System.out.println("Center: " + g_algo.center());
+        System.out.println("Center: " + g_algo.center());
 
 
 

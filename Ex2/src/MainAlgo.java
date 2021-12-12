@@ -201,25 +201,45 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public NodeData center() {
+
         Iterator<NodeData> it = this.graph.nodeIter();
-        double min_path = Double.POSITIVE_INFINITY;
         NodeData center = null;
+        double max = Double.NEGATIVE_INFINITY;
+        double min = Double.POSITIVE_INFINITY;
         while (it.hasNext()) {
-            double temp = 0;
             NodeData next = it.next();
-            Iterator<NodeData> sum_it = this.graph.nodeIter();
-            while (sum_it.hasNext()) {
-                NodeData curr = sum_it.next();
-                if (next.getKey() != curr.getKey()) {
-                    temp += shortestPathDist(next.getKey(), curr.getKey());
+            Iterator<EdgeData> edge_it = this.graph.edgeIter(next.getKey());
+            while (edge_it.hasNext()) {
+                double temp = shortestPathDist(next.getKey(), edge_it.next().getDest());
+                if (temp > max) {
+                    max = temp;
                 }
             }
-            if (temp < min_path) {
-                min_path = temp;
+            if (max < min) {
+                min = max;
                 center = next;
             }
         }
         return center;
+//        Iterator<NodeData> it = this.graph.nodeIter();
+//        double min_path = Double.POSITIVE_INFINITY;
+//        NodeData center = null;
+//        while (it.hasNext()) {
+//            double temp = 0;
+//            NodeData next = it.next();
+//            Iterator<NodeData> sum_it = this.graph.nodeIter();
+//            while (sum_it.hasNext()) {
+//                NodeData curr = sum_it.next();
+//                if (next.getKey() != curr.getKey()) {
+//                    temp += shortestPathDist(next.getKey(), curr.getKey());
+//                }
+//            }
+//            if (temp < min_path) {
+//                min_path = temp;
+//                center = next;
+//            }
+//        }
+//        return center;
 
 
     }

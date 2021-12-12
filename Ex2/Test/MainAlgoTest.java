@@ -12,7 +12,9 @@ class MainAlgoTest {
 
 
     DirectedWeightedGraphAlgorithms gAlgo;
+    DirectedWeightedGraphAlgorithms hAlgo;
     DirectedWeightedGraph g;
+    DirectedWeightedGraph h;
     NodeData n0 = new Vertex(0, new Point3D(-10, 4, 0));
     NodeData n1 = new Vertex(1, new Point3D(-5, 10, 0));
     NodeData n2 = new Vertex(2, new Point3D(10, 10, 0));
@@ -68,6 +70,38 @@ class MainAlgoTest {
 
         gAlgo.init(g);
 
+
+        h = new HashOfHashes();
+        hAlgo = new MainAlgo(h);
+
+        NodeData h1 = new Vertex(1, new Point3D(2, 1, 0));
+        NodeData h2 = new Vertex(2, new Point3D(3, 1, 0));
+        NodeData h3 = new Vertex(3, new Point3D(4, 2, 0));
+        NodeData h4 = new Vertex(4, new Point3D(3, 3, 0));
+        NodeData h5 = new Vertex(5, new Point3D(2, 3, 0));
+        NodeData h6 = new Vertex(6, new Point3D(1, 2, 0));
+
+
+        h.connect(h1.getKey(), h2.getKey(), 1);
+        h.connect(h1.getKey(), h6.getKey(), 1);
+        h.connect(h1.getKey(), h5.getKey(), 1);
+        h.connect(h2.getKey(), h1.getKey(), 1);
+        h.connect(h2.getKey(), h3.getKey(), 1);
+        h.connect(h2.getKey(), h4.getKey(), 1);
+        h.connect(h2.getKey(), h5.getKey(), 1);
+        h.connect(h3.getKey(), h2.getKey(), 1);
+        h.connect(h3.getKey(), h4.getKey(), 1);
+        h.connect(h4.getKey(), h2.getKey(), 1);
+        h.connect(h4.getKey(), h3.getKey(), 1);
+        h.connect(h4.getKey(), h5.getKey(), 1);
+        h.connect(h5.getKey(), h1.getKey(), 1);
+        h.connect(h5.getKey(), h2.getKey(), 1);
+        h.connect(h5.getKey(), h6.getKey(), 1);
+        h.connect(h5.getKey(), h4.getKey(), 1);
+        h.connect(h6.getKey(), h1.getKey(), 1);
+        h.connect(h6.getKey(), h5.getKey(), 1);
+
+        hAlgo.init(h);
     }
 
     @Test
@@ -99,7 +133,7 @@ class MainAlgoTest {
     @Test
     void shortestPathDist() {
         assertEquals(4,gAlgo.shortestPathDist(0,1));
-        assertEquals(33,gAlgo.shortestPathDist(0,4));
+        assertEquals(31,gAlgo.shortestPathDist(0,4));
 
     }
 
@@ -111,11 +145,13 @@ class MainAlgoTest {
 
     @Test
     void center() {
+        assertEquals(2,hAlgo.center());
         
     }
 
     @Test
     void tsp() {
+
     }
 
     @Test

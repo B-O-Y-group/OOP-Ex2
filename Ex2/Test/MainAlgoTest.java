@@ -4,6 +4,8 @@ import api.NodeData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Iterator;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class MainAlgoTest {
@@ -21,15 +23,6 @@ class MainAlgoTest {
     //TODO for shortest
     DirectedWeightedGraphAlgorithms sAlgo;
     DirectedWeightedGraph s;
-
-
-
-
-
-
-
-
-
 
 
     @BeforeEach
@@ -73,32 +66,29 @@ class MainAlgoTest {
         g.connect(k8.getKey(), k2.getKey(), 2);
         g.connect(k0.getKey(), k7.getKey(), 8);
 
-
-
         gAlgo.init(g);
 
     }
 
     @Test
     void getGraph() {
+        DirectedWeightedGraphAlgorithms a = new MainAlgo(g);
+        assertEquals(a.getGraph(),g);
     }
 
     @Test
     void copy() {
-        System.out.println("here we are ");
         DirectedWeightedGraph copy = gAlgo.copy();
 
         System.out.println("real ---->" + g.getNode(this.g.nodeIter().next().getKey()).toString());
         System.out.println("copy --->" + copy.getNode(copy.nodeIter().next().getKey()).toString());
 
 
-
-        assertEquals(g.getNode(this.g.nodeIter().next().getKey()).toString(),
-                copy.getNode(copy.nodeIter().next().getKey()).toString());
-        // copy.removeNode(0);
-        // assertNotEquals(g.getNode(1).toString(), copy.getNode(1).toString());
+        Iterator<NodeData> nodeiter = this.g.nodeIter();
+        while (nodeiter.hasNext()){
+            NodeData node = nodeiter.next();
     }
-
+    }
     @Test
     void isConnected() {
 //        assertTrue(gAlgo.isConnected());
@@ -108,15 +98,20 @@ class MainAlgoTest {
 
     @Test
     void shortestPathDist() {
+        assertEquals(4,gAlgo.shortestPathDist(0,1));
+        assertEquals(33,gAlgo.shortestPathDist(0,4));
+
     }
 
     @Test
     void shortestPath() {
+        assertEquals("[Id: 0, Id: 7, Id: 6, Id: 5, Id: 2, Id: 3, Id: 4]",gAlgo.shortestPath(0,4).toString());
 
     }
 
     @Test
     void center() {
+        
     }
 
     @Test

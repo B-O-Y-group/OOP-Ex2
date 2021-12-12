@@ -97,7 +97,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
     }
 
 
-    // todo trow exception
+    // todo throw exception
     @Override
     public Iterator<NodeData> nodeIter() {
         return this.nodes.values().iterator();

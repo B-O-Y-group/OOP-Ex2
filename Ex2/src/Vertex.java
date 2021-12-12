@@ -1,3 +1,4 @@
+import api.EdgeData;
 import api.GeoLocation;
 import api.NodeData;
 
@@ -85,11 +86,6 @@ public class Vertex implements NodeData {
 
     @Override
     public String toString() {
-        return "Vertex{" +
-                "id=" + id +
-                ", pos=" + pos +
-                ", weight=" + weight +
-                ", tag=" + tag +
-                '}';
+        return "Id: " + id ;
     }
 }

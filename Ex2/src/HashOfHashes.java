@@ -17,6 +17,8 @@ public class HashOfHashes implements DirectedWeightedGraph {
     private int num_of_edges;
     private int MC;
 
+    private int max_node;
+
     public HashOfHashes() {
         this.nodes = new HashMap<>();
         this.graph = new HashMap<>();
@@ -90,6 +92,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
             this.num_of_edges++;
             this.MC++;
         } else {
+            System.out.println("ERROR: SRC: " + src + " DEST: " + dest);
             throw new NoSuchElementException("no such nodes");
         }
     }
@@ -123,6 +126,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
             System.err.println("No such node in the graph !");
             return null;
         }
+
         return this.edge.get(node_id).values().iterator();
     }
 

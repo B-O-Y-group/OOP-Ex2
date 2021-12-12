@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -15,9 +16,8 @@ public class window extends JFrame implements ActionListener {
 
     public DirectedWeightedGraph graph;
     private int MC;
-    private MenuItem menuItem1, menuItem2, menuItem3;
+    private MenuItem save, load, menuItem3;
     private MenuItem isConnected, shortestPathDist, shortestPath, center, tsp;
-
 
 
     public window(DirectedWeightedGraphAlgorithms G) {
@@ -31,15 +31,17 @@ public class window extends JFrame implements ActionListener {
 
         this.setTitle("EX-2 - Graph - BOY ");
 
+
+        // todo  add edge button and  add node button
+
         Dimension fullScreen = Toolkit.getDefaultToolkit().getScreenSize();
         int width = fullScreen.width / 2;
         int high = fullScreen.height / 2;
         this.setSize(width, high);
         addMenu();
 
-
-        //todo panel9
-        initPanel();
+        
+        initPanel(this.graph);
 
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // --> closing the trade
@@ -48,17 +50,23 @@ public class window extends JFrame implements ActionListener {
 
     }
 
+    //was   private void initPanel() before
+    private void initPanel(DirectedWeightedGraph graph) {
+        Panel panel = new Panel(graph);
+        this.add(panel);
+    }
+
     private void addMenu() {
 
         MenuBar menuBar = new MenuBar();
         this.setMenuBar(menuBar);
 
 
-        Menu json_file = new Menu("json file");
+        Menu file = new Menu("File");
         Menu Algorithm = new Menu("Algorithm");
         // Algorithm.addActionListener(this);
 
-        menuBar.add(json_file);
+        menuBar.add(file);
         menuBar.add(Algorithm);
 
         isConnected = new MenuItem("isConnected");
@@ -79,42 +87,34 @@ public class window extends JFrame implements ActionListener {
         Algorithm.add(tsp);
 
 
-        menuItem1 = new MenuItem("G1.json");
-        menuItem1.addActionListener(this); // --> listed to menuItem 1 , this
+        save = new MenuItem("save");
+        save.addActionListener(this); // --> listed to menuItem 1 , this
 
-        menuItem2 = new MenuItem("G2.json");
-        menuItem2.addActionListener(this);
-
-        menuItem3 = new MenuItem("G3.json");
-        menuItem3.addActionListener(this);
+        load = new MenuItem("load");
+        load.addActionListener(this);
 
 
-        json_file.add(menuItem1);
-        json_file.add(menuItem2);
-        json_file.add(menuItem3);
+        file.add(save);
+        file.add(load);
+        //   json_file.add(menuItem3);
     }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == menuItem1) {
+        if (e.getSource() == save) {
+            System.out.println("save clicked");
+            save();
+
+        } else if (e.getSource() == load) {
             //TODO open file
-            try {
-                FileReader r = new FileReader("C:\\Users\\97252\\Documents\\GitHub\\OOP-Ex2\\Ex2\\data\\G1.json");
-            } catch (FileNotFoundException fileNotFoundException) {
-                fileNotFoundException.printStackTrace();
-            }
-            System.out.println("json 1 clicked");
-        } else if (e.getSource() == menuItem2) {
-            //TODO open file
-            System.out.println("json 2 clicked");
-        } else if (e.getSource() == menuItem3) {
-            //TODO open file
-            System.out.println("json 3 clicked");
+            load();
+            System.out.println("load clicked");
+        }
 
 
-            // --------------Algorithm-------------------
-        } else if (e.getSource() == isConnected) {
+        // --------------Algorithm-------------------
+        else if (e.getSource() == isConnected) {
             isConnected();
             System.out.println("isConnected clicked");
         } else if (e.getSource() == center) {
@@ -138,6 +138,55 @@ public class window extends JFrame implements ActionListener {
 
     }
 
+    // todo not working well
+    private void load() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("load file ");
+
+        DirectedWeightedGraphAlgorithms algo1 = new MainAlgo(this.graph);
+        DirectedWeightedGraphAlgorithms algo2 = new MainAlgo(this.graph);
+
+        int returnV = fileChooser.showOpenDialog(this);
+        if (returnV == JFileChooser.APPROVE_OPTION) {
+            try {
+                File selected = fileChooser.getSelectedFile();
+                algo1.load(selected.getAbsolutePath());
+                algo1.init(this.graph);
+                algo2.init(algo1.copy());
+
+                initPanel(algo2.getGraph());
+
+            } catch (Exception exception) {
+                System.out.println(exception.getMessage());
+
+            }
+        }
+
+
+    }
+
+    private void save() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("save file ");
+
+        int userS = fileChooser.showSaveDialog(this);
+
+        DirectedWeightedGraphAlgorithms algo1 = new MainAlgo(this.graph);
+        DirectedWeightedGraphAlgorithms algo2 = new MainAlgo(this.graph);
+        ;
+        algo1.init(graph);
+        algo2.init(algo1.copy());
+
+        if (userS == JFileChooser.APPROVE_OPTION) {
+            File Save = fileChooser.getSelectedFile();
+            String FileName = Save.getAbsolutePath();
+            algo2.save(FileName);
+        }
+
+    }
+
+
+    //todo need to fix
     private void TSP() {
         DirectedWeightedGraphAlgorithms graphAl = new MainAlgo(this.graph);
         DirectedWeightedGraphAlgorithms graphAl2 = new MainAlgo(this.graph);
@@ -145,7 +194,7 @@ public class window extends JFrame implements ActionListener {
         graphAl2.init(graphAl.copy());
 
         List<NodeData> list = new ArrayList<>();
-        List<NodeData> listN ;
+        List<NodeData> listN;
 
         String max = JOptionPane.showInputDialog(this,
                 "Please enter a number of cities you want to visit  <= " + graphAl2.getGraph().nodeSize());
@@ -165,12 +214,12 @@ public class window extends JFrame implements ActionListener {
             listN = graphAl2.tsp(list);
 
             for (int i = 0; i < listN.size(); i++) {
-                ans += listN.get(i).getKey();
+                ans += "" + listN.get(i).getKey();
                 System.out.println("--------------------------------------------------------");
                 System.out.println(ans);
                 System.out.println("--------------------------------------------------------");
 
-                JOptionPane.showMessageDialog(null, "Tsp :  " + ans,  "Tsp",
+                JOptionPane.showMessageDialog(null, "Tsp :  " + ans, "Tsp",
                         JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (NumberFormatException exception) {
@@ -179,7 +228,7 @@ public class window extends JFrame implements ActionListener {
                         "Tsp",
                         JOptionPane.WARNING_MESSAGE);
             }
-        }catch (Exception exception){
+        } catch (Exception exception) {
             JOptionPane.showMessageDialog(null, "ex  ",
                     "Tsp",
                     JOptionPane.WARNING_MESSAGE);
@@ -194,12 +243,12 @@ public class window extends JFrame implements ActionListener {
         graphAl2.init(graphAl.copy());
 
 
-        String srcN = JOptionPane.showInputDialog(this, "Insert source node","ShortestPathDist", -1 );
+        String srcN = JOptionPane.showInputDialog(this, "Insert source node", "ShortestPathDist", -1);
         String destN = JOptionPane.showInputDialog(this, "Insert destination node", "ShortestPathDist", -1);
 
         int src = Integer.parseInt(srcN);
         int dest = Integer.parseInt(destN);
-        double distPath = graphAl2.shortestPathDist((int) src, (int) dest);
+        double distPath = graphAl2.shortestPathDist(src, dest);
 
         if (distPath == Double.POSITIVE_INFINITY) {
             JOptionPane.showMessageDialog(null, "There isn't a shortest path distance", "Shortest Path Dist",
@@ -230,9 +279,9 @@ public class window extends JFrame implements ActionListener {
             list = graphAl2.shortestPath(src, dest);
             String ans = "";
             if (list != null) {
-                ans += list.get(0) + "\n";
+                ans += list.get(0).getKey();
                 for (int i = 1; i < list.size(); i++) {
-                    ans += " --> " +list.get(i) + "\n";
+                    ans += " --> " + list.get(i).getKey();
 
                 }
             } else {
@@ -276,11 +325,6 @@ public class window extends JFrame implements ActionListener {
         }
 
 
-    }
-
-    private void initPanel() {
-        Panel panel = new Panel(this.graph);
-        this.add(panel);
     }
 
 

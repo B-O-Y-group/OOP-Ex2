@@ -17,6 +17,8 @@ public class HashOfHashes implements DirectedWeightedGraph {
     private int num_of_edges;
     private int MC;
 
+    private int max_node;
+
     public HashOfHashes() {
         this.nodes = new HashMap<>();
         this.graph = new HashMap<>();

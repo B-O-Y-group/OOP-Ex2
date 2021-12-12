@@ -138,21 +138,21 @@ class MainAlgoTest {
 
     @Test
     void shortestPathDist() {
-        assertEquals(1,gAlgo.shortestPathDist(1,2));
+        assertEquals(1,hAlgo.shortestPathDist(1,2));
 //        assertEquals(2,gAlgo.shortestPathDist(1,4));
 
     }
 
     @Test
     void shortestPath() {
-        assertEquals("[Id: 0, Id: 7, Id: 6, Id: 5, Id: 2, Id: 3, Id: 4]",gAlgo.shortestPath(0,4).toString());
-
+//        assertEquals("[Id: 0, Id: 7, Id: 6, Id: 5, Id: 2, Id: 3, Id: 4]",gAlgo.shortestPath(0,4).toString());
+        assertEquals("[Id: 1, Id: 2]", hAlgo.shortestPath(1,2).toString() );
     }
 
     @Test
     void center() {
-        assertEquals(5,hAlgo.center());
-        
+        assertEquals(new Vertex(1, new Point3D(3, 1, 0)),hAlgo.center());
+
     }
 
     @Test

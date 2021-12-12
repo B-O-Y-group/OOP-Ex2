@@ -185,12 +185,18 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
     @Override
     public NodeData center() {
         Iterator<NodeData> it = this.graph.nodeIter();
+        Iterator<NodeData> sum_it = this.graph.nodeIter();
+        double[] arr = new double[this.graph.nodeSize()];
+
+
+
+
+        
         double min_path = Double.POSITIVE_INFINITY;
-        NodeData center = null;
         while (it.hasNext()) {
             double temp = 0;
             NodeData next = it.next();
-            Iterator<NodeData> sum_it = this.graph.nodeIter();
+
             while (sum_it.hasNext()) {
                 NodeData curr = sum_it.next();
                 if (next.getKey() != curr.getKey()) {
@@ -315,7 +321,7 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
                 String[] g = NodeObjects.get("pos").getAsString().split(",");
                 GeoLocation geoLocation = new Point3D(Double.parseDouble(g[0]), Double.parseDouble(g[1]), Double.parseDouble(g[2]));
                 NodeData n = new Vertex(id, geoLocation);
-                System.out.println(n);
+
                 this.graph.addNode(n);
             }
             JsonArray jsonArrayOfEdge = fileObject.get("Edges").getAsJsonArray();
@@ -325,7 +331,7 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
                 int src = EdgesObjects.get("src").getAsInt();
                 double weight = EdgesObjects.get("w").getAsDouble();
                 int dest = EdgesObjects.get("dest").getAsInt();
-                System.out.println(new Edge(src, dest, weight));
+
                 this.graph.connect(src, dest, weight);
             }
 

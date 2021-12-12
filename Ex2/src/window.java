@@ -147,7 +147,7 @@ public class window extends JFrame implements ActionListener {
 
         // --------------Add-------------------
         else if (e.getSource() == addNode){
-            addNode();
+            RemoveNode();
             System.out.println("add node clicked");
         }
         else if (e.getSource() == addEdge){
@@ -160,12 +160,8 @@ public class window extends JFrame implements ActionListener {
     private void addEdge() {
     }
 
-    private void addNode() {
-
-        NodeData newN = null;
-        JOptionPane.showMessageDialog(null, "please click  the place u want to add the new Node", "ADD NODE",
-                JOptionPane.INFORMATION_MESSAGE);
-
+    private void RemoveNode() {
+        this.panel.RemoveNode(this);
     }
 
     // todo not working well

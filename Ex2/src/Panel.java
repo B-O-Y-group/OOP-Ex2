@@ -11,14 +11,16 @@ import java.util.Iterator;
 
 public class Panel extends JPanel implements MouseListener {
 
-    DirectedWeightedGraphAlgorithms algo1, algo2;
+    public DirectedWeightedGraphAlgorithms algo1, algo2;
+    public HashOfHashes graph;
     public static int width;
     public static int high;
     public static double minX;
     public static double minY;
     public static double maxX;
     public static double maxY;
-    public  NodeData centerNode;
+    public NodeData centerNode;
+    public Point3D newP;
 
     public Panel(DirectedWeightedGraph g) {
         Dimension fullScreen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -28,6 +30,10 @@ public class Panel extends JPanel implements MouseListener {
         algo2 = new MainAlgo(g);
         algo1.init(g);
         algo2.init(algo1.copy());
+        this.newP = new Point3D(0, 0, 0);
+        this.graph = (HashOfHashes) g;
+
+        // this.addMouseListener(this);
 
         repaint();
         Color c = new Color(0, 204, 204);
@@ -126,7 +132,7 @@ public class Panel extends JPanel implements MouseListener {
                 g.setColor(Color.YELLOW);
                 g.setFont(new Font("", Font.BOLD, 15));
                 g.drawString(center + "", (int) x - 10, (int) y - 10);
-                this.centerNode =  next;
+                this.centerNode = next;
             }
 
         }
@@ -183,25 +189,83 @@ public class Panel extends JPanel implements MouseListener {
         }
     }
 
-    //-------------------------------------Draw Arrow------------------------------------------------------
-    // from https://itqna.net/questions/3389/how-draw-arrow-using-java2d
-    private static final Polygon ARROW_HEAD = new Polygon();
-
-    static {
-        ARROW_HEAD.addPoint(0, 0);
-        ARROW_HEAD.addPoint(-5, -10);
-        ARROW_HEAD.addPoint(5, -10);
+    public Point3D getNewP() {
+        return this.newP;
     }
+
+
+    public void RemoveNode(JFrame frame) {
+
+        DirectedWeightedGraph newG = algo2.getGraph();
+
+
+        System.out.println("laaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + newG.getEdge(0,1));
+
+
+
+
+        DirectedWeightedGraphAlgorithms ALGO = new MainAlgo(newG);
+        ALGO.init(newG);
+
+        String S = JOptionPane.showInputDialog(frame, "PLEASE GIVE ");
+        int key = Integer.parseInt(S);
+
+        try {
+            newG.removeNode(key);
+            ALGO.init(newG);
+
+            repaint();
+
+
+        } catch (Exception e) {
+          //  System.out.println("HERE ---> " +e.getCause());
+            e.printStackTrace();
+            System.out.println("poooooooooooo" + newG.getNode(0));
+
+        }
+
+    }
+
+
+    //not good
+    public void addNode() {
+
+        // this.addMouseListener(this);
+
+        DirectedWeightedGraph newG = this.algo2.getGraph();
+        Point3D p = this.getNewP();
+        try {
+            int key = this.algo2.getGraph().nodeSize() + 1;
+            newG.addNode(new Vertex(key, p));
+            this.algo2.init(newG);
+            repaint();
+
+
+        } catch (Exception e) {
+            e.getMessage();
+        }
+
+    }
+//-----------------------------mouseClicked---------------------------------------
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        
+
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
+        this.newP = new Point3D(e.getX(), e.getY(), 0);
+        ;
+//            NodeData n = new Vertex(this.algo2.getGraph().nodeSize() + 1, newP);
+//            DirectedWeightedGraph newG = this.algo2.getGraph();
+//            newG.addNode(n);;
+        //p.repaint();
+        //set size;
+        //repaint();
 
     }
+
 
     @Override
     public void mouseReleased(MouseEvent e) {
@@ -217,6 +281,17 @@ public class Panel extends JPanel implements MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
+
+    //-------------------------------------Draw Arrow------------------------------------------------------
+    // from https://itqna.net/questions/3389/how-draw-arrow-using-java2d
+    private static final Polygon ARROW_HEAD = new Polygon();
+
+    static {
+        ARROW_HEAD.addPoint(0, 0);
+        ARROW_HEAD.addPoint(-5, -10);
+        ARROW_HEAD.addPoint(5, -10);
+    }
+
 
     public static class LineArrow {
 

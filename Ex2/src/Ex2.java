@@ -15,8 +15,7 @@ public class Ex2 {
     public static void main(String[] args) {
 
 
-
-        runGUI("Ex2/data/G3.json");
+        //runGUI("Ex2/data/G3.json");
     }
 
     /**
@@ -58,14 +57,13 @@ public class Ex2 {
         // ****** Add your code here ******
 
         System.out.println("========================================================================");
-        DirectedWeightedGraph graph = new HashOfHashes();
+        HashOfHashes graph = new HashOfHashes();
 
 
-
-        NodeData a = new Vertex(0, new Point3D(80,341.19589389346247, 0));
-        NodeData b = new Vertex(1, new Point3D(10,220.10318254621849, 0));
-        NodeData c = new Vertex(2, new Point3D(270,202.1025646605042, 0));
-        NodeData d = new Vertex(3, new Point3D(350,102.10107446554622, 0));
+        NodeData a = new Vertex(0, new Point3D(80, 341.19589389346247, 0));
+        NodeData b = new Vertex(1, new Point3D(10, 220.10318254621849, 0));
+        NodeData c = new Vertex(2, new Point3D(270, 202.1025646605042, 0));
+        NodeData d = new Vertex(3, new Point3D(350, 102.10107446554622, 0));
 
         graph.addNode(a);
         graph.addNode(b);
@@ -81,11 +79,15 @@ public class Ex2 {
 
 
         graph.connect(b.getKey(), c.getKey(), 4);
+        graph.removeNode(a.getKey());
 
         DirectedWeightedGraphAlgorithms al = new MainAlgo(graph);
 
 
-        window win = new window(alg);
+        al.init(graph);
+
+
+        window win = new window(al);
 
 
         //

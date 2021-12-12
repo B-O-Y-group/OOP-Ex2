@@ -33,7 +33,7 @@ public class Edge implements EdgeData, Comparable<EdgeData> {
 
     @Override
     public String getInfo() {
-        return null;
+        return "src: " + this.src + " dest: " + this.dest + " weight: " + this.weight;
     }
 
     @Override

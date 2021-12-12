@@ -16,7 +16,7 @@ public class Ex2 {
 
 
 
-        runGUI("Ex2/data/G2.json");
+        runGUI("Ex2/data/G3.json");
     }
 
     /**

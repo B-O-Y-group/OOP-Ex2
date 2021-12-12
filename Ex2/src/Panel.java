@@ -1,15 +1,13 @@
 import api.*;
+import jdk.swing.interop.SwingInterOpUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.text.Format;
+import java.util.IllegalFormatCodePointException;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 public class Panel extends JPanel implements MouseListener {
 
@@ -20,23 +18,21 @@ public class Panel extends JPanel implements MouseListener {
     public static double minY;
     public static double maxX;
     public static double maxY;
+    public  NodeData centerNode;
 
     public Panel(DirectedWeightedGraph g) {
         Dimension fullScreen = Toolkit.getDefaultToolkit().getScreenSize();
-        width = fullScreen.width ;
-        high = fullScreen.height ;
-        //   System.out.println("w "+ width + " h " + high );
+        width = fullScreen.width;
+        high = fullScreen.height;
         algo1 = new MainAlgo(g);
         algo2 = new MainAlgo(g);
         algo1.init(g);
         algo2.init(algo1.copy());
 
-        //  this.setSize(width,high);
-
         repaint();
+        Color c = new Color(0, 204, 204);
+        this.setBackground(c);
 
-        this.setBackground(Color.darkGray);
-        this.addMouseListener(this);
         minX = Double.MAX_VALUE;
         maxX = Double.MIN_VALUE;
         minY = Double.MAX_VALUE;
@@ -52,11 +48,6 @@ public class Panel extends JPanel implements MouseListener {
         }
 
 
-        System.out.println("minX -- " + minX
-                + "maxX --" + maxX +
-                "minY --" + minY +
-                "maxY --" + maxY
-                + "\n==========================================================");
     }
 
 
@@ -69,63 +60,83 @@ public class Panel extends JPanel implements MouseListener {
     }
 
     private void Draw(Graphics g) {
-
-        //  nodeDraw(g);
-        //   edgeDraw(g);
-        //-------for Graphics2D g----------------
-
-
+        //-------for Graphics2D ----------------
         Graphics2D g1 = (Graphics2D) g;
-        nodeDraw(g1);
         edgeDraw(g1);
+        nodeDraw(g1);
         //---------------------------------------
     }
 
-    public static double saCleX(double x) {
-
-//        double ans =  (width -100) * ((x - minX) / (maxX - minX) );
-//        ans = ans + 50;
+    public static double scaleX(double x) {
         return ((x - minX) / (maxX - minX)) * ((width - 200) - 200) + 200;
     }
 
-    public static double saCleY(double y) {
-//        double ans = (high-100 )* ((y - minY) / (maxY - minY));
-//        ans = ans+50;
-//        return ans;
+    public static double scaleY(double y) {
         return ((y - minY) / (maxY - minY)) * ((high - 200) - 200) + 200;
     }
 
 
     private void nodeDraw(Graphics2D g) {
-
-
         Iterator<NodeData> nodeIt = this.algo2.getGraph().nodeIter();
         while (nodeIt.hasNext()) {
             NodeData next = nodeIt.next();
 
-            g.setColor(Color.red);
+            g.setColor(Color.black);
             double x = next.getLocation().x();
             double y = next.getLocation().y();
-            x = saCleX(x);
-            y = saCleY(y);
+            x = scaleX(x);
+            y = scaleY(y);
 
-            // System.out.println("key --> " + next.getKey() + " (" + x + "," + y + ")");
 
-            g.fillOval((int) x, (int) y, 12, 12);
+            g.fillOval((int) x - 7, (int) y - 7, 12, 12);
 
             ///------draw key----------------
             String key = "";
             key += "key " + next.getKey();
-            g.setColor(Color.black);
-            g.setFont(new Font("",Font.BOLD,15));
-            g.drawString(key + "", (int) x, (int) y);
+            Color c = new Color(28, 89, 41);
+            g.setColor(c);
+            g.setFont(new Font("", Font.BOLD, 15));
+            g.drawString(key + "", (int) x - 10, (int) y - 10);
 
 
             // todo start , center and end --> point
 
+
         }
 
+
     }
+
+    public void center(Graphics2D g) {
+        Iterator<NodeData> nodeIt = this.algo2.getGraph().nodeIter();
+        while (nodeIt.hasNext()) {
+            NodeData next = nodeIt.next();
+            double x = next.getLocation().x();
+            double y = next.getLocation().y();
+            x = scaleX(x);
+            y = scaleY(y);
+
+            if (next == algo2.center()) {
+                System.out.println("------------------------we are here " +
+                        "--------------------------------------------------------------");
+                g.setColor(Color.red);
+                g.fillOval((int) x - 7, (int) y - 7, 12, 12);
+                String center = "";
+                center += " Center node ";
+                g.setColor(Color.YELLOW);
+                g.setFont(new Font("", Font.BOLD, 15));
+                g.drawString(center + "", (int) x - 10, (int) y - 10);
+                this.centerNode =  next;
+            }
+
+        }
+        this.centerNode = null;
+    }
+
+    public NodeData getCenter() {
+        return this.centerNode;
+    }
+
 
     private void edgeDraw(Graphics2D g) {
 
@@ -136,63 +147,55 @@ public class Panel extends JPanel implements MouseListener {
 
 
             double srcX = this.algo2.getGraph().getNode(next.getSrc()).getLocation().x();
-            srcX = saCleX(srcX);
+            srcX = scaleX(srcX);
             double srcY = this.algo2.getGraph().getNode(next.getSrc()).getLocation().y();
-            srcY = saCleY(srcY);
+            srcY = scaleY(srcY);
             double destX = this.algo2.getGraph().getNode(next.getDest()).getLocation().x();
-            destX = saCleX(destX);
+            destX = scaleX(destX);
             double destY = this.algo2.getGraph().getNode(next.getDest()).getLocation().y();
-            destY = saCleY(destY);
-
-
-
-
-
-            //-------for Graphics2D g----------------
-             g.setStroke(new BasicStroke(3f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
-             g.draw(new Line2D.Double(srcX, srcY, destX, destY));
-
-            //----------------------for Graphics-------------------------------------------
-            //  g.drawLine((int)( srcX ) , (int) (srcY), (int) (destX ), (int) (destY));
+            destY = scaleY(destY);
 
             //--------------------------Draw arrow----------------------------------
-            LineArrow arrow = new LineArrow((int) (srcX), (int) (srcY), (int) (destX), (int) (destY), Color.blue, 1);
-            arrow.draw(g);
 
+            Color color = new Color(255, 255, 240);
+
+            g.setStroke(new BasicStroke(3f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+
+            LineArrow arrow = new LineArrow((int) (srcX), (int) (srcY), (int) (destX) - 5, (int) (destY) - 3, color,
+                    0);
+
+            g.setStroke(new BasicStroke(3f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+            arrow.draw(g);
 
 
             //------- draw weight---------------
             int midX = (int) (srcX + destX) / 2;
             int midY = (int) (srcY + destY) / 2;
-            g.setColor(Color.red);
-            String weight = "";
-            weight += (int)next.getWeight();
             g.setColor(Color.black);
-            //draw  weight
-             g.setColor(Color.black);
-              g.drawString(weight + "", midX, midY);
+            String weight = "";
+            weight += (int) next.getWeight();
+            g.setColor(Color.black);
+            Color c = new Color(128, 128, 128);
+            g.setColor(c);
+            g.setFont(new Font("", Font.BOLD, 15));
+            g.drawString(weight + "", midX, midY);
 
         }
     }
 
+    //-------------------------------------Draw Arrow------------------------------------------------------
+    // from https://itqna.net/questions/3389/how-draw-arrow-using-java2d
+    private static final Polygon ARROW_HEAD = new Polygon();
 
-    ///_______________Mouse Action___________________________________________________________
+    static {
+        ARROW_HEAD.addPoint(0, 0);
+        ARROW_HEAD.addPoint(-5, -10);
+        ARROW_HEAD.addPoint(5, -10);
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
-//        Point2D p = new Point(e.getX(), e.getY());
-//
-//        point.add(p);
-        // repaint();
-//        x = e.getX();
-//        y = e.getY();
-//
-//        System.out.println("(" + x + "," + y + ")");
-
-
-        System.out.println("mouse Clicked");
-
+        
     }
 
     @Override
@@ -213,17 +216,6 @@ public class Panel extends JPanel implements MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
-    }
-
-
-    //---------------------------------------------------------------------------------------------------
-    // from https://itqna.net/questions/3389/how-draw-arrow-using-java2d
-    private static final Polygon ARROW_HEAD = new Polygon();
-
-    static {
-        ARROW_HEAD.addPoint(0, 0);
-        ARROW_HEAD.addPoint(-5, -10);
-        ARROW_HEAD.addPoint(5, -10);
     }
 
     public static class LineArrow {
@@ -248,30 +240,29 @@ public class Panel extends JPanel implements MouseListener {
         public void draw(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
 
-            // Calcula o ângulo da seta.
+
             double angle = Math.atan2(endY - y, endX - x);
 
             g2.setColor(color);
             g2.setStroke(new BasicStroke(thickness));
 
-            // Desenha a linha. Corta 10 pixels na ponta para a ponta não ficar grossa.
+
             g2.drawLine(x, y, (int) (endX - 10 * Math.cos(angle)), (int) (endY - 10 * Math.sin(angle)));
 
-            // Obtém o AffineTransform original.
+
             AffineTransform tx1 = g2.getTransform();
 
-            // Cria uma cópia do AffineTransform.
+
             AffineTransform tx2 = (AffineTransform) tx1.clone();
 
-            // Translada e rotaciona o novo AffineTransform.
+
             tx2.translate(endX, endY);
             tx2.rotate(angle - Math.PI / 2);
 
-            // Desenha a ponta com o AffineTransform transladado e rotacionado.
             g2.setTransform(tx2);
             g2.fill(ARROW_HEAD);
 
-            // Restaura o AffineTransform original.
+
             g2.setTransform(tx1);
         }
     }

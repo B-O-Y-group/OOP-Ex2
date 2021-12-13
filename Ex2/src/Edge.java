@@ -53,11 +53,7 @@ public class Edge implements EdgeData {
 
     @Override
     public String toString() {
-        return "Edge{" +
-                "src=" + src +
-                ", dest=" + dest +
-                ", weight=" + weight +
-                '}';
+        return "src: " + this.src + ", dest: " + this.dest;
     }
 
 //    @Override

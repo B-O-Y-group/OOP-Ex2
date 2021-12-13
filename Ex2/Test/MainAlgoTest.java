@@ -131,9 +131,12 @@ class MainAlgoTest {
     }
     @Test
     void isConnected() {
-//        assertTrue(gAlgo.isConnected());
-//        g.removeEdge(2,3);
-//        assertFalse(gAlgo.isConnected());
+        assertTrue(hAlgo.isConnected());
+        g.removeEdge(1,6);
+        g.removeEdge(6,1);
+        g.removeEdge(6,5);
+        g.removeEdge(5,6);
+        assertFalse(hAlgo.isConnected());
     }
 
     @Test

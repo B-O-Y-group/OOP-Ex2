@@ -42,11 +42,11 @@ public class HashOfHashes implements DirectedWeightedGraph {
 
     @Override
     public EdgeData getEdge(int src, int dest) {
-        if (this.graph.get(src).get(dest).get(0) == null) {
-            throw new NoSuchElementException("No such edge in the graph");
-        } else {
-            return this.graph.get(src).get(dest).get(0);
-        }
+            if (this.graph.get(src).get(dest).get(0) == null) {
+                throw new NoSuchElementException("No such edge in the graph");
+            } else {
+                return this.graph.get(src).get(dest).get(0);
+            }
     }
 
     @Override
@@ -59,6 +59,9 @@ public class HashOfHashes implements DirectedWeightedGraph {
 
     @Override
     public void connect(int src, int dest, double w) {
+        if (w< 0){
+            throw new NoSuchElementException("no such nodes");
+        }
         EdgeData edge = new Edge(src, dest, w);
         if (this.graph.containsKey(src) && this.graph.containsKey(dest)) {
             if (this.graph.get(src).containsKey(dest)) {

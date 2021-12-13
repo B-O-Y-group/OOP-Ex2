@@ -165,9 +165,14 @@ class MainAlgoTest {
 
     @Test
     void save() {
+        hAlgo.save("src/Test/hAlgo.json");
+        gAlgo.load("src/Test/hAlgo.json");
+        assertEquals(gAlgo.getGraph().nodeSize(),hAlgo.getGraph().nodeSize());
     }
 
     @Test
     void load() {
+        hAlgo.load("Ex2/data/G1.json");
+        assertEquals(17, hAlgo.getGraph().nodeSize());
     }
 }

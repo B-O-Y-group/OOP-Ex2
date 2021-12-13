@@ -42,11 +42,11 @@ public class HashOfHashes implements DirectedWeightedGraph {
 
     @Override
     public EdgeData getEdge(int src, int dest) {
-            if (this.graph.get(src).get(dest).get(0) == null) {
-                throw new NoSuchElementException("No such edge in the graph");
-            } else {
-                return this.graph.get(src).get(dest).get(0);
-            }
+        if (this.graph.get(src).get(dest).get(0) == null) {
+            throw new NoSuchElementException("No such edge in the graph");
+        } else {
+            return this.graph.get(src).get(dest).get(0);
+        }
     }
 
     @Override
@@ -59,7 +59,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
 
     @Override
     public void connect(int src, int dest, double w) {
-        if (w< 0){
+        if (w < 0) {
             throw new NoSuchElementException("no such nodes");
         }
         EdgeData edge = new Edge(src, dest, w);
@@ -144,32 +144,28 @@ public class HashOfHashes implements DirectedWeightedGraph {
 
 
                     if (this.graph.get(key).get(i).get(1) != null) {
+                        removeEdge(this.graph.get(key).get(i).get(1).getSrc(), this.graph.get(key).get(i).get(1).getDest());
+                        this.graph.remove(i);
+
                     }
-                    System.out.println("herre e e");
+                    if (this.graph.get(key).get(i).get(0) != null) {
+                        System.out.println("------------------------>" + i);
+                        removeEdge(this.graph.get(key).get(i).get(0).getSrc(), this.graph.get(key).get(i).get(0).getDest());
 
-                    removeEdge(this.graph.get(key).get(i).get(1).getSrc(), this.graph.get(key).get(i).get(1).getDest());
-                    this.graph.remove(i);
-
+                    }
                 }
-                if (this.graph.get(key).get(i).get(0) != null) {
-                    System.out.println("------------------------>" + i);
-                    removeEdge(this.graph.get(key).get(i).get(0).getSrc(), this.graph.get(key).get(i).get(0).getDest());
+                //System.out.println("------------------------>" + this.graph.get(key));
+                NodeData ans = this.nodes.get(key);
+                this.graph.remove(key);
 
-                }
+                this.MC++;
+                this.nodes.remove(key);
+                return ans;
             }
-            //System.out.println("------------------------>" + this.graph.get(key));
-            NodeData ans = this.nodes.get(key);
-            this.graph.remove(key);
-
-            this.MC++;
-            this.nodes.remove(key);
-            return ans;
-        } else {
-            throw new NoSuchElementException("no key in the graph ");
         }
-
-
+        throw new NoSuchElementException("no key in the graph ");
     }
+
 
     // TODO
     @Override

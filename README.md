@@ -1,24 +1,42 @@
 # OOP-Ex2
 
-our plan :
+This project represents a number of algorithms that can be done on a directed graph
 
-1. graph data structure : 
-    oreginize by key and value 
-    key --> represent by node id *need to remmber the pos data 
-    value --> represent the nieghborhood of the node id , hash map of two hash map on each key [ in(src , dest ,wight) , out(src,dest,wight)]           (barak is the vizual architect )
+
+1. graph data structure :
+    hash map of two hash maps:
+    the first key of hashmap --> represent the id of each node by his key,
+    the value --> represent another hashmap of the key --> represent nodes' neighbors
+    the value of them --> represent array of edges by src and dest.
+
+2. A brief overview of the algorithms that can be done on the directed graph  :
+   - isConnected:
+     This algorithm checks whether each vertex is connected in a graph
+     with one or more edges to the other vertices in the graph
+     (work with BFS algorithm).
+
+     
+  - shortestPathDist:
+    This algorithm checks the shortest distance between two vertices in a graph
+    and returns the total weight between those vertices.
+  
+
+  - shortestPath:
+    This algorithm checks the shortest distance between two vertices in a graph and
+    returns the way the vertices pass.
+
     
-    methods of the data structure :
-    1. construrtor  - building hash map 
-    2. addNode(NodeData) - adding to the hash by id  - from DirectedWeightedGraph 
-    3. addEdge(EdgeData) - adding the edge to the Nodes in the structure ( adding to two key's in the map)  
-    4. Nodedata removeNode(key) - removing the Node from hash map 
-    5. EdgeData removeEdge(int src, int dest) 
-    6.   
+  - center:
+
+
+  - tsp:
+    
+    
+3. How to use gui: 
+
       
  
-2. Node data
-3. Edge data 
 
-...finish tomowrow ......................................................
+
 
 

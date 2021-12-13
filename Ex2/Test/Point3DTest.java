@@ -19,5 +19,3 @@ class Point3DTest {
         assertEquals(a.toString(), ans);
     }
 }
-
-

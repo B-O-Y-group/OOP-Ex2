@@ -1,11 +1,8 @@
 import api.GeoLocation;
-import api.NodeData;
-import jdk.swing.interop.SwingInterOpUtils;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class VertexTest {
 
@@ -15,7 +12,6 @@ class VertexTest {
     Point3D one = new Point3D(1, 1, 0);
     Point3D two = new Point3D(2, 2, 0);
     Vertex a, b, c;
-
 
 
     @BeforeEach
@@ -29,8 +25,6 @@ class VertexTest {
 
         v = new Vertex[]{a, b, c};
     }
-
-
 
 
     @Test
@@ -49,6 +43,7 @@ class VertexTest {
 
     }
 
+
     @Test
     void setLocation() {
         GeoLocation test = new Point3D(3, 3, 0);
@@ -66,8 +61,6 @@ class VertexTest {
         for (int i = 0; i < v.length; i++) {
             assertEquals(v[i].getTag(), 0);
         }
-
-
     }
 
 
@@ -78,12 +71,14 @@ class VertexTest {
         assertEquals(7,c.getWeight());
     }
 
+
     @Test
     void setWeight() {
         Vertex test = new Vertex(5,new Point3D(1,2,3));
         test.setWeight(100);
         assertEquals(100,test.getWeight());
     }
+
 
     @Test
     void setTag() {

@@ -371,16 +371,23 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public boolean save(String file) {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().create();
         try {
-            gson.toJson(this.graph, new FileWriter(file));
-        } catch (IOException e) {
-            e.printStackTrace();
+            FileOutputStream fileElement = new FileOutputStream(file);
+            ObjectOutputStream output = new ObjectOutputStream(fileElement);
+
+            output.writeObject(this.graph);
+            output.close();
+            fileElement.close();
+
+            System.out.println("File has been created");
+        } catch (IOException ioException) {
+            System.out.println("Error");
+            ioException.printStackTrace();
             return false;
         }
         return true;
     }
-
     @Override
     public boolean load(String file) {
         File input = new File(file);

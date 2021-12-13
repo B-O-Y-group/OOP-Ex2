@@ -7,8 +7,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +14,9 @@ public class window extends JFrame implements ActionListener {
 
     public DirectedWeightedGraph graph;
     private int MC;
-    private MenuItem save, load, menuItem3;
-    private MenuItem isConnected, shortestPathDist, shortestPath, center, tsp;
+    private MenuItem save, load, addNode , addEdge;
+    private MenuItem isConnected, shortestPathDist, shortestPath, Center, tsp;
+    public  Panel panel;
 
 
     public window(DirectedWeightedGraphAlgorithms G) {
@@ -52,7 +51,7 @@ public class window extends JFrame implements ActionListener {
 
     //was   private void initPanel() before
     private void initPanel(DirectedWeightedGraph graph) {
-        Panel panel = new Panel(graph);
+        this.panel = new Panel(graph);
         this.add(panel);
     }
 
@@ -64,15 +63,25 @@ public class window extends JFrame implements ActionListener {
 
         Menu file = new Menu("File");
         Menu Algorithm = new Menu("Algorithm");
+        Menu addToGraph = new Menu("Add");
         // Algorithm.addActionListener(this);
 
         menuBar.add(file);
         menuBar.add(Algorithm);
+        menuBar.add(addToGraph);
+
+        addEdge = new MenuItem("Add Edge");
+        addEdge.addActionListener(this);
+        addNode = new MenuItem("Add Node");
+        addNode.addActionListener(this);
+        addToGraph.add(addNode);
+        addToGraph.add(addEdge);
+
 
         isConnected = new MenuItem("isConnected");
         isConnected.addActionListener(this);
-        center = new MenuItem("center");
-        center.addActionListener(this);
+        Center = new MenuItem("Center");
+        Center.addActionListener(this);
         shortestPath = new MenuItem("shortestPath");
         shortestPath.addActionListener(this);
         shortestPathDist = new MenuItem("shortestPathDist");
@@ -81,14 +90,14 @@ public class window extends JFrame implements ActionListener {
         tsp.addActionListener(this);
 
         Algorithm.add(isConnected);
-        Algorithm.add(center);
+        Algorithm.add(Center);
         Algorithm.add(shortestPath);
         Algorithm.add(shortestPathDist);
         Algorithm.add(tsp);
 
 
         save = new MenuItem("save");
-        save.addActionListener(this); // --> listed to menuItem 1 , this
+        save.addActionListener(this);
 
         load = new MenuItem("load");
         load.addActionListener(this);
@@ -96,12 +105,14 @@ public class window extends JFrame implements ActionListener {
 
         file.add(save);
         file.add(load);
-        //   json_file.add(menuItem3);
+        //   json_file.addToGraph(menuItem3);
     }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        // --------------File-------------------
         if (e.getSource() == save) {
             System.out.println("save clicked");
             save();
@@ -112,22 +123,21 @@ public class window extends JFrame implements ActionListener {
             System.out.println("load clicked");
         }
 
-
         // --------------Algorithm-------------------
         else if (e.getSource() == isConnected) {
             isConnected();
             System.out.println("isConnected clicked");
-        } else if (e.getSource() == center) {
+        } else if (e.getSource() == Center) {
             //todo draw
             FindCenter();
-            System.out.println("center clicked");
+            System.out.println("Center clicked");
         } else if (e.getSource() == shortestPath) {
             ShortestPath();
-            //todo maybe draw
+
             System.out.println("shortestPath clicked");
         } else if (e.getSource() == shortestPathDist) {
             shortestPathDist();
-            //todo maybe draw
+
             System.out.println("shortestPathDist clicked");
         } else if (e.getSource() == tsp) {
             TSP();
@@ -135,7 +145,23 @@ public class window extends JFrame implements ActionListener {
             System.out.println("tsp clicked ");
         }
 
+        // --------------Add-------------------
+        else if (e.getSource() == addNode){
+            RemoveNode();
+            System.out.println("add node clicked");
+        }
+        else if (e.getSource() == addEdge){
+            addEdge();
+            System.out.println("add edge clicked");
+        }
 
+    }
+
+    private void addEdge() {
+    }
+
+    private void RemoveNode() {
+        this.panel.RemoveNode(this);
     }
 
     // todo not working well
@@ -306,6 +332,19 @@ public class window extends JFrame implements ActionListener {
         graphAl.init(this.graph);
         graphAl2.init(graphAl.copy());
         //todo in  PANEL
+        this.panel = new Panel(graphAl2.getGraph());
+       NodeData ans =  this.panel.getCenter();
+       if (ans != null){
+            JOptionPane.showMessageDialog(null,"The center is : " + ans.getKey() ,"Center", JOptionPane.INFORMATION_MESSAGE);
+        }else {
+           JOptionPane.showMessageDialog(null,"The center is  null " ,"Center",
+                   JOptionPane.INFORMATION_MESSAGE);
+       }
+
+
+
+
+
     }
 
     private void isConnected() {

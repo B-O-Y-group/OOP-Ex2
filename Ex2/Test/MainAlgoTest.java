@@ -131,28 +131,31 @@ class MainAlgoTest {
     }
     @Test
     void isConnected() {
-//        assertTrue(gAlgo.isConnected());
-//        g.removeEdge(2,3);
-//        assertFalse(gAlgo.isConnected());
+        assertTrue(hAlgo.isConnected());
+        g.removeEdge(1,6);
+        g.removeEdge(6,1);
+        g.removeEdge(6,5);
+        g.removeEdge(5,6);
+        assertFalse(hAlgo.isConnected());
     }
 
     @Test
     void shortestPathDist() {
-        assertEquals(1,gAlgo.shortestPathDist(1,2));
+        assertEquals(1,hAlgo.shortestPathDist(1,2));
 //        assertEquals(2,gAlgo.shortestPathDist(1,4));
 
     }
 
     @Test
     void shortestPath() {
-        assertEquals("[Id: 0, Id: 7, Id: 6, Id: 5, Id: 2, Id: 3, Id: 4]",gAlgo.shortestPath(0,4).toString());
-
+//        assertEquals("[Id: 0, Id: 7, Id: 6, Id: 5, Id: 2, Id: 3, Id: 4]",gAlgo.shortestPath(0,4).toString());
+        assertEquals("[Id: 1, Id: 2]", hAlgo.shortestPath(1,2).toString() );
     }
 
     @Test
     void center() {
-        assertEquals(5,hAlgo.center());
-        
+        assertEquals(new Vertex(1, new Point3D(3, 1, 0)),hAlgo.center());
+
     }
 
     @Test
@@ -162,9 +165,14 @@ class MainAlgoTest {
 
     @Test
     void save() {
+        hAlgo.save("src/Test/hAlgo.json");
+        gAlgo.load("src/Test/hAlgo.json");
+        assertEquals(gAlgo.getGraph().nodeSize(),hAlgo.getGraph().nodeSize());
     }
 
     @Test
     void load() {
+        hAlgo.load("Ex2/data/G1.json");
+        assertEquals(17, hAlgo.getGraph().nodeSize());
     }
 }

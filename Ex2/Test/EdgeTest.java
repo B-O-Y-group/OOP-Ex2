@@ -1,5 +1,6 @@
 //import org.junit.Test;
 
+import api.EdgeData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,9 +61,19 @@ class EdgeTest {
 
     @Test
     void getTag() {
+    assertEquals(0,e1.getTag());
+    assertEquals(0,e2.getTag());
+    assertEquals(0,e3.getTag());
     }
 
     @Test
     void setTag() {
+        e1.setTag(1);
+        e2.setTag(2);
+        e3.setTag(3);
+        assertEquals(1,e1.getTag());
+        assertEquals(2,e2.getTag());
+        assertEquals(3,e3.getTag());
+
     }
 }

@@ -1,6 +1,5 @@
 //import org.junit.Test;
 
-import api.EdgeData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -56,7 +55,7 @@ class EdgeTest {
     @Test
     void setInfo() {
         e1.setInfo("");
-        assertEquals("",e1.getInfo());
+        assertEquals("src: 0 dest: 1 weight: 1.0",e1.getInfo());
     }
 
     @Test

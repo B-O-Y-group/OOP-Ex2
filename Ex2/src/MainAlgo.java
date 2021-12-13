@@ -291,9 +291,7 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
         double temp = Double.POSITIVE_INFINITY;
         List<NodeData> path = Collections.emptyList();
 
-        Iterator<NodeData> it = this.graph.nodeIter();
-        while (it.hasNext()) {
-            NodeData next = it.next();
+        for (NodeData next : cities) {
             List<NodeData> path_init = new ArrayList<>(Collections.emptyList());
             path_init.add(next);
 

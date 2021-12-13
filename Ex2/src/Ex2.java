@@ -53,8 +53,8 @@ public class Ex2 {
 //        System.out.println("NODE LIST: " + tsp_test);
         System.out.println("SHORTEST DIST: " + test_algo.shortestPathDist(s.getKey(), d.getKey()));
         System.out.println("ANSWER SHORTEST: " + test_algo.shortestPath(s.getKey(), d.getKey()));
-//        System.out.println("TSP: " + g_algo.tsp(tsp_test));
-        System.out.println("Center: " + g_algo.center());
+        System.out.println("TSP: " + g_algo.tsp(g_algo.shortestPath(1, 16)));
+//        System.out.println("Center: " + g_algo.center());
 
 
 

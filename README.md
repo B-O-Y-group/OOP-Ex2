@@ -2,9 +2,10 @@
 
 This project represents a number of algorithms that can be done on a directed graph
 
+![img_11.png](img_11.png)
 
 
-1. graph data structure :
+1. Graph data structure :
     hash map of two hash maps:
     the first key of hashmap --> represent the id of each node by his key,
     the value --> represent another hashmap of the key --> represent nodes' neighbors
@@ -34,7 +35,7 @@ This project represents a number of algorithms that can be done on a directed gr
     path on all the vertices
     
     
-3. How to use gui: 
+3. How to use Gui: 
 
     1. First choose from the menu bar  
        
@@ -57,20 +58,22 @@ This project represents a number of algorithms that can be done on a directed gr
 
 ![img_5.png](img_5.png)
 
+
 3. Algorithm --> isConnected ,  shortestPathDist, shortestPath , center , tsp
     Here u need to choose the algorithm u like to start .  
       ![img_7.png](img_7.png)
 
     Note that the yellow vertex in the image above is the center of the graph    
 
-    
-    
-    4. New --> Add Node , Remove Node , Add Edge  , Remove Edge
-        
-    
-    
 
 
+
+Result of 1000 Nodes and 10,000 Nodes :
+
+![img_9.png](img_9.png)
+    
+
+![img_10.png](img_10.png)
       
  
 

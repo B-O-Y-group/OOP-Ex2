@@ -13,6 +13,7 @@ public class Point3D implements GeoLocation {
         this.z = z;
     }
 
+
     @Override
     public double x() {
         return this.x;

@@ -3,6 +3,7 @@ import api.NodeData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -125,14 +126,16 @@ class HashOfHashesTest {
     void removeNode() {
         int e1 = graph.nodeSize();
         assertEquals(e1,graph.nodeSize());
-        graph.removeNode(0);
-        graph.removeNode(1);
-        assertNull(graph.getNode(0));
-        assertNull(graph.getNode(1));
-        assertNull(graph.getEdge(0,1));
-        assertNull(graph.getEdge(0,7));
-        assertNull(graph.getEdge(1,7));
-        assertNull(graph.getEdge(1,2));
+          //graph.removeNode(0);
+       // assertEquals(e1-1,graph.nodeSize());
+       // System.out.println(graph.);
+       graph.removeNode(1);
+//        assertNull(graph.getNode(0));
+//        assertNull(graph.getNode(1));
+//        assertNull(graph.getEdge(0,1));
+//        assertNull(graph.getEdge(0,7));
+//        assertNull(graph.getEdge(1,7));
+//        assertNull(graph.getEdge(1,2));
 
     }
 

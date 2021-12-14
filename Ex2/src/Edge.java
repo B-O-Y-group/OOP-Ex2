@@ -56,8 +56,5 @@ public class Edge implements EdgeData {
         return "src: " + this.src + ", dest: " + this.dest;
     }
 
-//    @Override
-//    public int compareTo(EdgeData o) {
-//        return Double.compare(this.weight, o.getWeight());
-//    }
+
 }

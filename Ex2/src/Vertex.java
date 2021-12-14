@@ -32,13 +32,6 @@ public class Vertex implements NodeData {
     }
 
 
-    public static void main(String[] args) {
-
-        Vertex v = new Vertex(1, new Point3D(1, 1, 1));
-
-        System.out.println(v.getTag());
-    }
-
     @Override
     public int getKey() {
         return this.id;

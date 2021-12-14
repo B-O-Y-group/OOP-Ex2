@@ -167,6 +167,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
         this.nodes.remove(key);
         return n;
 
+
     }
 
     // TODO
@@ -178,7 +179,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
             ed_list_removed = true;
 
             this.graph.get(dest).get(src).set(1, null);
-            this.graph.get(src).get(dest).set(0,null);
+            this.graph.get(src).get(dest).set(0, null);
 
             this.MC++;
             num_of_edges--;
@@ -207,8 +208,6 @@ public class HashOfHashes implements DirectedWeightedGraph {
     public int getMC() {
         return this.MC;
     }
-
-
 
 
 }

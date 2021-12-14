@@ -224,44 +224,99 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public NodeData center() {
+        if (!max_node_activate) {
+            max_node();
+        }
 
         DirectedWeightedGraph new_g = copy();
-
-        Iterator<NodeData> it = new_g.nodeIter();
-        HashMap<Integer, Double> nodes_val = new HashMap<>();
-
         double final_c = Double.POSITIVE_INFINITY;
+        double first = Double.NEGATIVE_INFINITY;
         NodeData center = null;
+        int counter = 0;
+        Iterator<NodeData> it = new_g.nodeIter();
         while (it.hasNext()) {
-            double first = Double.NEGATIVE_INFINITY;
-            int next = it.next().getKey();
-            Iterator<NodeData> it_first = new_g.nodeIter();
-            while (it_first.hasNext()) {
-                int first_next = it_first.next().getKey();
-                double temp = shortestPathDist(next,first_next);
-                if (next == 20 && first_next == 45) {
-                    System.out.println("HEREEEEEEEEEEEEEEEEEEEEEEEEEEEE: " + temp);
-                }
-                if (temp > first) {
-                    first = temp;
+            counter ++;
+//            System.out.println(counter);
+            NodeData next = it.next();
+            double[] dist = new double[max_node + 1];
+            allPath(next.getKey(), dist);
+            double max = 0;
+            for (int i = 0; i < dist.length; i++) {
+                if (dist[i] > max) {
+                    max = dist[i];
                 }
             }
-            nodes_val.put(next, first);
+            if (max < final_c) {
+                final_c = max;
+                center = next;
+            }
         }
 
-        Iterator<Integer> fin_it = nodes_val.keySet().iterator();
-        System.out.println("Final LIST = " + nodes_val);
-        while (fin_it.hasNext()) {
-            int fin_next = fin_it.next();
-            if (nodes_val.get(fin_next) < final_c) {
-                final_c = nodes_val.get(fin_next);
-                center = new_g.getNode(fin_next);
-            }
-        }
+//        Iterator<NodeData> it = new_g.nodeIter();
+//        HashMap<Integer, Double> nodes_val = new HashMap<>();
+//
+//
+//        while (it.hasNext()) {
+//            double first = Double.NEGATIVE_INFINITY;
+//            int next = it.next().getKey();
+//            Iterator<NodeData> it_first = new_g.nodeIter();
+//            while (it_first.hasNext()) {
+//                int first_next = it_first.next().getKey();
+//                double temp = shortestPathDist(next,first_next);
+//                if (temp > first) {
+//                    first = temp;
+//                }
+//            }
+//            nodes_val.put(next, first);
+//        }
+//
+//        Iterator<Integer> fin_it = nodes_val.keySet().iterator();
+//        System.out.println("Final LIST = " + nodes_val);
+//        while (fin_it.hasNext()) {
+//            int fin_next = fin_it.next();
+//            if (nodes_val.get(fin_next) < final_c) {
+//                final_c = nodes_val.get(fin_next);
+//                center = new_g.getNode(fin_next);
+//            }
+//        }
         return center;
 
 
 
+    }
+
+    public void allPath(int src, double[] dist) {
+        DirectedWeightedGraph new_g = copy();
+        int visits = 0;
+        PriorityQueue<NodeData> queue = new PriorityQueue<>(Comparator.comparingDouble(NodeData::getWeight));
+
+        NodeData curr_ver = new_g.getNode(src);
+        do {
+            visits++;
+            if (visits != 1) {
+                curr_ver = queue.poll();
+                dist[curr_ver.getKey()] = new_g.getNode(curr_ver.getKey()).getWeight();
+            }
+            new_g.getNode(curr_ver.getKey()).setTag(2);
+            Iterator<EdgeData> it = new_g.edgeIter(curr_ver.getKey());
+            while (it.hasNext()) {
+                EdgeData next = it.next();
+                if (new_g.getNode(next.getDest()).getTag() != 2) {
+
+                    double temp_dist = new_g.getNode(curr_ver.getKey()).getWeight() + next.getWeight();
+                    if (new_g.getNode(next.getDest()).getTag() == 0) {
+                        new_g.getNode(next.getDest()).setWeight(temp_dist);
+                        new_g.getNode(next.getDest()).setTag(1);
+                        queue.add(new_g.getNode(next.getDest()));
+                    }
+                    if (temp_dist <= new_g.getNode(next.getDest()).getWeight()) {
+                        new_g.getNode(next.getDest()).setWeight(temp_dist);
+                    }
+                }
+            }
+        }
+        while (!queue.isEmpty());
+//        System.out.println(Arrays.toString(dist));
     }
 
 
@@ -303,19 +358,23 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
         }
 
         for (int i = 0; i < miss.size(); i++) {
-
+//            System.out.println("check path: " + path);
+            //  System.out.println("check miss: " + miss);
+            //  System.out.println("curr i: " + i);
 
             double t_val = val + shortestPathDist(path.get(path.size() - 1).getKey(), miss.get(i).getKey());
             ArrayList<NodeData> t_miss = new ArrayList<>(miss);
-
+            //   System.out.println("shortest list: " + shortestPath(path.get(path.size() - 1).getKey(),
+            //     miss.get(i).getKey()));
             List<NodeData> t_path = update(path, shortestPath(path.get(path.size() - 1).getKey(), miss.get(i).getKey()), t_miss);
 
-
+            //   System.out.println("check missNUM2: " + t_miss);
 
 
             List<NodeData> temp_list = tspRec(t_path, t_miss, t_val, final_v);
 
             if (t_val < final_v) {
+                //    System.out.println("curr_ PATH: " + temp_list);
                 path = temp_list;
                 final_v = t_val;
             }
@@ -331,7 +390,7 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
             if (i > 0) {
                 ans.add(shortest.get(i));
             }
-
+            System.out.println(miss.remove(shortest.get(i)));
 
         }
         return ans;
@@ -393,5 +452,10 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
             return false;
         }
         return true;
+    }
+
+    public static void main(String[] args) {
+
+
     }
 }

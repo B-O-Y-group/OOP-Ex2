@@ -151,7 +151,6 @@ class MainAlgoTest {
     @Test
     void shortestPathDist() {
         assertEquals(1,hAlgo.shortestPathDist(1,2));
-//        assertEquals(2,gAlgo.shortestPathDist(1,4));
 
     }
 
@@ -163,7 +162,7 @@ class MainAlgoTest {
 
     @Test
     void center() {
-        assertEquals(new Vertex(1, new Point3D(3, 1, 0)),hAlgo.center());
+        assertEquals(1, hAlgo.center().getKey());
 
     }
 
@@ -207,7 +206,7 @@ class MainAlgoTest {
 
 
 
-        assertEquals("Id: 1, Id: 2 ",pAlgo.tsp(e1).toString());
+        assertEquals("[Id: 3, Id: 1, Id: 2, Id: 4]",pAlgo.tsp(e1).toString());
 
     }
 

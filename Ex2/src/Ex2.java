@@ -11,25 +11,19 @@ public class Ex2 {
     //some test
     public static void main(String[] args) {
 
+        runGUI("Ex2/data/G3.json");
 
-
-        DirectedWeightedGraph test = new HashOfHashes();
-        DirectedWeightedGraphAlgorithms test_algo = new MainAlgo(test);
-
-
-
-        test_algo.load("Ex2/data/G3.json");
-
-        test_algo.init(test);
+     //   DirectedWeightedGraph test = new HashOfHashes();
+    //    DirectedWeightedGraphAlgorithms test_algo = new MainAlgo(test);
 
 
 
-       // System.out.println("isConnected: " + test_algo.isConnected());
-//        System.out.println("NODE LIST: " + tsp_test);
-//        System.out.println("SHORTEST DIST: " + test_algo.shortestPathDist(s.getKey(), d.getKey()));
-//        System.out.println("ANSWER SHORTEST: " + test_algo.shortestPath(s.getKey(), d.getKey()));
-//        System.out.println("TSP: " + g_algo.tsp(tsp_test));
-        System.out.println("Center: " + test_algo.center());;
+     //   test_algo.load("Ex2/data/G3.json");
+
+      //  test_algo.init(test);
+
+
+        //System.out.println("Center: " + test_algo.center());;
 
     }
 
@@ -69,7 +63,7 @@ public class Ex2 {
      * @param json_file - a json file (e.g., G1.json - G3.gson)
      */
     public static void runGUI(String json_file) {
-        DirectedWeightedGraphAlgorithms alg = test();
+        DirectedWeightedGraphAlgorithms alg = new MainAlgo(getGrapg(json_file));
         // ****** Add your code here ******
 
         System.out.println("========================================================================");

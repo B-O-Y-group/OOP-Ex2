@@ -11,11 +11,26 @@
     </repositories>
     <modelVersion>4.0.0</modelVersion>
 
+
+
+
+
     <groupId>groupId</groupId>
     <artifactId>OOP-Ex2</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+
+
+
     <properties>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+            </configuration>
+        </plugin>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>

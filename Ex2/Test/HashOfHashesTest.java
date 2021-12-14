@@ -89,10 +89,17 @@ class HashOfHashesTest {
         while (it2.hasNext()) {
          assertFalse(it2.hasNext());
         }
+        Iterator<NodeData> iter = graph.nodeIter();
+        while(iter.hasNext()){
+            assertEquals(9,graph.nodeSize());
+            break;
+        }
         Iterator<NodeData> it = graph.nodeIter();
         it.next();
         it.remove();
         assertFalse(graph.ed_list_removed);
+
+
     }
 
     @Test
@@ -103,6 +110,15 @@ class HashOfHashesTest {
         while (it2.hasNext()) {
             assertFalse(it2.hasNext());
         }
+        Iterator<EdgeData> iter = graph.edgeIter();
+        while(iter.hasNext()){
+            assertEquals(14,graph.edgeSize());
+            break;
+        }
+        Iterator<EdgeData> it = graph.edgeIter();
+        it.next();
+        it.remove();
+        assertFalse(graph.ed_list_removed);
 
     }
     @Test

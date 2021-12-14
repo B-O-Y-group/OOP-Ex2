@@ -62,7 +62,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
         if (w< 0){
             throw new NoSuchElementException("no such nodes");
         }
-        EdgeData edge = new Edge(src, dest, w);
+        EdgeData edge = new Edge(src, w, dest);
         if (this.graph.containsKey(src) && this.graph.containsKey(dest)) {
             if (this.graph.get(src).containsKey(dest)) {
 

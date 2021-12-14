@@ -9,7 +9,9 @@ This project represents a number of algorithms that can be done on a directed gr
     the value --> represent another hashmap of the key --> represent nodes' neighbors
     the value of them --> represent array of edges by src and dest.
 
-2. A brief overview of the algorithms that can be done on the directed graph  :
+![img.png](img.png)
+
+3. A brief overview of the algorithms that can be done on the directed graph  :
    - isConnected:
      This algorithm checks whether each vertex is connected in a graph
      with one or more edges to the other vertices in the graph
@@ -27,12 +29,21 @@ This project represents a number of algorithms that can be done on a directed gr
 
     
   - center:
-
+    This algorithm checks which is the longest path from each vertex,
+    and then selects the shortest path from the longest
 
   - tsp:
     
     
 3. How to use gui: 
+
+![img_5.png](img_5.png)
+
+![img_2.png](img_2.png)
+
+![img_3.png](img_3.png)
+
+![img_4.png](img_4.png)
 
       
  

@@ -199,9 +199,42 @@ class MainAlgoTest {
 
     @Test
     void save() {
-        hAlgo.save("Ex2/data/hAlgo.json");
-        gAlgo.load("Ex2/data/hAlgo.json");
-        assertEquals(gAlgo.getGraph().nodeSize(),hAlgo.getGraph().nodeSize());
+        DirectedWeightedGraph p;
+        DirectedWeightedGraphAlgorithms pAlgo;
+        p = new HashOfHashes();
+        pAlgo = new MainAlgo(p);
+
+        NodeData p1 = new Vertex(1, new Point3D(2, 1, 0));
+        NodeData p2 = new Vertex(2, new Point3D(1, 3, 0));
+        NodeData p3 = new Vertex(3, new Point3D(3, 3, 0));
+        NodeData p4 = new Vertex(4, new Point3D(2, 2, 0));
+        p.addNode(p1);
+        p.addNode(p2);
+        p.addNode(p3);
+        p.addNode(p4);
+
+        p.connect(p1.getKey(), p2.getKey(), 10);
+        p.connect(p1.getKey(), p3.getKey(), 15);
+        p.connect(p1.getKey(), p4.getKey(), 20);
+        p.connect(p2.getKey(), p1.getKey(), 10);
+        p.connect(p2.getKey(), p4.getKey(), 25);
+        p.connect(p2.getKey(), p3.getKey(), 35);
+        p.connect(p3.getKey(), p2.getKey(), 35);
+        p.connect(p3.getKey(), p4.getKey(), 30);
+        p.connect(p3.getKey(), p1.getKey(), 15);
+        p.connect(p4.getKey(), p1.getKey(), 20);
+        p.connect(p4.getKey(), p2.getKey(), 25);
+        p.connect(p4.getKey(), p3.getKey(), 30);
+
+        pAlgo.init(p);
+        try {
+            pAlgo.save("file2.json");
+
+            pAlgo.load("C:\\Users\\אורון דובב\\Documents\\github\\OOP-Ex2\\file2.json");
+            assertEquals(pAlgo.getGraph().nodeSize(), pAlgo.getGraph().nodeSize());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test

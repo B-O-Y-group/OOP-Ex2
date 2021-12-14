@@ -299,9 +299,9 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
         double temp = Double.POSITIVE_INFINITY;
         List<NodeData> path = Collections.emptyList();
         ArrayList<NodeData> sorted_cities = new ArrayList<>(cities);
-        sorted_cities.sort((a, b) -> a.getKey() - b.getKey());
+        sorted_cities.sort(Comparator.comparingInt(NodeData::getKey));
         for (NodeData next : sorted_cities) {
-            List<NodeData> path_init = new ArrayList<>(Collections.emptyList());
+            List<NodeData> path_init = new ArrayList<>();
             path_init.add(next);
 
             ArrayList<NodeData> miss = new ArrayList<>(sorted_cities);
@@ -332,17 +332,12 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
         }
 
         for (int i = 0; i < miss.size(); i++) {
-//            System.out.println("check path: " + path);
-            //  System.out.println("check miss: " + miss);
-            //  System.out.println("curr i: " + i);
+
 
             double t_val = val + shortestPathDist(path.get(path.size() - 1).getKey(), miss.get(i).getKey());
             ArrayList<NodeData> t_miss = new ArrayList<>(miss);
-            //   System.out.println("shortest list: " + shortestPath(path.get(path.size() - 1).getKey(),
-            //     miss.get(i).getKey()));
             List<NodeData> t_path = update(path, shortestPath(path.get(path.size() - 1).getKey(), miss.get(i).getKey()), t_miss);
 
-            //   System.out.println("check missNUM2: " + t_miss);
 
 
             List<NodeData> temp_list = tspRec(t_path, t_miss, t_val, final_v);
@@ -359,13 +354,16 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
 
     public List<NodeData> update(List<NodeData> path, List<NodeData> shortest, ArrayList<NodeData> miss) {
         List<NodeData> ans = new ArrayList<>(path);
-        //    System.out.println("ANSSSSSSSSSSSSSSSSSSSSSS: " + ans);
         for (int i = 0; i < shortest.size(); i++) {
             if (i > 0) {
                 ans.add(shortest.get(i));
             }
-            System.out.println(miss.remove(shortest.get(i)));
+            for (int j = 0; j < miss.size(); j++) {
+                if (shortest.get(i).getKey() == miss.get(j).getKey()) {
+                    miss.remove(miss.get(j));
+                }
 
+            }
         }
         return ans;
     }
@@ -374,7 +372,6 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
     @Override
     public boolean save(String file) {
         GsonBuilder gson = new GsonBuilder();
-//        JsonSerializer<this.graph> p =
         JsonSerializer<DirectedWeightedGraph> ser = (d, type, jsonSerializationContext) -> {
             JsonArray jsonList_edges = new JsonArray();
             Iterator<EdgeData> edges = graph.edgeIter();

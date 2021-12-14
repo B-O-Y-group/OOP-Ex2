@@ -13,10 +13,10 @@ public class Ex2 {
     //some test
     public static void main(String[] args) {
 
-        runGUI("Ex2/data/G1.json");
+//        runGUI("Ex2/data/G1.json");
 
 
-//        //---------1,000 Nodes---------
+        //---------1,000 Nodes---------
 //        DirectedWeightedGraph graph_1 = new HashOfHashes();
 //        DirectedWeightedGraphAlgorithms g_algo_1 = new MainAlgo(graph_1);
 //        g_algo_1.load("Ex2/data/1000Nodes.json");
@@ -24,7 +24,7 @@ public class Ex2 {
 //        String first = "" + g_algo_1.isConnected();
 //        long endTime = System.currentTimeMillis();
 //        long final_time = endTime - startTime;
-//        System.out.print("isConnected: " + first + "  " + final_time + " MS  ");
+//        System.out.print("1,000 Nodes --> isConnected: " + first + "  " + final_time + " MS  ");
 //
 //        startTime = System.currentTimeMillis();
 //        first = "" + g_algo_1.center();
@@ -35,16 +35,16 @@ public class Ex2 {
 
 
         //---------10,000 Nodes---------
-//        System.out.println("\n");
-//        DirectedWeightedGraph graph_2 = new HashOfHashes();
-//        DirectedWeightedGraphAlgorithms g_algo_2 = new MainAlgo(graph_2);
-//        g_algo_2.load("Ex2/data/10000Nodes.json");
-//
-//        long startTime = System.currentTimeMillis();
-//        String first = "" + g_algo_2.isConnected();
-//        long endTime = System.currentTimeMillis();
-//        long final_time = endTime - startTime;
-//        System.out.print("isConnected: " + first + "  " + final_time + " MS  ");
+        System.out.println("\n");
+        DirectedWeightedGraph graph_2 = new HashOfHashes();
+        DirectedWeightedGraphAlgorithms g_algo_2 = new MainAlgo(graph_2);
+        g_algo_2.load("Ex2/data/10000Nodes.json");
+
+        long startTime = System.currentTimeMillis();
+        String first = "" + g_algo_2.isConnected();
+        long endTime = System.currentTimeMillis();
+        long final_time = endTime - startTime;
+        System.out.print("10,000 Nodes --> isConnected: " + first + "  " + final_time + " MS  ");
 //
 //        startTime = System.currentTimeMillis();
 //        first = "" + g_algo_2.center();
@@ -58,25 +58,8 @@ public class Ex2 {
 //        DirectedWeightedGraphAlgorithms g_algo_3 = new MainAlgo(graph_3);
 //        g_algo_3.load("Ex2/data/100000Nodes.json");
 //
-//
-//        System.out.println("isConnected: " + g_algo.isConnected());
-////        System.out.println("NODE LIST: " + tsp_test);
-////        System.out.println("ANSWER SHORTEST: " + g_algo.shortestPath(20, 45));
-////        System.out.println("SHORTEST DIST: " + g_algo.shortestPathDist(20, 45));
-////        System.out.println("TSP: " + g_algo.tsp(g_algo.shortestPath(1, 16)));
-//        System.out.println("Center: " + g_algo.center());
 
 
-//
-
-
-//        Iterator<NodeData> t = graph.nodeIter();
-//        while (t.hasNext()) {
-//            NodeData temp = t.next();
-//            System.out.println(temp);
-//        }
-
-        //graph.nodeIter().forEachRemaining(nodeData -> System.out.println(nodeData.getKey()));
 
     }
 

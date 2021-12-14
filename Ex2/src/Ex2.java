@@ -20,7 +20,7 @@ public class Ex2 {
         DirectedWeightedGraph graph_1 = new HashOfHashes();
         DirectedWeightedGraphAlgorithms g_algo_1 = new MainAlgo(graph_1);
 //        g_algo_1.load("Ex2/data/G3.json");
-        g_algo_1.load("Ex2/data/G3.json");
+        g_algo_1.load("Ex2/data/1000Nodes.json");
         long startTime = System.currentTimeMillis();
         String first = "" + g_algo_1.isConnected();
         long endTime = System.currentTimeMillis();

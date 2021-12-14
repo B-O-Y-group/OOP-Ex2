@@ -45,19 +45,33 @@ public class Ex2 {
         long endTime = System.currentTimeMillis();
         long final_time = endTime - startTime;
         System.out.print("10,000 Nodes --> isConnected: " + first + "  " + final_time + " MS  ");
-//
-//        startTime = System.currentTimeMillis();
-//        first = "" + g_algo_2.center();
-//        endTime = System.currentTimeMillis();
-//        final_time = endTime - startTime;
-//
-//        System.out.println("Center: " + first + "  " + final_time + " MS");
-//
-//        //---------100,000 Nodes---------
-//        DirectedWeightedGraph graph_3 = new HashOfHashes();
-//        DirectedWeightedGraphAlgorithms g_algo_3 = new MainAlgo(graph_3);
-//        g_algo_3.load("Ex2/data/100000Nodes.json");
-//
+
+        startTime = System.currentTimeMillis();
+        first = "" + g_algo_2.center();
+        endTime = System.currentTimeMillis();
+        final_time = endTime - startTime;
+
+        System.out.println("Center: " + first + "  " + final_time + " MS");
+        System.out.println("\n");
+        
+        //---------100,000 Nodes---------
+        DirectedWeightedGraph graph_3 = new HashOfHashes();
+        DirectedWeightedGraphAlgorithms g_algo_3 = new MainAlgo(graph_3);
+        g_algo_3.load("Ex2/data/100000Nodes.json");
+
+        long startTime3 = System.currentTimeMillis();
+        String first3 = "" + g_algo_2.isConnected();
+        long endTime3 = System.currentTimeMillis();
+        long final_time3 = endTime - startTime;
+        System.out.print("10,000 Nodes --> isConnected: " + first + "  " + final_time + " MS  ");
+
+        startTime3 = System.currentTimeMillis();
+        first3 = "" + g_algo_2.center();
+        endTime3 = System.currentTimeMillis();
+        final_time3 = endTime - startTime;
+
+        System.out.println("Center: " + first3 + "  " + final_time3 + " MS");
+
 
 
 

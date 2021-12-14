@@ -19,7 +19,6 @@ public class window extends JFrame implements ActionListener {
     public Panel panel;
 
 
-
     public window(DirectedWeightedGraphAlgorithms G) {
         this.graph = G.getGraph();
         intiGraph(graph);
@@ -64,10 +63,8 @@ public class window extends JFrame implements ActionListener {
         Menu Algorithm = new Menu("Algorithm");
 
 
-
         menuBar.add(file);
         menuBar.add(Algorithm);
-
 
 
         isConnected = new MenuItem("isConnected");
@@ -142,10 +139,6 @@ public class window extends JFrame implements ActionListener {
     //===============New================================================
 
 
-
-
-
-
     //===============Algo================================================
     private void TSP() {
         DirectedWeightedGraphAlgorithms graphAl = new MainAlgo(this.graph);
@@ -174,21 +167,20 @@ public class window extends JFrame implements ActionListener {
 
             listN = graphAl2.tsp(list);
 
-            for (int i = 0; i < listN.size(); i++) {
-                ans += "" + listN.get(i).getKey();
 
+            JOptionPane.showMessageDialog(null, "Tsp :  " + listN.toString(), "Tsp",
+                    JOptionPane.INFORMATION_MESSAGE);
 
-                JOptionPane.showMessageDialog(null, "Tsp :  " + ans, "Tsp",
-                        JOptionPane.INFORMATION_MESSAGE);
-            }
-        } catch (NumberFormatException exception) {
+        } catch (
+                NumberFormatException exception) {
             if (size > graphAl2.getGraph().nodeSize()) {
                 JOptionPane.showMessageDialog(null, "Your number is bigger from  the node size of the graph  ",
                         "Tsp",
                         JOptionPane.WARNING_MESSAGE);
                 System.out.println(exception.getMessage());
             }
-        } catch (Exception exception) {
+        } catch (
+                Exception exception) {
             JOptionPane.showMessageDialog(null, "ex  ",
                     "Tsp",
                     JOptionPane.WARNING_MESSAGE);

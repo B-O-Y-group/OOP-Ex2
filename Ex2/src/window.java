@@ -14,9 +14,10 @@ public class window extends JFrame implements ActionListener {
 
     public DirectedWeightedGraph graph;
     private int MC;
-    private MenuItem save, load, addNode , addEdge;
+    private MenuItem save, load;
+    private MenuItem  addNode, addEdge , removeNode,removeEdge;
     private MenuItem isConnected, shortestPathDist, shortestPath, Center, tsp;
-    public  Panel panel;
+    public Panel panel;
 
 
     public window(DirectedWeightedGraphAlgorithms G) {
@@ -39,7 +40,7 @@ public class window extends JFrame implements ActionListener {
         this.setSize(width, high);
         addMenu();
 
-        
+
         initPanel(this.graph);
 
 
@@ -63,8 +64,8 @@ public class window extends JFrame implements ActionListener {
 
         Menu file = new Menu("File");
         Menu Algorithm = new Menu("Algorithm");
-        Menu addToGraph = new Menu("Add");
-        // Algorithm.addActionListener(this);
+        Menu addToGraph = new Menu("New");
+
 
         menuBar.add(file);
         menuBar.add(Algorithm);
@@ -74,8 +75,15 @@ public class window extends JFrame implements ActionListener {
         addEdge.addActionListener(this);
         addNode = new MenuItem("Add Node");
         addNode.addActionListener(this);
+        removeNode = new MenuItem("removeNode");
+        addToGraph.addActionListener(this);
+        removeEdge = new MenuItem("removeEdge");
+        addToGraph.addActionListener(this);
+
         addToGraph.add(addNode);
         addToGraph.add(addEdge);
+        addToGraph.add(removeNode);
+        addToGraph.add(removeEdge);
 
 
         isConnected = new MenuItem("isConnected");
@@ -98,14 +106,14 @@ public class window extends JFrame implements ActionListener {
 
         save = new MenuItem("save");
         save.addActionListener(this);
-
         load = new MenuItem("load");
         load.addActionListener(this);
 
 
         file.add(save);
         file.add(load);
-        //   json_file.addToGraph(menuItem3);
+
+
     }
 
 
@@ -145,73 +153,37 @@ public class window extends JFrame implements ActionListener {
             System.out.println("tsp clicked ");
         }
 
-        // --------------Add-------------------
-        else if (e.getSource() == addNode){
-            RemoveNode();
+        // --------------New -------------------
+        else if (e.getSource() == addNode) {
+            addNode();
             System.out.println("add node clicked");
-        }
-        else if (e.getSource() == addEdge){
+        } else if (e.getSource() == addEdge) {
             addEdge();
             System.out.println("add edge clicked");
+        } else if (e.getSource() == removeNode) {
+            RemoveNode();
+            System.out.println("remove node clicked");
+        } else if (e.getSource() == removeEdge) {
+            RemoveEdge();
+            System.out.println("remove edge clicked");
         }
 
     }
+    //===============New================================================
+    private void addNode(){this.panel.addNode(this); }
 
-    private void addEdge() {
-    }
+    private void addEdge() {this.panel.addEdge(this); }
+
+    private void RemoveEdge() { this.panel.RemoveEdge(this);}
+
 
     private void RemoveNode() {
         this.panel.RemoveNode(this);
     }
 
-    // todo not working well
-    private void load() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("load file ");
-
-        DirectedWeightedGraphAlgorithms algo1 = new MainAlgo(this.graph);
-        DirectedWeightedGraphAlgorithms algo2 = new MainAlgo(this.graph);
-
-        int returnV = fileChooser.showOpenDialog(this);
-        if (returnV == JFileChooser.APPROVE_OPTION) {
-            try {
-                File selected = fileChooser.getSelectedFile();
-                algo1.load(selected.getAbsolutePath());
-                algo1.init(this.graph);
-                algo2.init(algo1.copy());
-
-                initPanel(algo2.getGraph());
-
-            } catch (Exception exception) {
-                System.out.println(exception.getMessage());
-
-            }
-        }
 
 
-    }
-
-    private void save() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("save file ");
-
-        int userS = fileChooser.showSaveDialog(this);
-
-        DirectedWeightedGraphAlgorithms algo1 = new MainAlgo(this.graph);
-        DirectedWeightedGraphAlgorithms algo2 = new MainAlgo(this.graph);
-        ;
-        algo1.init(graph);
-        algo2.init(algo1.copy());
-
-        if (userS == JFileChooser.APPROVE_OPTION) {
-            File Save = fileChooser.getSelectedFile();
-            String FileName = Save.getAbsolutePath();
-            algo2.save(FileName);
-        }
-
-    }
-
-
+    //===============Algo================================================
     //todo need to fix
     private void TSP() {
         DirectedWeightedGraphAlgorithms graphAl = new MainAlgo(this.graph);
@@ -333,16 +305,13 @@ public class window extends JFrame implements ActionListener {
         graphAl2.init(graphAl.copy());
         //todo in  PANEL
         this.panel = new Panel(graphAl2.getGraph());
-       NodeData ans =  this.panel.getCenter();
-       if (ans != null){
-            JOptionPane.showMessageDialog(null,"The center is : " + ans.getKey() ,"Center", JOptionPane.INFORMATION_MESSAGE);
-        }else {
-           JOptionPane.showMessageDialog(null,"The center is  null " ,"Center",
-                   JOptionPane.INFORMATION_MESSAGE);
-       }
-
-
-
+        NodeData ans = this.panel.getCenter();
+        if (ans != null) {
+            JOptionPane.showMessageDialog(null, "The center is : " + ans.getKey(), "Center", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "The center is  null ", "Center",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
 
 
     }
@@ -365,6 +334,57 @@ public class window extends JFrame implements ActionListener {
 
 
     }
+
+    //=============File==================================================
+    // todo not working well
+    private void load() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("load file ");
+
+        DirectedWeightedGraphAlgorithms algo1 = new MainAlgo(this.graph);
+        DirectedWeightedGraphAlgorithms algo2 = new MainAlgo(this.graph);
+
+        int returnV = fileChooser.showOpenDialog(this);
+        if (returnV == JFileChooser.APPROVE_OPTION) {
+            try {
+                File selected = fileChooser.getSelectedFile();
+                algo1.load(selected.getAbsolutePath());
+                algo1.init(this.graph);
+                algo2.init(algo1.copy());
+
+                initPanel(algo2.getGraph());
+
+            } catch (Exception exception) {
+                System.out.println(exception.getMessage());
+
+            }
+        }
+
+
+    }
+
+    private void save() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("save file ");
+
+        int userS = fileChooser.showSaveDialog(this);
+
+        DirectedWeightedGraphAlgorithms algo1 = new MainAlgo(this.graph);
+        DirectedWeightedGraphAlgorithms algo2 = new MainAlgo(this.graph);
+        ;
+        algo1.init(graph);
+        algo2.init(algo1.copy());
+
+        if (userS == JFileChooser.APPROVE_OPTION) {
+            File Save = fileChooser.getSelectedFile();
+            String FileName = Save.getAbsolutePath();
+            algo2.save(FileName);
+        }
+
+    }
+
+
+
 
 
 }

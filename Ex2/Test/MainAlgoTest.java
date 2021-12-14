@@ -24,10 +24,6 @@ class MainAlgoTest {
     NodeData n4 = new Vertex(4, new Point3D(-4, 0, 0));
 
 
-    //TODO for shortest
-    DirectedWeightedGraphAlgorithms sAlgo;
-    DirectedWeightedGraph s;
-
 
     @BeforeEach
     void init() {
@@ -189,6 +185,8 @@ class MainAlgoTest {
         p.connect(p4.getKey(), p2.getKey(), 25);
         p.connect(p4.getKey(), p3.getKey(), 30);
         pAlgo = new MainAlgo(p);
+
+        pAlgo.init(p);
 
         List<NodeData> e1 = new ArrayList<>();
         e1.add(pAlgo.getGraph().getNode(2));

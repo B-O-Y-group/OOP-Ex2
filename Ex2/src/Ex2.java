@@ -51,10 +51,10 @@ public class Ex2 {
 
         System.out.println("isConnected: " + test_algo.isConnected());
 //        System.out.println("NODE LIST: " + tsp_test);
-        System.out.println("SHORTEST DIST: " + g_algo.shortestPathDist(20, 45));
-        System.out.println("ANSWER SHORTEST: " + g_algo.shortestPath(20, 45));
+//        System.out.println("ANSWER SHORTEST: " + g_algo.shortestPath(20, 45));
+//        System.out.println("SHORTEST DIST: " + g_algo.shortestPathDist(20, 45));
 //        System.out.println("TSP: " + g_algo.tsp(g_algo.shortestPath(1, 16)));
-//        System.out.println("Center: " + g_algo.center());
+        System.out.println("Center: " + g_algo.center());
 
 
 

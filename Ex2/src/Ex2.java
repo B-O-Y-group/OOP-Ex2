@@ -13,8 +13,8 @@ public class Ex2 {
     //Main
     public static void main(String[] args) {
 
-     //   runGUI(args[0]);
-        runGUI("Ex2/data/G2.json");
+        runGUI(args[0]);
+
 
 
         //---------1,000 Nodes---------

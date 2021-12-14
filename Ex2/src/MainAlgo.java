@@ -51,7 +51,6 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
     }
 
 
-    //TODO  does not test yet
     @Override
     public DirectedWeightedGraph copy() {
         DirectedWeightedGraph new_g = new HashOfHashes();
@@ -130,10 +129,7 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
         if (!max_node_activate) {
             max_node();
         }
-//        Iterator<NodeData> clear = this.graph.nodeIter();
-//        while (clear.hasNext()) {
-//            clear.next().setTag(0);
-//        }
+
         DirectedWeightedGraph new_g = copy();
         int visits = 0;
         PriorityQueue<NodeData> queue = new PriorityQueue<>(Comparator.comparingDouble(NodeData::getWeight));
@@ -171,7 +167,7 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
     }
 
 
-    // implement by dixtra algorithm. data structure for this algorithm --> Fibonacci heap
+    // implement by Dijkstra algorithm.
     @Override
     public List<NodeData> shortestPath(int src, int dest) {
         if (!max_node_activate) {
@@ -238,7 +234,7 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
         Iterator<NodeData> it = new_g.nodeIter();
         while (it.hasNext()) {
             counter++;
-//            System.out.println(counter);
+
             NodeData next = it.next();
             double[] dist = new double[max_node + 1];
             allPath(next.getKey(), dist);
@@ -290,7 +286,7 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
             }
         }
         while (!queue.isEmpty());
-//        System.out.println(Arrays.toString(dist));
+
     }
 
 
@@ -337,7 +333,6 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
             double t_val = val + shortestPathDist(path.get(path.size() - 1).getKey(), miss.get(i).getKey());
             ArrayList<NodeData> t_miss = new ArrayList<>(miss);
             List<NodeData> t_path = update(path, shortestPath(path.get(path.size() - 1).getKey(), miss.get(i).getKey()), t_miss);
-
 
 
             List<NodeData> temp_list = tspRec(t_path, t_miss, t_val, final_v);

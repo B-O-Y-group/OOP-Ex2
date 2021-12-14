@@ -320,7 +320,7 @@ public class window extends JFrame implements ActionListener {
 
     private void save() {
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("save file ");
+        fileChooser.setDialogTitle("save file  ");
 
         int userS = fileChooser.showSaveDialog(this);
 

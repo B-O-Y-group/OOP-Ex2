@@ -13,33 +13,45 @@ public class Ex2 {
     //some test
     public static void main(String[] args) {
 
-//        runGUI("Ex2/data/10000Nodes.json");
+        runGUI("Ex2/data/G1.json");
 
 
-        //---------1,000 Nodes---------
-        DirectedWeightedGraph graph_1 = new HashOfHashes();
-        DirectedWeightedGraphAlgorithms g_algo_1 = new MainAlgo(graph_1);
-//        g_algo_1.load("Ex2/data/G3.json");
-        g_algo_1.load("Ex2/data/1000Nodes.json");
-        long startTime = System.currentTimeMillis();
-        String first = "" + g_algo_1.isConnected();
-        long endTime = System.currentTimeMillis();
-        long final_time = endTime - startTime;
-        System.out.print("isConnected: " + first + "  " + final_time + " MS  ");
+//        //---------1,000 Nodes---------
+//        DirectedWeightedGraph graph_1 = new HashOfHashes();
+//        DirectedWeightedGraphAlgorithms g_algo_1 = new MainAlgo(graph_1);
+//        g_algo_1.load("Ex2/data/1000Nodes.json");
+//        long startTime = System.currentTimeMillis();
+//        String first = "" + g_algo_1.isConnected();
+//        long endTime = System.currentTimeMillis();
+//        long final_time = endTime - startTime;
+//        System.out.print("isConnected: " + first + "  " + final_time + " MS  ");
+//
+//        startTime = System.currentTimeMillis();
+//        first = "" + g_algo_1.center();
+//        endTime = System.currentTimeMillis();
+//        final_time = endTime - startTime;
+//
+//        System.out.println("Center: " + first + "  " + final_time + " MS");
 
-        startTime = System.currentTimeMillis();
-        first = "" + g_algo_1.center();
-        endTime = System.currentTimeMillis();
-        final_time = endTime - startTime;
 
-        System.out.println("Center: " + first + "  " + final_time + " MS");
-
-
-//        //---------10,000 Nodes---------
+        //---------10,000 Nodes---------
+//        System.out.println("\n");
 //        DirectedWeightedGraph graph_2 = new HashOfHashes();
 //        DirectedWeightedGraphAlgorithms g_algo_2 = new MainAlgo(graph_2);
 //        g_algo_2.load("Ex2/data/10000Nodes.json");
 //
+//        long startTime = System.currentTimeMillis();
+//        String first = "" + g_algo_2.isConnected();
+//        long endTime = System.currentTimeMillis();
+//        long final_time = endTime - startTime;
+//        System.out.print("isConnected: " + first + "  " + final_time + " MS  ");
+//
+//        startTime = System.currentTimeMillis();
+//        first = "" + g_algo_2.center();
+//        endTime = System.currentTimeMillis();
+//        final_time = endTime - startTime;
+//
+//        System.out.println("Center: " + first + "  " + final_time + " MS");
 //
 //        //---------100,000 Nodes---------
 //        DirectedWeightedGraph graph_3 = new HashOfHashes();

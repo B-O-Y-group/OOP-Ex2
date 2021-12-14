@@ -39,6 +39,6 @@ public class Point3D implements GeoLocation {
 
     @Override
     public String toString() {
-        return "Point3D{" + "x=" + x + ", y=" + y + ", z=" + z + '}';
+        return "" + x() + "," + y() + "," + z();
     }
 }

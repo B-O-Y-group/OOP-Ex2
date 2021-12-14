@@ -129,12 +129,23 @@ class MainAlgoTest {
     }
     @Test
     void isConnected() {
-        assertTrue(hAlgo.isConnected());
-        h.removeEdge(1,6);
-        h.removeEdge(6,1);
-        h.removeEdge(6,5);
-        h.removeEdge(5,6);
-        assertFalse(hAlgo.isConnected());
+        DirectedWeightedGraph g = new HashOfHashes();
+        DirectedWeightedGraphAlgorithms f = new MainAlgo(g);
+        f.getGraph().addNode(new Vertex(0, new Point3D(1,1,1)));
+        f.getGraph().addNode(new Vertex(1, new Point3D(1,1,1)));
+        f.getGraph().connect(0, 1, 5);
+        f.getGraph().connect(1, 0, 5);
+        f.init(g);
+        assertTrue(f.isConnected());
+        f.load("Ex2/data/G1.json");
+        assertTrue(f.isConnected());
+//        assertTrue(hAlgo.isConnected());
+//        h.removeEdge(1,6);
+//        h.removeEdge(6,1);
+//        h.removeEdge(6,5);
+//        h.removeEdge(5,6);
+//        hAlgo.init(h);
+//        assertFalse(hAlgo.isConnected());
     }
 
     @Test
@@ -200,12 +211,6 @@ class MainAlgoTest {
 
     }
 
-    @Test
-    void save() {
-        hAlgo.save("src/Test/hAlgo.json");
-        gAlgo.load("src/Test/hAlgo.json");
-        assertEquals(gAlgo.getGraph().nodeSize(),hAlgo.getGraph().nodeSize());
-    }
 
     @Test
     void load() {

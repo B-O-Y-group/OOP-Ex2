@@ -194,19 +194,17 @@ public class window extends JFrame implements ActionListener {
             Point3D p = new Point3D(dx, dy, 0);
             NodeData n = new Vertex(key, p);
             graphAl2.getGraph().addNode(n);
-            //Frame f = new window(graphAl2);
-            graphAl2.save("GAL.json");
+
+            graphAl2.save("");
 
 
-            boolean b = this.ALGO.load("GAL.json");
+            boolean b = this.ALGO.load("");
             this.dispose();
             new window(this.ALGO);
 
 
 
-//            new window(graphAl2);
 
-//           repaint();
 
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
@@ -258,7 +256,6 @@ public class window extends JFrame implements ActionListener {
 
 
     //===============Algo================================================
-    //todo need to fix
     private void TSP() {
         DirectedWeightedGraphAlgorithms graphAl = new MainAlgo(this.graph);
         DirectedWeightedGraphAlgorithms graphAl2 = new MainAlgo(this.graph);
@@ -412,7 +409,6 @@ public class window extends JFrame implements ActionListener {
     }
 
     //=============File==================================================
-    // todo not working well
     private void load() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("load file ");

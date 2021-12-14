@@ -88,20 +88,16 @@ public class HashOfHashes implements DirectedWeightedGraph {
                 this.graph.get(dest).get(src).set(1, edge);
 
 
-                // adding the new edge to the hash
+//
 
-                // the list is empty so need to init the first index
-
-
-            }
+            }   // the list is empty so need to init the first index
             if (!this.edge.containsKey(src)) {
                 this.edge.put(src, new HashMap<>());
             }
             this.edge.get(src).put(dest, edge);
             this.edges_list.add(edge);
 
-            // System.out.println("edge list: " + this.edge.values());
-            //   System.out.println("REAL edges LIST: " + this.edges_list);
+
             this.num_of_edges++;
             this.MC++;
         } else {
@@ -203,7 +199,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
     }
 
 
-    /// counter every change
+    /// count every change
     @Override
     public int getMC() {
         return this.MC;

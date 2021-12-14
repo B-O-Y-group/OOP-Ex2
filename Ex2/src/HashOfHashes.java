@@ -107,7 +107,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
     }
 
 
-    // todo throw exception
+
     @Override
     public Iterator<NodeData> nodeIter() {
         return this.nodes.values().iterator();
@@ -128,7 +128,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
         return this.edges_list.iterator();
     }
 
-    // TODO.
+
     @Override
     public Iterator<EdgeData> edgeIter(int node_id) {
         if (!this.nodes.containsKey(node_id)) {
@@ -139,7 +139,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
         return this.edge.get(node_id).values().iterator();
     }
 
-    // TODO
+
     @Override
     public NodeData removeNode(int key) {
         if (!this.nodes.containsKey(key)) {

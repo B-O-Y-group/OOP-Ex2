@@ -15,10 +15,9 @@ public class window extends JFrame implements ActionListener {
     public DirectedWeightedGraph graph;
     private int MC;
     private MenuItem save, load;
-    private MenuItem addNode, addEdge, removeNode, removeEdge;
     private MenuItem isConnected, shortestPathDist, shortestPath, Center, tsp;
     public Panel panel;
-    DirectedWeightedGraphAlgorithms ALGO;
+
 
 
     public window(DirectedWeightedGraphAlgorithms G) {
@@ -26,15 +25,12 @@ public class window extends JFrame implements ActionListener {
         intiGraph(graph);
         MC = graph.getMC();
 
-
     }
 
     private void intiGraph(DirectedWeightedGraph graph) {
 
         this.setTitle("EX-2 - Graph - BOY ");
 
-
-        // todo  add edge button and  add node button
 
         Dimension fullScreen = Toolkit.getDefaultToolkit().getScreenSize();
         int width = fullScreen.width;
@@ -52,7 +48,7 @@ public class window extends JFrame implements ActionListener {
 
     }
 
-    //was   private void initPanel() before
+
     private void initPanel(DirectedWeightedGraph graph) {
         this.panel = new Panel(graph);
         this.add(panel);
@@ -66,26 +62,12 @@ public class window extends JFrame implements ActionListener {
 
         Menu file = new Menu("File");
         Menu Algorithm = new Menu("Algorithm");
-        Menu addToGraph = new Menu("New");
+
 
 
         menuBar.add(file);
         menuBar.add(Algorithm);
-        menuBar.add(addToGraph);
 
-        addEdge = new MenuItem("Add Edge");
-        addEdge.addActionListener(this);
-        addNode = new MenuItem("Add Node");
-        addNode.addActionListener(this);
-        removeNode = new MenuItem("remove Node");
-        removeNode.addActionListener(this);
-        removeEdge = new MenuItem("remove Edge");
-        removeEdge.addActionListener(this);
-
-        addToGraph.add(addNode);
-        addToGraph.add(addEdge);
-        addToGraph.add(removeNode);
-        addToGraph.add(removeEdge);
 
 
         isConnected = new MenuItem("isConnected");
@@ -149,110 +131,19 @@ public class window extends JFrame implements ActionListener {
             System.out.println("shortestPathDist clicked");
         } else if (e.getSource() == tsp) {
             TSP();
-            //todo open the func
             System.out.println("tsp clicked ");
         }
 
         // --------------New -------------------
-        else if (e.getSource() == addNode) {
-            addNode();
-            System.out.println("add node clicked");
-        } else if (e.getSource() == addEdge) {
-            addEdge();
-            System.out.println("add edge clicked");
-        } else if (e.getSource() == removeNode) {
-            RemoveNode();
-            System.out.println("remove node clicked");
-        } else if (e.getSource() == removeEdge) {
-            RemoveEdge();
-            System.out.println("remove edge clicked");
-        }
+
 
     }
 
     //===============New================================================
-    private void addNode() {
-        //  this.panel.addNode(this);
-
-
-        DirectedWeightedGraphAlgorithms graphAl = new MainAlgo(this.graph);
-        DirectedWeightedGraphAlgorithms graphAl2 = new MainAlgo(this.graph);
-
-        graphAl.init(this.graph);
-        graphAl2.init(graphAl.copy());
-
-
-        JOptionPane.showMessageDialog(this, "Insert Node to the graph ");
-        String x = JOptionPane.showInputDialog(this, "Please give the dx coordinate", "Position", -1);
-        String y = JOptionPane.showInputDialog(this, "Please give the dy coordinate", "Position", -1);
-        int key = graphAl2.getGraph().nodeSize();
-
-        double dx = Double.parseDouble(x);
-        double dy = Double.parseDouble(y);
-
-        try {
-            Point3D p = new Point3D(dx, dy, 0);
-            NodeData n = new Vertex(key, p);
-            graphAl2.getGraph().addNode(n);
-
-            graphAl2.save("");
-
-
-            boolean b = this.ALGO.load("");
-            this.dispose();
-            new window(this.ALGO);
 
 
 
 
-
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-
-        }
-
-    }
-
-
-    //this.panel.addNode(this); }
-
-    private void addEdge() {
-        this.panel.addEdge(this);
-    }
-
-    private void RemoveEdge() {
-        DirectedWeightedGraphAlgorithms graphAl = new MainAlgo(this.graph);
-        DirectedWeightedGraphAlgorithms graphAl2 = new MainAlgo(this.graph);
-        DirectedWeightedGraph newG = this.graph;
-        graphAl.init(this.graph);
-        graphAl2.init(graphAl.copy());
-        JOptionPane.showMessageDialog(this, "Remove Edge from the graph ");
-        String x = JOptionPane.showInputDialog(this, "Please give a src ", "Edge Src", -1);
-        String y = JOptionPane.showInputDialog(this, "Please give a dest ", "Edge dest", -1);
-
-
-        int src = Integer.parseInt(x);
-        int dest = Integer.parseInt(y);
-
-
-        try {
-
-            newG.removeEdge(src, dest);
-            graphAl2.init(newG);
-
-
-            repaint();
-
-
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-
-        }
-    }
-
-    private void RemoveNode() {
-        this.panel.RemoveNode(this);
-    }
 
 
     //===============Algo================================================

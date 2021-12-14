@@ -36,17 +36,22 @@ public class HashOfHashes implements DirectedWeightedGraph {
 
     @Override
     public NodeData getNode(int key) {
+        if (!this.nodes.containsKey(key)) {
+            System.err.println("The graph does not contain this node");
+            return null;
+        }
         return this.nodes.get(key);
     }
 
 
     @Override
     public EdgeData getEdge(int src, int dest) {
-            if (this.graph.get(src).get(dest).get(0) == null) {
-                throw new NoSuchElementException("No such edge in the graph");
-            } else {
-                return this.graph.get(src).get(dest).get(0);
-            }
+        if (!this.edge.get(src).containsKey(dest)) {
+            System.err.println("No such edge in the graph");
+            return null;
+        } else {
+            return this.graph.get(src).get(dest).get(0);
+        }
     }
 
     @Override
@@ -59,29 +64,34 @@ public class HashOfHashes implements DirectedWeightedGraph {
 
     @Override
     public void connect(int src, int dest, double w) {
-        if (w< 0){
+        if (w < 0) {
             throw new NoSuchElementException("no such nodes");
         }
         EdgeData edge = new Edge(src, dest, w);
         if (this.graph.containsKey(src) && this.graph.containsKey(dest)) {
             if (this.graph.get(src).containsKey(dest)) {
 
-                this.graph.get(src).get(dest).add(0, edge);
-                this.graph.get(dest).get(src).add(1, edge);
+                this.graph.get(src).get(dest).set(0, edge);
+                this.graph.get(dest).get(src).set(1, edge);
 
             } else {
                 // init new list for src and dest hash
-                this.graph.get(src).put(dest, new ArrayList<>(2));
-                this.graph.get(dest).put(src, new ArrayList<>(2));
+                this.graph.get(src).put(dest, new ArrayList<>());
+                this.graph.get(dest).put(src, new ArrayList<>());
+                this.graph.get(src).get(dest).add(null);
+                this.graph.get(src).get(dest).add(null);
+                this.graph.get(src).get(dest).set(0, edge);
+
+
+                this.graph.get(dest).get(src).add(null);
+                this.graph.get(dest).get(src).add(null);
+                this.graph.get(dest).get(src).set(1, edge);
+
 
                 // adding the new edge to the hash
-                this.graph.get(src).get(dest).add(0, edge);
 
                 // the list is empty so need to init the first index
-                if (this.graph.get(dest).get(src).isEmpty()) {
-                    this.graph.get(dest).get(src).add(0, null);
-                }
-                this.graph.get(dest).get(src).add(1, edge);
+
 
             }
             if (!this.edge.containsKey(src)) {
@@ -136,37 +146,58 @@ public class HashOfHashes implements DirectedWeightedGraph {
     // TODO
     @Override
     public NodeData removeNode(int key) {
-
-        if (this.graph.containsKey(key)) {
-            for (int i = 0; i < this.graph.get(key).size(); i++) {
-
-                if (i != key) {
-
-
-                    if (this.graph.get(key).get(i).get(1) != null) {
-                    }
-                    System.out.println("herre e e");
-
-                    removeEdge(this.graph.get(key).get(i).get(1).getSrc(), this.graph.get(key).get(i).get(1).getDest());
-                    this.graph.remove(i);
-
-                }
-                if (this.graph.get(key).get(i).get(0) != null) {
-                    System.out.println("------------------------>" + i);
-                    removeEdge(this.graph.get(key).get(i).get(0).getSrc(), this.graph.get(key).get(i).get(0).getDest());
-
-                }
-            }
-            //System.out.println("------------------------>" + this.graph.get(key));
-            NodeData ans = this.nodes.get(key);
-            this.graph.remove(key);
-
-            this.MC++;
-            this.nodes.remove(key);
-            return ans;
-        } else {
-            throw new NoSuchElementException("no key in the graph ");
+        if (!this.nodes.containsKey(key)) {
+            return null;
         }
+        NodeData n = new Vertex(key, getNode(key).getLocation());
+        Iterator<Integer> it = this.graph.get(key).keySet().iterator();
+        while (it.hasNext()) {
+            List<EdgeData> next = this.graph.get(key).get(it.next());
+            if (next.get(0) != null) {
+                EdgeData temp_out = next.get(0);
+                removeEdge(temp_out.getSrc(), temp_out.getDest());
+            }
+            if (next.get(1) != null) {
+                EdgeData temp_in = next.get(1);
+                removeEdge(temp_in.getSrc(), temp_in.getDest());
+            }
+
+        }
+        this.graph.remove(key);
+        this.nodes.remove(key);
+        return n;
+
+
+//        if (this.graph.containsKey(key)) {
+//            for (int i = 0; i < this.graph.get(key).size(); i++) {
+//
+//                if (i != key) {
+//
+//
+//                    if (this.graph.get(key).get(i).get(1) != null) {
+//                    }
+//                    System.out.println("herre e e");
+//
+//                    removeEdge(this.graph.get(key).get(i).get(1).getSrc(), this.graph.get(key).get(i).get(1).getDest());
+//                    this.graph.remove(i);
+//
+//                }
+//                if (this.graph.get(key).get(i).get(0) != null) {
+//                    System.out.println("------------------------>" + i);
+//                    removeEdge(this.graph.get(key).get(i).get(0).getSrc(), this.graph.get(key).get(i).get(0).getDest());
+//
+//                }
+//            }
+//            //System.out.println("------------------------>" + this.graph.get(key));
+//            NodeData ans = this.nodes.get(key);
+//            this.graph.remove(key);
+//
+//            this.MC++;
+//            this.nodes.remove(key);
+//            return ans;
+//        } else {
+//            throw new NoSuchElementException("no key in the graph ");
+//        }
 
 
     }
@@ -179,8 +210,8 @@ public class HashOfHashes implements DirectedWeightedGraph {
             falses_list.add(this.graph.get(src).get(dest).get(0));
             ed_list_removed = true;
 
-            this.graph.get(dest).get(src).remove(1);
-            this.graph.get(src).get(dest).remove(0);
+            this.graph.get(dest).get(src).set(1, null);
+            this.graph.get(src).get(dest).set(0,null);
 
             this.MC++;
             num_of_edges--;
@@ -208,6 +239,14 @@ public class HashOfHashes implements DirectedWeightedGraph {
     @Override
     public int getMC() {
         return this.MC;
+    }
+
+    public static void main(String[] args) {
+        List<Integer> test = new ArrayList<>();
+        test.add(null);
+        test.add(null);
+        test.set(1, 2);
+        System.out.println(test);
     }
 
 

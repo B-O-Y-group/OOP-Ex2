@@ -47,9 +47,9 @@ public class Ex2 {
 //        test.connect(c.getKey(), d.getKey(), 0);
 //        test.connect(d.getKey(), s.getKey(), 1);
 
-        g_algo.load("Ex2/data/G3.json");
+        g_algo.load("Ex2/data/G1.json");
 
-        System.out.println("isConnected: " + test_algo.isConnected());
+        System.out.println("isConnected: " + g_algo.isConnected());
 //        System.out.println("NODE LIST: " + tsp_test);
 //        System.out.println("ANSWER SHORTEST: " + g_algo.shortestPath(20, 45));
 //        System.out.println("SHORTEST DIST: " + g_algo.shortestPathDist(20, 45));

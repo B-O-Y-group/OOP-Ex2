@@ -207,8 +207,8 @@ public class Panel extends JPanel implements MouseListener {
         try {
             graphAl2.getGraph().removeNode(key);
             graphAl2.init(newG);
+            this.repaint();
 
-            repaint();
 
 
         } catch (Exception e) {
@@ -241,7 +241,8 @@ public class Panel extends JPanel implements MouseListener {
             graphAl2.getGraph().addNode(n);
             graphAl2.init(newG);
 
-            repaint();
+            this.repaint();
+
 
 
         } catch (Exception exception) {
@@ -273,7 +274,7 @@ public class Panel extends JPanel implements MouseListener {
             graphAl2.getGraph().connect(src,dest,weight);
             graphAl2.init(newG);
 
-            repaint();
+            this.repaint();
 
 
 
@@ -305,7 +306,8 @@ public class Panel extends JPanel implements MouseListener {
             graphAl2.getGraph().removeEdge(src,dest);
             graphAl2.init(newG);
 
-            repaint();
+            this.repaint();
+
 
 
 

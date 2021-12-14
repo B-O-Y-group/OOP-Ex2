@@ -11,8 +11,7 @@ public class Ex2 {
     //some test
     public static void main(String[] args) {
 
-        runGUI("Ex2/data/G3.json");
-
+        runGUI("Ex2/data/G2.json");
      //   DirectedWeightedGraph test = new HashOfHashes();
     //    DirectedWeightedGraphAlgorithms test_algo = new MainAlgo(test);
 

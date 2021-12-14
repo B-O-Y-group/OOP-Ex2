@@ -12,14 +12,7 @@ public class Vertex implements NodeData {
 
     private int num_of_neighbors;
 
-    public int getNum_of_neighbors() {
-        return num_of_neighbors;
-    }
 
-
-    public void UpdateNum_of_neighbors() {
-        this.num_of_neighbors++;
-    }
 
     public Vertex(int id, GeoLocation pos) {
         this.id = id;
@@ -30,7 +23,14 @@ public class Vertex implements NodeData {
         this.info = "";
         this.num_of_neighbors = 0;
     }
+    public int getNum_of_neighbors() {
+        return num_of_neighbors;
+    }
 
+
+    public void UpdateNum_of_neighbors() {
+        this.num_of_neighbors++;
+    }
 
     @Override
     public int getKey() {

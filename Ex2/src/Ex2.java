@@ -12,8 +12,8 @@ public class Ex2 {
     public static void main(String[] args) {
 
         //runGUI(args[0]);
-        runGUI("Ex2/data/G3.json");
-        // System.out.println(getGrapgAlgo("Ex2/data/G1.json").center());
+        runGUI("Ex2/data/G2.json");
+
 
     }
 

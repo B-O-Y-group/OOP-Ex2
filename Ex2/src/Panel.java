@@ -10,7 +10,7 @@ import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.util.Iterator;
 
-public class Panel extends JPanel implements MouseListener {
+public class Panel extends JPanel {
 
     public DirectedWeightedGraphAlgorithms algo1, algo2;
     public HashOfHashes graph;
@@ -36,12 +36,12 @@ public class Panel extends JPanel implements MouseListener {
         this.graph = (HashOfHashes) g;
 
 
-        // this.addMouseListener(this);
-
         repaint();
         Color c = new Color(0, 204, 204);
         this.setBackground(c);
 
+
+        //  for Scale
         minX = Double.MAX_VALUE;
         maxX = Double.MIN_VALUE;
         minY = Double.MAX_VALUE;
@@ -178,168 +178,8 @@ public class Panel extends JPanel implements MouseListener {
     }
 
 
-    //--------------------------New-----------------------------------------------------------------
-    public void RemoveNode(JFrame frame) {
-
-        DirectedWeightedGraphAlgorithms graphAl = new MainAlgo(this.graph);
-        DirectedWeightedGraphAlgorithms graphAl2 = new MainAlgo(this.graph);
-        DirectedWeightedGraph newG = this.graph;
-        graphAl.init(this.graph);
-        graphAl2.init(graphAl.copy());
-        String S = JOptionPane.showInputDialog(frame, "Please give Node Key you want to remove from the graph","???",
-                -1);
-        int key = Integer.parseInt(S);
-
-        try {
-            graphAl2.getGraph().removeNode(key);
-            graphAl2.init(newG);
-            this.repaint();
-            this.revalidate();
 
 
-        } catch (Exception e) {
-            System.out.println(" " + e.getCause());
-
-        }
-
-    }
-
-
-    //not good
-    public void addNode(JFrame frame) {
-
-        DirectedWeightedGraphAlgorithms graphAl = new MainAlgo(this.graph);
-        DirectedWeightedGraphAlgorithms graphAl2 = new MainAlgo(this.graph);
-        DirectedWeightedGraph newG = this.graph;
-        graphAl.init(this.graph);
-        graphAl2.init(graphAl.copy());
-        JOptionPane.showMessageDialog(frame, "Insert Node to the graph ");
-        String x = JOptionPane.showInputDialog(frame, "Please give the dx coordinate", "Position", -1);
-        String y = JOptionPane.showInputDialog(frame, "Please give the dy coordinate", "Position", -1);
-        int key = this.algo2.getGraph().nodeSize();
-
-        double dx = Double.parseDouble(x);
-        double dy = Double.parseDouble(y);
-
-        try {
-            Point3D p = new Point3D(dx, dy, 0);
-            NodeData n = new Vertex(key, p);
-            System.out.println("new " + n);
-            newG.addNode(n);
-            Panel p1 = new Panel(newG);
-                p1.repaint();
-                p1.revalidate();
-
-
-
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-
-        }
-
-    }
-
-    public void addEdge(JFrame frame) {
-        DirectedWeightedGraphAlgorithms graphAl = new MainAlgo(this.graph);
-        DirectedWeightedGraphAlgorithms graphAl2 = new MainAlgo(this.graph);
-        DirectedWeightedGraph newG = this.graph;
-        graphAl.init(this.graph);
-        graphAl2.init(graphAl.copy());
-        JOptionPane.showMessageDialog(frame, "Insert Edge to the graph ");
-        String x = JOptionPane.showInputDialog(frame, "Please give a src ", "Edge Src", -1);
-        String y = JOptionPane.showInputDialog(frame, "Please give a dest ", "Edge dest", -1);
-        String w = JOptionPane.showInputDialog(frame, "Please give a weight ", "Edge weight", -1);
-
-
-        int src = Integer.parseInt(x);
-        int dest = Integer.parseInt(y);
-        double weight = Double.parseDouble(w);
-
-
-        try {
-
-            graphAl2.getGraph().connect(src, dest, weight);
-            graphAl2.init(newG);
-
-            this.repaint();
-            this.paint(this.getGraphics());
-            this.revalidate();
-
-
-
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-
-        }
-    }
-
-    public void RemoveEdge(JFrame frame) {
-        DirectedWeightedGraphAlgorithms graphAl = new MainAlgo(this.graph);
-        DirectedWeightedGraphAlgorithms graphAl2 = new MainAlgo(this.graph);
-        DirectedWeightedGraph newG = this.graph;
-        graphAl.init(this.graph);
-        graphAl2.init(graphAl.copy());
-        JOptionPane.showMessageDialog(frame, "Remove Edge from the graph ");
-        String x = JOptionPane.showInputDialog(frame, "Please give a src ", "Edge Src", -1);
-        String y = JOptionPane.showInputDialog(frame, "Please give a dest ", "Edge dest", -1);
-
-
-        int src = Integer.parseInt(x);
-        int dest = Integer.parseInt(y);
-
-
-        try {
-
-            graphAl2.getGraph().removeEdge(src, dest);
-            graphAl2.init(newG);
-
-            this.repaint();
-
-
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-
-        }
-    }
-
-
-//-----------------------------mouseClicked--------------------------------------------------------------
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        this.newP = new Point3D(e.getX(), e.getY(), 0);
-
-
-        ;
-//            NodeData n = new Vertex(this.algo2.getGraph().nodeSize() + 1, newP);
-//            DirectedWeightedGraph newG = this.algo2.getGraph();
-//            newG.addNode(n);;
-        //p.repaint();
-        //set size;
-        //repaint();
-
-    }
-
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
 
 
     //-------------------------------------Draw Arrow------------------------------------------------------

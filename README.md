@@ -34,14 +34,16 @@ This project represents a number of algorithms that can be done on a directed gr
     
 3. How to use gui: 
 
-    1. First choose from the menu bar      
+    1. First choose from the menu bar  
+       
        ![img_2.png](img_2.png)
+       
     2. File --> load ans save
             
         if u choose for load the fallowing will show 
         in this window u need to open a json file of Directed weight graph .
        
-            ![img_3.png](img_3.png)
+       ![img_3.png](img_3.png)
        
        if u choose for a save  the fallowing will  show 
        and here u need to choose for a place u want to save the result .

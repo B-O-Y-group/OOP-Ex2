@@ -8,6 +8,7 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
 
     public DirectedWeightedGraph graph;
     private int max_node;
+    private boolean max_node_activate;
 
     public MainAlgo(DirectedWeightedGraph h) {
         max_node = 0;
@@ -18,7 +19,18 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
                 max_node = next.getKey();
             }
         }
+        max_node_activate = true;
         init(h);
+    }
+
+    public void max_node() {
+        Iterator<NodeData> it = this.graph.nodeIter();
+        while (it.hasNext()) {
+            NodeData next = it.next();
+            if (next.getKey() > max_node) {
+                max_node = next.getKey();
+            }
+        }
     }
 
     @Override
@@ -47,7 +59,8 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
         Iterator<NodeData> copyN = this.graph.nodeIter();
         while (copyN.hasNext()) {
             NodeData next = copyN.next();
-            new_g.addNode(next);
+            NodeData copy_N = new Vertex(next.getKey(), next.getLocation());
+            new_g.addNode(copy_N);
 
         }
         Iterator<EdgeData> copyE = this.graph.edgeIter();
@@ -108,54 +121,50 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
     // get by shortest().
     @Override
     public double shortestPathDist(int src, int dest) {
-        int[] visited = new int[this.max_node + 1];
-        System.out.println("MAXXX: " + (this.max_node + 1));
+        if (src == dest) {
+            return 0;
+        }
+        if (!max_node_activate) {
+            max_node();
+        }
+//        Iterator<NodeData> clear = this.graph.nodeIter();
+//        while (clear.hasNext()) {
+//            clear.next().setTag(0);
+//        }
+        DirectedWeightedGraph new_g = copy();
         int visits = 0;
-        double[] dist = new double[this.max_node + 1];
-        Arrays.fill(dist, Double.POSITIVE_INFINITY);
-        PriorityQueue<EdgeData> queue = new PriorityQueue<>(Comparator.comparingDouble(EdgeData::getWeight));
+        PriorityQueue<NodeData> queue = new PriorityQueue<>(Comparator.comparingDouble(NodeData::getWeight));
 
-        //FOR TEST
-        ArrayList<Integer> TEST = new ArrayList<>();
-        //FOR TEST
-
-        int curr_ver = this.graph.getNode(src).getKey();
-        dist[curr_ver] = 0;
+        NodeData curr_ver = new_g.getNode(src);
         do {
             visits++;
             if (visits != 1) {
-                System.out.println(queue);
-                curr_ver = queue.poll().getDest();
+                curr_ver = queue.poll();
             }
-//            if (curr_ver == dest) {
-//                break;
-//            }
-            visited[curr_ver] = 2;
-            //FOR TEST
-//            System.out.println(TEST);
-            TEST.clear();
-            //FOR TEST
-            Iterator<EdgeData> it = this.graph.edgeIter(curr_ver);
+            if (curr_ver.getKey() == dest) {
+                break;
+            }
+            new_g.getNode(curr_ver.getKey()).setTag(2);
+            Iterator<EdgeData> it = new_g.edgeIter(curr_ver.getKey());
             while (it.hasNext()) {
                 EdgeData next = it.next();
-                //FOR TEST
-                TEST.add(next.getDest());
-                //FOR TEST
-                if (visited[next.getDest()] != 2) {
+                if (new_g.getNode(next.getDest()).getTag() != 2) {
 
-                    double temp_dist = dist[curr_ver] + next.getWeight();
-                    if (temp_dist < dist[next.getDest()]) {
-                        dist[next.getDest()] = temp_dist;
-                        visited[next.getDest()] = 1;
-                        queue.add(next);
+                    double temp_dist = new_g.getNode(curr_ver.getKey()).getWeight() + next.getWeight();
+                    if (new_g.getNode(next.getDest()).getTag() == 0) {
+                        new_g.getNode(next.getDest()).setWeight(temp_dist);
+                        new_g.getNode(next.getDest()).setTag(1);
+                        queue.add(new_g.getNode(next.getDest()));
+                    }
+                    if (temp_dist <= new_g.getNode(next.getDest()).getWeight()) {
+                        new_g.getNode(next.getDest()).setWeight(temp_dist);
                     }
                 }
             }
-
         }
         while (!queue.isEmpty());
         System.out.println(visits);
-        return dist[dest];
+        return new_g.getNode(dest).getWeight();
 
     }
 
@@ -163,46 +172,50 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
     // implement by dixtra algorithm. data structure for this algorithm --> Fibonacci heap
     @Override
     public List<NodeData> shortestPath(int src, int dest) {
-        int[] visited = new int[this.max_node + 1];
+        if (!max_node_activate) {
+            max_node();
+        }
+        DirectedWeightedGraph new_g = copy();
         int visits = 0;
-        double[] dist = new double[this.max_node + 1];
-        Arrays.fill(dist, Double.POSITIVE_INFINITY);
         int[] prev = new int[this.max_node + 1];
         Arrays.fill(prev, -1);
-        PriorityQueue<EdgeData> queue = new PriorityQueue<>(Comparator.comparingDouble(EdgeData::getWeight));
+        PriorityQueue<NodeData> queue = new PriorityQueue<>(Comparator.comparingDouble(NodeData::getWeight));
 
-        int curr_ver = this.graph.getNode(src).getKey();
-        dist[curr_ver] = 0;
+        NodeData curr_ver = new_g.getNode(src);
         do {
             visits++;
             if (visits != 1) {
-                curr_ver = queue.poll().getDest();
+                curr_ver = queue.poll();
             }
-            if (curr_ver == dest) {
+            if (curr_ver.getKey() == dest) {
                 break;
             }
-            visited[curr_ver] = 2;
-            Iterator<EdgeData> it = this.graph.edgeIter(curr_ver);
+            new_g.getNode(curr_ver.getKey()).setTag(2);
+            Iterator<EdgeData> it = new_g.edgeIter(curr_ver.getKey());
             while (it.hasNext()) {
                 EdgeData next = it.next();
-                if (visited[next.getDest()] != 2) {
+                if (new_g.getNode(next.getDest()).getTag() != 2) {
 
-                    double temp_dist = dist[curr_ver] + next.getWeight();
-                    if (temp_dist < dist[next.getDest()]) {
-                        dist[next.getDest()] = temp_dist;
-                        prev[next.getDest()] = curr_ver;
-                        visited[next.getDest()] = 1;
-                        queue.add(next);
+                    double temp_dist = new_g.getNode(curr_ver.getKey()).getWeight() + next.getWeight();
+                    if (new_g.getNode(next.getDest()).getTag() == 0) {
+                        new_g.getNode(next.getDest()).setWeight(temp_dist);
+                        prev[next.getDest()] = curr_ver.getKey();
+                        new_g.getNode(next.getDest()).setTag(1);
+                        queue.add(new_g.getNode(next.getDest()));
+                    }
+                    if (temp_dist <= new_g.getNode(next.getDest()).getWeight()) {
+                        new_g.getNode(next.getDest()).setWeight(temp_dist);
+                        prev[next.getDest()] = curr_ver.getKey();
                     }
                 }
             }
         }
         while (!queue.isEmpty());
         List<NodeData> ans = new ArrayList<>();
-        ans.add(this.graph.getNode(dest));
+        ans.add(new_g.getNode(dest));
         int pointer = prev[dest];
         while (pointer != -1) {
-            ans.add(this.graph.getNode(pointer));
+            ans.add(new_g.getNode(pointer));
             pointer = prev[pointer];
         }
         Collections.reverse(ans);
@@ -210,41 +223,43 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
         return ans;
     }
 
-    public static List<Double> list;
-
-
     @Override
     public NodeData center() {
-        list = new ArrayList<>();
 
-        Iterator<NodeData> it = this.graph.nodeIter();
-        Iterator<NodeData> second = this.graph.nodeIter();
+        DirectedWeightedGraph new_g = copy();
 
+        Iterator<NodeData> it = new_g.nodeIter();
+        HashMap<Integer, Double> nodes_val = new HashMap<>();
 
+        double final_c = Double.POSITIVE_INFINITY;
+        NodeData center = null;
         while (it.hasNext()) {
-            NodeData n = it.next();
-            while (second.hasNext()) {
-                NodeData next = second.next();
-
-                if (next.getKey() == n.getKey()) continue;
-
-
-                list.add(shortestPathDist(n.getKey(), next.getKey()));
+            double first = Double.NEGATIVE_INFINITY;
+            int next = it.next().getKey();
+            Iterator<NodeData> it_first = new_g.nodeIter();
+            while (it_first.hasNext()) {
+                int first_next = it_first.next().getKey();
+                double temp = shortestPathDist(next,first_next);
+                if (next == 20 && first_next == 45) {
+                    System.out.println("HEREEEEEEEEEEEEEEEEEEEEEEEEEEEE: " + temp);
+                }
+                if (temp > first) {
+                    first = temp;
+                }
             }
-
-        }
-        double min = list.get(0);
-        int index = 0;
-        for (int i = 1; i < list.size(); i++) {
-            if (list.get(i) < min) {
-                min = list.get(i);
-                index = i;
-            }
+            nodes_val.put(next, first);
         }
 
-        return this.graph.getNode(index);
-    }
-
+        Iterator<Integer> fin_it = nodes_val.keySet().iterator();
+        System.out.println("Final LIST = " + nodes_val);
+        while (fin_it.hasNext()) {
+            int fin_next = fin_it.next();
+            if (nodes_val.get(fin_next) < final_c) {
+                final_c = nodes_val.get(fin_next);
+                center = new_g.getNode(fin_next);
+            }
+        }
+        return center;
 
 //        Iterator<NodeData> it = this.graph.nodeIter();
 //        NodeData center = null;
@@ -281,21 +296,62 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
 //        System.out.println("CHECK " + final_list.keySet());
 //
 //        return final_list.get(a);
+
+//                NodeData temp_node = Node_it.next();
+//                if (temp_node.getKey() != next.getKey()) {
+//                    System.out.println("NEXT: " + next + " TEMP: " + temp_node);
+//                    double temp = shortestPathDist(next.getKey(), temp_node.getKey());
+//                    test.add(temp);
+//                    if (temp >= max) {
+//                        max = temp;
+//                    }
+//                }
 //
+//
+//            }
+//            System.out.println("NODE ID: " + next.getKey() + " TETTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT" + test);
+//            if (max <= min) {
+//                min = max;
+//                center = next;
+//            }
+//        }
+//        System.out.println("MIN " + min);
+//        return center;
+//        Iterator<NodeData> it = this.graph.nodeIter();
+//        double min_path = Double.POSITIVE_INFINITY;
+//        NodeData center = null;
+//        while (it.hasNext()) {
+//            double temp = 0;
+//            NodeData next = it.next();
+//            Iterator<NodeData> sum_it = this.graph.nodeIter();
+//            while (sum_it.hasNext()) {
+//                NodeData curr = sum_it.next();
+//                if (next.getKey() != curr.getKey()) {
+//                    temp += shortestPathDist(next.getKey(), curr.getKey());
+//                }
+//            }
+//            if (temp < min_path) {
+//                min_path = temp;
+//                center = next;
+//            }
+//        }
+//        return center;
 
 
+    }
 
 
     @Override
     public List<NodeData> tsp(List<NodeData> cities) {
         double temp = Double.POSITIVE_INFINITY;
         List<NodeData> path = Collections.emptyList();
-
-        for (NodeData next : cities) {
+        ArrayList<NodeData> sorted_cities = new ArrayList<>(cities);
+        sorted_cities.sort((a,b) -> a.getKey() - b.getKey());
+        for (NodeData next : sorted_cities) {
             List<NodeData> path_init = new ArrayList<>(Collections.emptyList());
             path_init.add(next);
 
-            ArrayList<NodeData> miss = new ArrayList<>(cities);
+            ArrayList<NodeData> miss = new ArrayList<>(sorted_cities);
             miss.remove(next);
 
             double curr_weight = 0;
@@ -377,6 +433,7 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
     @Override
     public boolean load(String file) {
         File input = new File(file);
+        max_node_activate = false;
         try {
             JsonElement fileElement = JsonParser.parseReader(new FileReader(input));
             JsonObject fileObject = fileElement.getAsJsonObject();

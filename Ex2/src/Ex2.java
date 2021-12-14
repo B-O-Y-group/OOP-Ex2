@@ -11,63 +11,9 @@ public class Ex2 {
     //some test
     public static void main(String[] args) {
 
-        runGUI("Ex2/data/G1.json");
-
-        DirectedWeightedGraph graph = new HashOfHashes();
-        DirectedWeightedGraphAlgorithms g_algo = new MainAlgo(graph);
-
-
-
-        DirectedWeightedGraph test = new HashOfHashes();
-        DirectedWeightedGraphAlgorithms test_algo = new MainAlgo(test);
-
-//        NodeData s = new Vertex(0,new Point3D(1,1,1));
-//        NodeData a = new Vertex(1,new Point3D(1,1,1));
-//        NodeData b = new Vertex(2,new Point3D(1,1,1));
-//        NodeData c = new Vertex(3,new Point3D(1,1,1));
-//        NodeData d = new Vertex(4,new Point3D(1,1,1));
-//
-//        test.addNode(s);
-//        test.addNode(a);
-//        test.addNode(b);
-//        test.addNode(c);
-//        test.addNode(d);
-//
-//        test.connect(s.getKey(), a.getKey(), 1);
-//        test.connect(s.getKey(), b.getKey(), 0);
-//        test.connect(s.getKey(), c.getKey(), 1);
-//        test.connect(s.getKey(), d.getKey(), 1);
-//
-//        test.connect(a.getKey(), b.getKey(), 0);
-//        test.connect(a.getKey(), c.getKey(), 1);
-//        test.connect(a.getKey(), d.getKey(), 1);
-//
-//
-//        test.connect(b.getKey(), c.getKey(), 0);
-//        test.connect(c.getKey(), d.getKey(), 0);
-//        test.connect(d.getKey(), s.getKey(), 1);
-
-        g_algo.load("Ex2/data/G1.json");
-
-        System.out.println("isConnected: " + g_algo.isConnected());
-//        System.out.println("NODE LIST: " + tsp_test);
-//        System.out.println("ANSWER SHORTEST: " + g_algo.shortestPath(20, 45));
-//        System.out.println("SHORTEST DIST: " + g_algo.shortestPathDist(20, 45));
-//        System.out.println("TSP: " + g_algo.tsp(g_algo.shortestPath(1, 16)));
-        System.out.println("Center: " + g_algo.center());
-
-
-
-//
-
-
-//        Iterator<NodeData> t = graph.nodeIter();
-//        while (t.hasNext()) {
-//            NodeData temp = t.next();
-//            System.out.println(temp);
-//        }
-
-        //graph.nodeIter().forEachRemaining(nodeData -> System.out.println(nodeData.getKey()));
+        //runGUI(args[0]);
+        runGUI("GAL.json");
+       // System.out.println(getGrapgAlgo("Ex2/data/G1.json").center());
 
     }
 
@@ -107,35 +53,49 @@ public class Ex2 {
      * @param json_file - a json file (e.g., G1.json - G3.gson)
      */
     public static void runGUI(String json_file) {
-        DirectedWeightedGraphAlgorithms alg = new MainAlgo(getGrapg(json_file));
+        DirectedWeightedGraphAlgorithms alg = getGrapgAlgo(json_file);
         // ****** Add your code here ******
 
-        System.out.println("========================================================================");
-        DirectedWeightedGraph graph = new HashOfHashes();
+//        DirectedWeightedGraph graph = new HashOfHashes();
+//        graph = new HashOfHashes();
+//        NodeData k0 = new Vertex(0, new Point3D(1, 2, 0));
+//        NodeData k1 = new Vertex(1, new Point3D(2, 3, 0));
+//        NodeData k2 = new Vertex(2, new Point3D(4, 3, 0));
+//        NodeData k3 = new Vertex(3, new Point3D(5, 3, 0));
+//        NodeData k4 = new Vertex(4, new Point3D(6, 2, 0));
+//        NodeData k5 = new Vertex(5, new Point3D(5, 1, 0));
+//        NodeData k6 = new Vertex(6, new Point3D(4, 1, 0));
+//        NodeData k7 = new Vertex(7, new Point3D(2, 1, 0));
+//        NodeData k8 = new Vertex(8, new Point3D(3, 2, 0));
+//
+//        graph.addNode(k0);
+//        graph.addNode(k1);
+//        graph.addNode(k2);
+//        graph.addNode(k3);
+//        graph.addNode(k4);
+//        graph.addNode(k5);
+//        graph.addNode(k6);
+//        graph.addNode(k7);
+//        graph.addNode(k8);
+//
+//        graph.connect(k0.getKey(), k1.getKey(), 4);
+//        graph.connect(k0.getKey(), k7.getKey(), 8);
+//        graph.connect(k1.getKey(), k7.getKey(), 11);
+//        graph.connect(k2.getKey(), k1.getKey(), 8);
+//        graph.connect(k2.getKey(), k3.getKey(), 7);
+//        graph.connect(k3.getKey(), k4.getKey(), 9);
+//        graph.connect(k4.getKey(), k5.getKey(), 10);
+//        graph.connect(k5.getKey(), k2.getKey(), 4);
+//        graph.connect(k5.getKey(), k3.getKey(), 14);
+//        graph.connect(k6.getKey(), k5.getKey(), 2);
+//        graph.connect(k7.getKey(), k8.getKey(), 7);
+//        graph.connect(k7.getKey(), k6.getKey(), 1);
+//        graph.connect(k8.getKey(), k6.getKey(), 6);
+//        graph.connect(k8.getKey(), k2.getKey(), 2);
 
 
+        //DirectedWeightedGraphAlgorithms alg1 = new MainAlgo(graph);
 
-        NodeData a = new Vertex(0, new Point3D(80,341.19589389346247, 0));
-        NodeData b = new Vertex(1, new Point3D(10,220.10318254621849, 0));
-        NodeData c = new Vertex(2, new Point3D(270,202.1025646605042, 0));
-        NodeData d = new Vertex(3, new Point3D(350,102.10107446554622, 0));
-
-        graph.addNode(a);
-        graph.addNode(b);
-        graph.addNode(c);
-        graph.addNode(d);
-
-
-        graph.connect(a.getKey(), b.getKey(), 1);
-        graph.connect(a.getKey(), c.getKey(), 2);
-        graph.connect(c.getKey(), d.getKey(), 1);
-
-        graph.connect(d.getKey(), b.getKey(), 2);
-
-
-        graph.connect(b.getKey(), c.getKey(), 4);
-
-        DirectedWeightedGraphAlgorithms al = new MainAlgo(graph);
 
 
         window win = new window(alg);
@@ -145,51 +105,4 @@ public class Ex2 {
         // ********************************
     }
 
-    public static DirectedWeightedGraphAlgorithms test() {
-        DirectedWeightedGraph test = new HashOfHashes();
-        DirectedWeightedGraphAlgorithms test_algo = new MainAlgo(test);
-
-        DirectedWeightedGraphAlgorithms hAlgo;
-        DirectedWeightedGraph h;
-        h = new HashOfHashes();
-        hAlgo = new MainAlgo(h);
-
-        NodeData h1 = new Vertex(1, new Point3D(2, 1, 0));
-        NodeData h2 = new Vertex(2, new Point3D(3, 1, 0));
-        NodeData h3 = new Vertex(3, new Point3D(4, 2, 0));
-        NodeData h4 = new Vertex(4, new Point3D(3, 3, 0));
-        NodeData h5 = new Vertex(5, new Point3D(2, 3, 0));
-        NodeData h6 = new Vertex(6, new Point3D(1, 2, 0));
-
-        h.addNode(h1);
-        h.addNode(h2);
-        h.addNode(h3);
-        h.addNode(h4);
-        h.addNode(h5);
-        h.addNode(h6);
-
-
-
-        h.connect(h1.getKey(), h2.getKey(), 1);
-        h.connect(h1.getKey(), h6.getKey(), 1);
-        h.connect(h1.getKey(), h5.getKey(), 1);
-        h.connect(h2.getKey(), h1.getKey(), 1);
-        h.connect(h2.getKey(), h3.getKey(), 1);
-        h.connect(h2.getKey(), h4.getKey(), 1);
-        h.connect(h2.getKey(), h5.getKey(), 1);
-        h.connect(h3.getKey(), h2.getKey(), 1);
-        h.connect(h3.getKey(), h4.getKey(), 1);
-        h.connect(h4.getKey(), h2.getKey(), 1);
-        h.connect(h4.getKey(), h3.getKey(), 1);
-        h.connect(h4.getKey(), h5.getKey(), 1);
-        h.connect(h5.getKey(), h1.getKey(), 1);
-        h.connect(h5.getKey(), h2.getKey(), 1);
-        h.connect(h5.getKey(), h6.getKey(), 1);
-        h.connect(h5.getKey(), h4.getKey(), 1);
-        h.connect(h6.getKey(), h1.getKey(), 1);
-        h.connect(h6.getKey(), h5.getKey(), 1);
-
-        hAlgo.init(h);
-        return hAlgo;
-    }
 }

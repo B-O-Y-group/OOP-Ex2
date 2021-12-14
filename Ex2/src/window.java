@@ -15,15 +15,17 @@ public class window extends JFrame implements ActionListener {
     public DirectedWeightedGraph graph;
     private int MC;
     private MenuItem save, load;
-    private MenuItem  addNode, addEdge , removeNode,removeEdge;
+    private MenuItem addNode, addEdge, removeNode, removeEdge;
     private MenuItem isConnected, shortestPathDist, shortestPath, Center, tsp;
     public Panel panel;
+    DirectedWeightedGraphAlgorithms ALGO;
 
 
     public window(DirectedWeightedGraphAlgorithms G) {
         this.graph = G.getGraph();
         intiGraph(graph);
         MC = graph.getMC();
+
 
     }
 
@@ -35,8 +37,8 @@ public class window extends JFrame implements ActionListener {
         // todo  add edge button and  add node button
 
         Dimension fullScreen = Toolkit.getDefaultToolkit().getScreenSize();
-        int width = fullScreen.width / 2;
-        int high = fullScreen.height / 2;
+        int width = fullScreen.width;
+        int high = fullScreen.height;
         this.setSize(width, high);
         addMenu();
 
@@ -75,10 +77,10 @@ public class window extends JFrame implements ActionListener {
         addEdge.addActionListener(this);
         addNode = new MenuItem("Add Node");
         addNode.addActionListener(this);
-        removeNode = new MenuItem("removeNode");
-        addToGraph.addActionListener(this);
-        removeEdge = new MenuItem("removeEdge");
-        addToGraph.addActionListener(this);
+        removeNode = new MenuItem("remove Node");
+        removeNode.addActionListener(this);
+        removeEdge = new MenuItem("remove Edge");
+        removeEdge.addActionListener(this);
 
         addToGraph.add(addNode);
         addToGraph.add(addEdge);
@@ -126,7 +128,6 @@ public class window extends JFrame implements ActionListener {
             save();
 
         } else if (e.getSource() == load) {
-            //TODO open file
             load();
             System.out.println("load clicked");
         }
@@ -136,7 +137,6 @@ public class window extends JFrame implements ActionListener {
             isConnected();
             System.out.println("isConnected clicked");
         } else if (e.getSource() == Center) {
-            //todo draw
             FindCenter();
             System.out.println("Center clicked");
         } else if (e.getSource() == shortestPath) {
@@ -169,18 +169,92 @@ public class window extends JFrame implements ActionListener {
         }
 
     }
+
     //===============New================================================
-    private void addNode(){this.panel.addNode(this); }
+    private void addNode() {
+        //  this.panel.addNode(this);
 
-    private void addEdge() {this.panel.addEdge(this); }
 
-    private void RemoveEdge() { this.panel.RemoveEdge(this);}
+        DirectedWeightedGraphAlgorithms graphAl = new MainAlgo(this.graph);
+        DirectedWeightedGraphAlgorithms graphAl2 = new MainAlgo(this.graph);
 
+        graphAl.init(this.graph);
+        graphAl2.init(graphAl.copy());
+
+
+        JOptionPane.showMessageDialog(this, "Insert Node to the graph ");
+        String x = JOptionPane.showInputDialog(this, "Please give the dx coordinate", "Position", -1);
+        String y = JOptionPane.showInputDialog(this, "Please give the dy coordinate", "Position", -1);
+        int key = graphAl2.getGraph().nodeSize();
+
+        double dx = Double.parseDouble(x);
+        double dy = Double.parseDouble(y);
+
+        try {
+            Point3D p = new Point3D(dx, dy, 0);
+            NodeData n = new Vertex(key, p);
+            graphAl2.getGraph().addNode(n);
+            //Frame f = new window(graphAl2);
+            graphAl2.save("GAL.json");
+
+
+            boolean b = this.ALGO.load("GAL.json");
+            this.dispose();
+            new window(this.ALGO);
+
+
+
+//            new window(graphAl2);
+
+//           repaint();
+
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+
+        }
+
+    }
+
+
+    //this.panel.addNode(this); }
+
+    private void addEdge() {
+        this.panel.addEdge(this);
+    }
+
+    private void RemoveEdge() {
+        DirectedWeightedGraphAlgorithms graphAl = new MainAlgo(this.graph);
+        DirectedWeightedGraphAlgorithms graphAl2 = new MainAlgo(this.graph);
+        DirectedWeightedGraph newG = this.graph;
+        graphAl.init(this.graph);
+        graphAl2.init(graphAl.copy());
+        JOptionPane.showMessageDialog(this, "Remove Edge from the graph ");
+        String x = JOptionPane.showInputDialog(this, "Please give a src ", "Edge Src", -1);
+        String y = JOptionPane.showInputDialog(this, "Please give a dest ", "Edge dest", -1);
+
+
+        int src = Integer.parseInt(x);
+        int dest = Integer.parseInt(y);
+
+
+        try {
+
+            newG.removeEdge(src, dest);
+            graphAl2.init(newG);
+
+
+            repaint();
+
+
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+
+        }
+    }
 
     private void RemoveNode() {
         this.panel.RemoveNode(this);
     }
-
 
 
     //===============Algo================================================
@@ -195,41 +269,42 @@ public class window extends JFrame implements ActionListener {
         List<NodeData> listN;
 
         String max = JOptionPane.showInputDialog(this,
-                "Please enter a number of cities you want to visit  <= " + graphAl2.getGraph().nodeSize());
+                "Please enter a size for the list<= " + graphAl2.getGraph().nodeSize());
 
-        int cities = Integer.parseInt(max);
+        int size = Integer.parseInt(max);
         try {
+
             String ans = "";
 
-            for (int i = 0; i < cities; i++) {
+            for (int i = 0; i < size; i++) {
                 String path = JOptionPane.showInputDialog(this,
                         "Please enter a node  " + graphAl2.getGraph().getNode(i));
                 int nodeT = Integer.parseInt(path);
                 list.add(graphAl2.getGraph().getNode(nodeT));
-                System.out.println("---------------------------> " + graphAl2.getGraph().getNode(nodeT));
+
             }
 
             listN = graphAl2.tsp(list);
 
             for (int i = 0; i < listN.size(); i++) {
                 ans += "" + listN.get(i).getKey();
-                System.out.println("--------------------------------------------------------");
-                System.out.println(ans);
-                System.out.println("--------------------------------------------------------");
+
 
                 JOptionPane.showMessageDialog(null, "Tsp :  " + ans, "Tsp",
                         JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (NumberFormatException exception) {
-            if (cities > graphAl2.getGraph().nodeSize()) {
+            if (size > graphAl2.getGraph().nodeSize()) {
                 JOptionPane.showMessageDialog(null, "Your number is bigger from  the node size of the graph  ",
                         "Tsp",
                         JOptionPane.WARNING_MESSAGE);
+                System.out.println(exception.getMessage());
             }
         } catch (Exception exception) {
             JOptionPane.showMessageDialog(null, "ex  ",
                     "Tsp",
                     JOptionPane.WARNING_MESSAGE);
+            System.out.println(exception.getMessage());
         }
 
     }
@@ -286,7 +361,7 @@ public class window extends JFrame implements ActionListener {
                 ans = " There  are no path between the two given nodes ";
 
             }
-            JOptionPane.showMessageDialog(null, "The Shortest Path is :  \n" + ans, " ShortestPath ",
+            JOptionPane.showMessageDialog(this, "The Shortest Path is :  \n" + ans, " ShortestPath ",
                     JOptionPane.INFORMATION_MESSAGE);
 
 
@@ -303,13 +378,14 @@ public class window extends JFrame implements ActionListener {
 
         graphAl.init(this.graph);
         graphAl2.init(graphAl.copy());
-        //todo in  PANEL
-        this.panel = new Panel(graphAl2.getGraph());
-        NodeData ans = this.panel.getCenter();
+
+        NodeData ans = graphAl2.center();
+
         if (ans != null) {
-            JOptionPane.showMessageDialog(null, "The center is : " + ans.getKey(), "Center", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "The center is : " + ans.getKey(), "Center",
+                    JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "The center is  null ", "Center",
+            JOptionPane.showMessageDialog(this, "The center is  null ", "Center",
                     JOptionPane.INFORMATION_MESSAGE);
         }
 
@@ -324,10 +400,10 @@ public class window extends JFrame implements ActionListener {
         graphAl2.init(graphAl.copy());
         boolean ans = graphAl2.isConnected();
         if (ans) {
-            JOptionPane.showMessageDialog(null, "The graph is connected ", " isConnected ",
+            JOptionPane.showMessageDialog(this, "The graph is connected ", " isConnected ",
                     JOptionPane.QUESTION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "The graph is not  connected ", " isConnected ",
+            JOptionPane.showMessageDialog(this, "The graph is not  connected ", " isConnected ",
                     JOptionPane.INFORMATION_MESSAGE);
 
         }
@@ -382,9 +458,6 @@ public class window extends JFrame implements ActionListener {
         }
 
     }
-
-
-
 
 
 }

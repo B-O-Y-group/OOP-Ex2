@@ -2,6 +2,8 @@ import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
 import api.NodeData;
 
+import java.util.Timer;
+
 /**
  * This class is the main class for Ex2 - your implementation will be tested using this class.
  */
@@ -11,51 +13,46 @@ public class Ex2 {
     //some test
     public static void main(String[] args) {
 
-        runGUI("Ex2/data/G1.json");
-
-        DirectedWeightedGraph graph = new HashOfHashes();
-        DirectedWeightedGraphAlgorithms g_algo = new MainAlgo(graph);
+//        runGUI("Ex2/data/10000Nodes.json");
 
 
+        //---------1,000 Nodes---------
+        DirectedWeightedGraph graph_1 = new HashOfHashes();
+        DirectedWeightedGraphAlgorithms g_algo_1 = new MainAlgo(graph_1);
+//        g_algo_1.load("Ex2/data/G3.json");
+        g_algo_1.load("Ex2/data/G3.json");
+        long startTime = System.currentTimeMillis();
+        String first = "" + g_algo_1.isConnected();
+        long endTime = System.currentTimeMillis();
+        long final_time = endTime - startTime;
+        System.out.print("isConnected: " + first + "  " + final_time + " MS  ");
 
-        DirectedWeightedGraph test = new HashOfHashes();
-        DirectedWeightedGraphAlgorithms test_algo = new MainAlgo(test);
+        startTime = System.currentTimeMillis();
+        first = "" + g_algo_1.center();
+        endTime = System.currentTimeMillis();
+        final_time = endTime - startTime;
 
-//        NodeData s = new Vertex(0,new Point3D(1,1,1));
-//        NodeData a = new Vertex(1,new Point3D(1,1,1));
-//        NodeData b = new Vertex(2,new Point3D(1,1,1));
-//        NodeData c = new Vertex(3,new Point3D(1,1,1));
-//        NodeData d = new Vertex(4,new Point3D(1,1,1));
-//
-//        test.addNode(s);
-//        test.addNode(a);
-//        test.addNode(b);
-//        test.addNode(c);
-//        test.addNode(d);
-//
-//        test.connect(s.getKey(), a.getKey(), 1);
-//        test.connect(s.getKey(), b.getKey(), 0);
-//        test.connect(s.getKey(), c.getKey(), 1);
-//        test.connect(s.getKey(), d.getKey(), 1);
-//
-//        test.connect(a.getKey(), b.getKey(), 0);
-//        test.connect(a.getKey(), c.getKey(), 1);
-//        test.connect(a.getKey(), d.getKey(), 1);
+        System.out.println("Center: " + first + "  " + final_time + " MS");
+
+
+//        //---------10,000 Nodes---------
+//        DirectedWeightedGraph graph_2 = new HashOfHashes();
+//        DirectedWeightedGraphAlgorithms g_algo_2 = new MainAlgo(graph_2);
+//        g_algo_2.load("Ex2/data/10000Nodes.json");
 //
 //
-//        test.connect(b.getKey(), c.getKey(), 0);
-//        test.connect(c.getKey(), d.getKey(), 0);
-//        test.connect(d.getKey(), s.getKey(), 1);
-
-        g_algo.load("Ex2/data/G1.json");
-
-        System.out.println("isConnected: " + g_algo.isConnected());
-//        System.out.println("NODE LIST: " + tsp_test);
-//        System.out.println("ANSWER SHORTEST: " + g_algo.shortestPath(20, 45));
-//        System.out.println("SHORTEST DIST: " + g_algo.shortestPathDist(20, 45));
-//        System.out.println("TSP: " + g_algo.tsp(g_algo.shortestPath(1, 16)));
-        System.out.println("Center: " + g_algo.center());
-
+//        //---------100,000 Nodes---------
+//        DirectedWeightedGraph graph_3 = new HashOfHashes();
+//        DirectedWeightedGraphAlgorithms g_algo_3 = new MainAlgo(graph_3);
+//        g_algo_3.load("Ex2/data/100000Nodes.json");
+//
+//
+//        System.out.println("isConnected: " + g_algo.isConnected());
+////        System.out.println("NODE LIST: " + tsp_test);
+////        System.out.println("ANSWER SHORTEST: " + g_algo.shortestPath(20, 45));
+////        System.out.println("SHORTEST DIST: " + g_algo.shortestPathDist(20, 45));
+////        System.out.println("TSP: " + g_algo.tsp(g_algo.shortestPath(1, 16)));
+//        System.out.println("Center: " + g_algo.center());
 
 
 //
@@ -114,11 +111,10 @@ public class Ex2 {
         DirectedWeightedGraph graph = new HashOfHashes();
 
 
-
-        NodeData a = new Vertex(0, new Point3D(80,341.19589389346247, 0));
-        NodeData b = new Vertex(1, new Point3D(10,220.10318254621849, 0));
-        NodeData c = new Vertex(2, new Point3D(270,202.1025646605042, 0));
-        NodeData d = new Vertex(3, new Point3D(350,102.10107446554622, 0));
+        NodeData a = new Vertex(0, new Point3D(80, 341.19589389346247, 0));
+        NodeData b = new Vertex(1, new Point3D(10, 220.10318254621849, 0));
+        NodeData c = new Vertex(2, new Point3D(270, 202.1025646605042, 0));
+        NodeData d = new Vertex(3, new Point3D(350, 102.10107446554622, 0));
 
         graph.addNode(a);
         graph.addNode(b);
@@ -167,7 +163,6 @@ public class Ex2 {
         h.addNode(h4);
         h.addNode(h5);
         h.addNode(h6);
-
 
 
         h.connect(h1.getKey(), h2.getKey(), 1);

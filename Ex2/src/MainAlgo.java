@@ -163,7 +163,6 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
             }
         }
         while (!queue.isEmpty());
-        System.out.println(visits);
         return new_g.getNode(dest).getWeight();
 
     }
@@ -240,9 +239,6 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
             while (it_first.hasNext()) {
                 int first_next = it_first.next().getKey();
                 double temp = shortestPathDist(next,first_next);
-                if (next == 20 && first_next == 45) {
-                    System.out.println("HEREEEEEEEEEEEEEEEEEEEEEEEEEEEE: " + temp);
-                }
                 if (temp > first) {
                     first = temp;
                 }
@@ -260,82 +256,7 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
             }
         }
         return center;
-
-//        Iterator<NodeData> it = this.graph.nodeIter();
-//        NodeData center = null;
-//        double max = Double.NEGATIVE_INFINITY;
-//        double min = Double.POSITIVE_INFINITY;
-//        HashMap<Double, NodeData> final_list = new HashMap<>();
-//        while (it.hasNext()) {
-//            NodeData next = it.next();
-//            Iterator<NodeData> Node_it = this.graph.nodeIter();
-//            ArrayList<Double> list = new ArrayList<>();
-//            while (Node_it.hasNext()) {
-//                NodeData temp_node = Node_it.next();
-//                if (temp_node.getKey() != next.getKey()) {
-//
-//                    list.add(shortestPathDist(temp_node.getKey(), next.getKey()));
-//                }
-//
-//            }
-//            double s = Double.NEGATIVE_INFINITY;
-//            for (Double aDouble : list) {
-//                if (aDouble > s) {
-//                    s = aDouble;
-//                }
-//            }
-//            System.out.println("NEXTTTTT " + next + list);
-//            final_list.put(s, next);
-//        }
-//        double a = Double.POSITIVE_INFINITY;
-//        for (double next : final_list.keySet()) {
-//            if (next < a) {
-//                a = next;
-//            }
-//        }
-//        System.out.println("CHECK " + final_list.keySet());
-//
-//        return final_list.get(a);
-
-//                NodeData temp_node = Node_it.next();
-//                if (temp_node.getKey() != next.getKey()) {
-//                    System.out.println("NEXT: " + next + " TEMP: " + temp_node);
-//                    double temp = shortestPathDist(next.getKey(), temp_node.getKey());
-//                    test.add(temp);
-//                    if (temp >= max) {
-//                        max = temp;
-//                    }
-//                }
-//
-//
-//            }
-//            System.out.println("NODE ID: " + next.getKey() + " TETTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT" + test);
-//            if (max <= min) {
-//                min = max;
-//                center = next;
-//            }
-//        }
-//        System.out.println("MIN " + min);
-//        return center;
-//        Iterator<NodeData> it = this.graph.nodeIter();
-//        double min_path = Double.POSITIVE_INFINITY;
-//        NodeData center = null;
-//        while (it.hasNext()) {
-//            double temp = 0;
-//            NodeData next = it.next();
-//            Iterator<NodeData> sum_it = this.graph.nodeIter();
-//            while (sum_it.hasNext()) {
-//                NodeData curr = sum_it.next();
-//                if (next.getKey() != curr.getKey()) {
-//                    temp += shortestPathDist(next.getKey(), curr.getKey());
-//                }
-//            }
-//            if (temp < min_path) {
-//                min_path = temp;
-//                center = next;
-//            }
-//        }
-//        return center;
+        
 
 
     }

@@ -168,38 +168,6 @@ public class HashOfHashes implements DirectedWeightedGraph {
         return n;
 
 
-//        if (this.graph.containsKey(key)) {
-//            for (int i = 0; i < this.graph.get(key).size(); i++) {
-//
-//                if (i != key) {
-//
-//
-//                    if (this.graph.get(key).get(i).get(1) != null) {
-//                    }
-//                    System.out.println("herre e e");
-//
-//                    removeEdge(this.graph.get(key).get(i).get(1).getSrc(), this.graph.get(key).get(i).get(1).getDest());
-//                    this.graph.remove(i);
-//
-//                }
-//                if (this.graph.get(key).get(i).get(0) != null) {
-//                    System.out.println("------------------------>" + i);
-//                    removeEdge(this.graph.get(key).get(i).get(0).getSrc(), this.graph.get(key).get(i).get(0).getDest());
-//
-//                }
-//            }
-//            //System.out.println("------------------------>" + this.graph.get(key));
-//            NodeData ans = this.nodes.get(key);
-//            this.graph.remove(key);
-//
-//            this.MC++;
-//            this.nodes.remove(key);
-//            return ans;
-//        } else {
-//            throw new NoSuchElementException("no key in the graph ");
-//        }
-
-
     }
 
     // TODO
@@ -211,7 +179,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
             ed_list_removed = true;
 
             this.graph.get(dest).get(src).set(1, null);
-            this.graph.get(src).get(dest).set(0,null);
+            this.graph.get(src).get(dest).set(0, null);
 
             this.MC++;
             num_of_edges--;
@@ -239,14 +207,6 @@ public class HashOfHashes implements DirectedWeightedGraph {
     @Override
     public int getMC() {
         return this.MC;
-    }
-
-    public static void main(String[] args) {
-        List<Integer> test = new ArrayList<>();
-        test.add(null);
-        test.add(null);
-        test.set(1, 2);
-        System.out.println(test);
     }
 
 

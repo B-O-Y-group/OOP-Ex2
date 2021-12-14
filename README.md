@@ -3,11 +3,12 @@
 This project represents a number of algorithms that can be done on a directed graph
 
 
+
 1. graph data structure :
     hash map of two hash maps:
     the first key of hashmap --> represent the id of each node by his key,
     the value --> represent another hashmap of the key --> represent nodes' neighbors
-    the value of them --> represent array of edges by src and dest.
+    the value of them --> represent an array of edges by src and dest.
 
 2. A brief overview of the algorithms that can be done on the directed graph  :
    - isConnected:
@@ -26,10 +27,11 @@ This project represents a number of algorithms that can be done on a directed gr
     returns the way the vertices pass.
 
     
-  - center: 
+  - center: This algorithm checks which is the longest path from each vertex, and then selects the shortest path from the longest
 
 
-  - tsp:
+  - tsp: This algorithm goes through all the vertices in the graph and brings the path with the lowest weight in the 
+    path on all the vertices
     
     
 3. How to use gui: 

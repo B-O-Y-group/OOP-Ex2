@@ -47,10 +47,13 @@ This project represents a number of algorithms that can be done on a directed gr
        
        if u choose for a save  the fallowing will  show 
        and here u need to choose for a place u want to save the result .
+       
           ![img_4.png](img_4.png)
        
 
-       ![img_5.png](img_5.png)
+
+
+![img_5.png](img_5.png)
 
 3. Algorithm --> isConnected ,  shortestPathDist, shortestPath , center , tsp
     Here u need to choose the algorithm u like to start .  

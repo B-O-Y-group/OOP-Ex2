@@ -165,7 +165,7 @@ class MainAlgoTest {
         DirectedWeightedGraph p;
         DirectedWeightedGraphAlgorithms pAlgo;
         p = new HashOfHashes();
-        pAlgo = new MainAlgo(p);
+
 
         NodeData p1 = new Vertex(1, new Point3D(2, 1, 0));
         NodeData p2 = new Vertex(2, new Point3D(1, 3, 0));
@@ -188,12 +188,15 @@ class MainAlgoTest {
         p.connect(p4.getKey(), p1.getKey(), 20);
         p.connect(p4.getKey(), p2.getKey(), 25);
         p.connect(p4.getKey(), p3.getKey(), 30);
+        pAlgo = new MainAlgo(p);
 
         List<NodeData> e1 = new ArrayList<>();
-        e1.add(pAlgo.getGraph().getNode(1));
         e1.add(pAlgo.getGraph().getNode(2));
+        e1.add(pAlgo.getGraph().getNode(1));
         e1.add(pAlgo.getGraph().getNode(3));
         e1.add(pAlgo.getGraph().getNode(4));
+
+
 
         assertEquals("Id: 1, Id: 2 ",pAlgo.tsp(e1).toString());
 

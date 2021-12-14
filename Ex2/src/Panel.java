@@ -95,7 +95,7 @@ public class Panel extends JPanel implements MouseListener {
             y = scaleY(y);
 
 
-            g.fillOval((int) x - 7, (int) y - 7, 12, 12);
+            g.fillOval((int) x, (int) y, 12, 12);
 
             ///------draw key----------------
             String key = "";
@@ -168,7 +168,16 @@ public class Panel extends JPanel implements MouseListener {
 
             g.setStroke(new BasicStroke(3f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
 
-            LineArrow arrow = new LineArrow((int) (srcX), (int) (srcY), (int) (destX) - 5, (int) (destY) - 3, color,
+            double center_x_src = (srcX + (6));
+            double center_y_src = (srcY + (6));
+
+            double center_x_dest = (destX + (6));
+            double center_y_dest = (destY + (6));
+
+            int radius = 6;
+            double incline = (center_y_dest-center_y_src)/(center_x_dest - center_x_src);
+            double free_param = destY - destX*incline;
+            LineArrow arrow = new LineArrow((int) center_x_src, (int) center_y_src, (int) center_x_dest, (int) center_y_dest, color,
                     0);
 
             g.setStroke(new BasicStroke(3f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));

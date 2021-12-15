@@ -33,10 +33,11 @@ public class window extends JFrame implements ActionListener {
         // todo  add edge button and  add node button
 
         Dimension fullScreen = Toolkit.getDefaultToolkit().getScreenSize();
-        int width = fullScreen.width / 2;
-        int high = fullScreen.height / 2;
+        int width = fullScreen.width;
+        int high = fullScreen.height ;
         this.setSize(width, high);
         addMenu();
+
 
 
         initPanel(this.graph);
@@ -339,21 +340,43 @@ public class window extends JFrame implements ActionListener {
     //=============File==================================================
     // todo not working well
     private void load() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("load file ");
 
         DirectedWeightedGraphAlgorithms algo1 = new MainAlgo(this.graph);
-        DirectedWeightedGraphAlgorithms algo2 = new MainAlgo(this.graph);
+        Container contain = getContentPane();
+        try {
+            JFileChooser fc = new JFileChooser();
+            fc.setCurrentDirectory(new File("src/main/java"));
+            int option = fc.showOpenDialog(this);
+            if (option == JFileChooser.APPROVE_OPTION) {
+                contain.removeAll();
+                File f = fc.getSelectedFile();
+                algo1.load(String.valueOf(f));
+                Panel p = new Panel(algo1.getGraph());
+                this.panel = p;
+                contain.add(p);
+                contain.validate();
+                contain.repaint();
+                //this.add(this.panel);
 
-        int returnV = fileChooser.showOpenDialog(this);
-        if (returnV == JFileChooser.APPROVE_OPTION) {
-            try {
-                File selected = fileChooser.getSelectedFile();
-                algo1.load(selected.getAbsolutePath());
-                algo1.init(this.graph);
-                algo2.init(algo1.copy());
+                this.graph = algo1.getGraph();
 
-                initPanel(algo2.getGraph());
+                this.setVisible(true);
+            }
+//        JFileChooser fileChooser = new JFileChooser();
+//        fileChooser.setDialogTitle("load file ");
+//
+//        DirectedWeightedGraphAlgorithms algo1 = new MainAlgo(this.graph);
+//        DirectedWeightedGraphAlgorithms algo2 = new MainAlgo(this.graph);
+//
+//        int returnV = fileChooser.showOpenDialog(this);
+//        if (returnV == JFileChooser.APPROVE_OPTION) {
+//            File selected = new File(fileChooser.getSelectedFile().getAbsolutePath());
+//            try {
+//                algo1.load(String.valueOf(selected));
+//                this.graph = algo1.getGraph();
+//
+//                intiGraph(this.graph);
+
 
             } catch (Exception exception) {
                 System.out.println(exception.getMessage());
@@ -362,7 +385,7 @@ public class window extends JFrame implements ActionListener {
         }
 
 
-    }
+//    }
 
     private void save() {
         JFileChooser fileChooser = new JFileChooser();

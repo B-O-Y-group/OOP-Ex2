@@ -9,7 +9,7 @@ public class Ex2 {
     //Main
     public static void main(String[] args) {
 
-        runGUI("Ex2/data/G1.json");
+        runGUI("Ex2/data/G2.json");
         DirectedWeightedGraph s = new HashOfHashes();
         DirectedWeightedGraphAlgorithms test = new MainAlgo(s);
         test.load("Ex2/data/G1.json");

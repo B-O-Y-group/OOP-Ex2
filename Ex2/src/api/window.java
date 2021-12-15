@@ -134,7 +134,6 @@ public class window extends JFrame implements ActionListener {
             isConnected();
             System.out.println("isConnected clicked");
         } else if (e.getSource() == Center) {
-            //todo draw
             FindCenter();
             System.out.println("Center clicked");
         } else if (e.getSource() == shortestPath) {
@@ -150,6 +149,7 @@ public class window extends JFrame implements ActionListener {
             //todo open the func
             System.out.println("tsp clicked ");
         }
+
 
         // --------------New -------------------
         else if (e.getSource() == addNode) {

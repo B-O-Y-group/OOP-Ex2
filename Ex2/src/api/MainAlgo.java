@@ -11,6 +11,10 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
     private int max_node;
     private boolean max_node_activate;
 
+    public MainAlgo() {
+        this.graph = new HashOfHashes();
+    }
+
     public MainAlgo(DirectedWeightedGraph h) {
         max_node = 0;
         Iterator<NodeData> it = h.nodeIter();
@@ -71,7 +75,6 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
         return new_g;
     }
 
-    // check if each node has (n-1) pathes.
     @Override
     public boolean isConnected() {
         Iterator<NodeData> it = this.graph.nodeIter();
@@ -339,7 +342,6 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
             List<NodeData> temp_list = tspRec(t_path, t_miss, t_val, final_v);
 
             if (t_val < final_v) {
-                //    System.out.println("curr_ PATH: " + temp_list);
                 path = temp_list;
                 final_v = t_val;
             }
@@ -453,10 +455,5 @@ public class MainAlgo implements DirectedWeightedGraphAlgorithms {
         }
         init(load);
         return true;
-    }
-
-    public static void main(String[] args) {
-
-
     }
 }

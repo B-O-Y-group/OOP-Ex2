@@ -15,8 +15,6 @@ public class HashOfHashes implements DirectedWeightedGraph {
     private int num_of_edges;
     private int MC;
 
-    private int max_node;
-
     public HashOfHashes() {
         this.nodes = new HashMap<>();
         this.graph = new HashMap<>();
@@ -164,7 +162,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
 
     }
 
-    // TODO
+
     @Override
     public EdgeData removeEdge(int src, int dest) {
         if (this.graph.get(src).get(dest).get(0) != null) {
@@ -181,7 +179,7 @@ public class HashOfHashes implements DirectedWeightedGraph {
 
             return this.edge.get(src).remove(dest);
         } else {
-            System.out.println("null here");
+            System.out.println("This graph does not contains this edge");
             return null;
         }
     }

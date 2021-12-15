@@ -301,18 +301,21 @@ public class window extends JFrame implements ActionListener {
 
         graphAl.init(this.graph);
         graphAl2.init(graphAl.copy());
-        //todo in  PANEL
-        this.panel = new Panel(graphAl2.getGraph());
-        NodeData ans = this.panel.getCenter();
+
+        NodeData ans = graphAl2.center();
+
         if (ans != null) {
-            JOptionPane.showMessageDialog(null, "The center is : " + ans.getKey(), "Center", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "The center is : " + ans.getKey(), "Center",
+                    JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "The center is  null ", "Center",
+            JOptionPane.showMessageDialog(this, "The center is  null ", "Center",
                     JOptionPane.INFORMATION_MESSAGE);
         }
 
 
     }
+
+
 
     private void isConnected() {
         DirectedWeightedGraphAlgorithms graphAl = new MainAlgo(this.graph);

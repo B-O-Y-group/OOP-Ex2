@@ -1,10 +1,11 @@
-import api.EdgeData;
-import api.NodeData;
+import api.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -88,12 +89,16 @@ class HashOfHashesTest {
         empty = new HashOfHashes();
         Iterator<NodeData> it2 = empty.nodeIter();
         while (it2.hasNext()) {
+            it2.next();
          assertFalse(it2.hasNext());
         }
         Iterator<NodeData> it = graph.nodeIter();
-        it.next();
-        it.remove();
-        assertFalse(graph.ed_list_removed);
+        int amount = graph.nodeSize();
+        ArrayList<NodeData> test1 = new ArrayList<>();
+        while (it.hasNext()) {
+            test1.add(it.next());
+        }
+        assertEquals(test1.size(),graph.nodeSize());
     }
 
     @Test

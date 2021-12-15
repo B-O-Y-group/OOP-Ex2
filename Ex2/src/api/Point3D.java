@@ -1,3 +1,5 @@
+package api;
+
 import api.GeoLocation;
 
 import java.awt.*;

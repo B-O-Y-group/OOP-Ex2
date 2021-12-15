@@ -1,7 +1,4 @@
-import api.DirectedWeightedGraph;
-import api.DirectedWeightedGraphAlgorithms;
-import api.EdgeData;
-import api.NodeData;
+package api;
 
 import javax.swing.*;
 import java.awt.*;
@@ -266,10 +263,10 @@ public class Panel extends JPanel implements MouseListener {
         DirectedWeightedGraph newG = this.graph;
         graphAl.init(this.graph);
         graphAl2.init(graphAl.copy());
-        JOptionPane.showMessageDialog(frame, "Insert Edge to the graph ");
-        String x = JOptionPane.showInputDialog(frame, "Please give a src ", "Edge Src", -1);
-        String y = JOptionPane.showInputDialog(frame, "Please give a dest ", "Edge dest", -1);
-        String w = JOptionPane.showInputDialog(frame, "Please give a weight ", "Edge weight", -1);
+        JOptionPane.showMessageDialog(frame, "Insert api.Edge to the graph ");
+        String x = JOptionPane.showInputDialog(frame, "Please give a src ", "api.Edge Src", -1);
+        String y = JOptionPane.showInputDialog(frame, "Please give a dest ", "api.Edge dest", -1);
+        String w = JOptionPane.showInputDialog(frame, "Please give a weight ", "api.Edge weight", -1);
 
 
         int src = Integer.parseInt(x);
@@ -298,9 +295,9 @@ public class Panel extends JPanel implements MouseListener {
         DirectedWeightedGraph newG = this.graph;
         graphAl.init(this.graph);
         graphAl2.init(graphAl.copy());
-        JOptionPane.showMessageDialog(frame, "Remove Edge from the graph ");
-        String x = JOptionPane.showInputDialog(frame, "Please give a src ", "Edge Src", -1);
-        String y = JOptionPane.showInputDialog(frame, "Please give a dest ", "Edge dest", -1);
+        JOptionPane.showMessageDialog(frame, "Remove api.Edge from the graph ");
+        String x = JOptionPane.showInputDialog(frame, "Please give a src ", "api.Edge Src", -1);
+        String y = JOptionPane.showInputDialog(frame, "Please give a dest ", "api.Edge dest", -1);
 
 
 
@@ -336,7 +333,7 @@ public class Panel extends JPanel implements MouseListener {
     public void mousePressed(MouseEvent e) {
         this.newP = new Point3D(e.getX(), e.getY(), 0);
         ;
-//            NodeData n = new Vertex(this.algo2.getGraph().nodeSize() + 1, newP);
+//            NodeData n = new api.Vertex(this.algo2.getGraph().nodeSize() + 1, newP);
 //            DirectedWeightedGraph newG = this.algo2.getGraph();
 //            newG.addNode(n);;
         //p.repaint();

@@ -1,6 +1,4 @@
-import api.EdgeData;
-import api.GeoLocation;
-import api.NodeData;
+package api;
 
 public class Vertex implements NodeData {
 

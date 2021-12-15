@@ -1,4 +1,5 @@
-import api.*;
+package api;
+
 import com.google.gson.*;
 
 import java.io.*;

@@ -1,6 +1,4 @@
-import api.DirectedWeightedGraph;
-import api.DirectedWeightedGraphAlgorithms;
-import api.NodeData;
+package api;
 
 import javax.swing.*;
 import java.awt.*;
@@ -71,7 +69,7 @@ public class window extends JFrame implements ActionListener {
         menuBar.add(Algorithm);
         menuBar.add(addToGraph);
 
-        addEdge = new MenuItem("Add Edge");
+        addEdge = new MenuItem("Add api.Edge");
         addEdge.addActionListener(this);
         addNode = new MenuItem("Add Node");
         addNode.addActionListener(this);

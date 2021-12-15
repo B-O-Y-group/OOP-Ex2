@@ -1,4 +1,4 @@
-import api.EdgeData;
+package api;
 
 public class Edge implements EdgeData {
 

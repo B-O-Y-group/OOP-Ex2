@@ -1,6 +1,4 @@
-import api.DirectedWeightedGraph;
-import api.EdgeData;
-import api.NodeData;
+package api;
 
 import java.util.*;
 

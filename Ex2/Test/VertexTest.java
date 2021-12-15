@@ -1,4 +1,6 @@
 import api.GeoLocation;
+import api.Point3D;
+import api.Vertex;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

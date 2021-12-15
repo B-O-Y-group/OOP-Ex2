@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
+import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.Iterator;
 
 public class Panel extends JPanel implements MouseListener {
@@ -144,10 +146,23 @@ public class Panel extends JPanel implements MouseListener {
 
     private void edgeDraw(Graphics2D g) {
 
+        HashMap<Integer, HashMap<Integer, Boolean>> applied = new HashMap<>();
 
         Iterator<EdgeData> edgeIt = this.algo2.getGraph().edgeIter();
         while (edgeIt.hasNext()) {
             EdgeData next = edgeIt.next();
+            boolean is_applied = true;
+            if (!applied.containsKey(next.getSrc())) {
+                applied.put(next.getSrc(), new HashMap<>());
+                applied.get(next.getSrc()).put(next.getDest(), true);
+                if (!applied.containsKey(next.getDest())) {
+                    applied.put(next.getDest(), new HashMap<>());
+                }
+                applied.get(next.getDest()).put(next.getSrc(), true);
+                is_applied = false;
+            } else if (applied.get(next.getSrc()).containsKey(next.getDest())) {
+                is_applied = false;
+            }
 
 
             double srcX = this.algo2.getGraph().getNode(next.getSrc()).getLocation().x();
@@ -172,21 +187,29 @@ public class Panel extends JPanel implements MouseListener {
             double center_y_dest = (destY + (6));
 
             int radius = 6;
-            double incline = (center_y_dest-center_y_src)/(center_x_dest - center_x_src);
-            double free_param = destY - destX*incline;
+            double incline = (center_y_dest - center_y_src) / (center_x_dest - center_x_src);
+            double free_param = destY - destX * incline;
             LineArrow arrow = new LineArrow((int) center_x_src, (int) center_y_src, (int) center_x_dest, (int) center_y_dest, color,
                     0);
 
             g.setStroke(new BasicStroke(3f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
+
+
             arrow.draw(g);
 
 
             //------- draw weight---------------
-            int midX = (int) (srcX + destX) / 2;
-            int midY = (int) (srcY + destY) / 2;
+            int midX = (int) (srcX + destX) / 2;;
+            int midY = 0;
+            if (!is_applied) {
+                midY = (int) ((srcY + destY) / 2) - 10;
+            } else {
+                midY = (int) ((srcY + destY) / 2) + 10;
+            }
             g.setColor(Color.black);
             String weight = "";
-            weight += (int) next.getWeight();
+            DecimalFormat df = new DecimalFormat("0.00");
+            weight +=  df.format((double)next.getWeight());
             g.setColor(Color.black);
             Color c = new Color(128, 128, 128);
             g.setColor(c);
@@ -195,7 +218,6 @@ public class Panel extends JPanel implements MouseListener {
 
         }
     }
-
 
 
     //--------------------------New-----------------------------------------------------------------
@@ -276,11 +298,10 @@ public class Panel extends JPanel implements MouseListener {
 
         try {
 
-            graphAl2.getGraph().connect(src,dest,weight);
+            graphAl2.getGraph().connect(src, dest, weight);
             graphAl2.init(newG);
 
             repaint();
-
 
 
         } catch (Exception exception) {
@@ -300,19 +321,16 @@ public class Panel extends JPanel implements MouseListener {
         String y = JOptionPane.showInputDialog(frame, "Please give a dest ", "api.Edge dest", -1);
 
 
-
         int src = Integer.parseInt(x);
         int dest = Integer.parseInt(y);
 
 
-
         try {
 
-            graphAl2.getGraph().removeEdge(src,dest);
+            graphAl2.getGraph().removeEdge(src, dest);
             graphAl2.init(newG);
 
             repaint();
-
 
 
         } catch (Exception exception) {

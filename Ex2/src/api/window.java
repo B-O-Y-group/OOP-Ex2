@@ -344,16 +344,16 @@ public class window extends JFrame implements ActionListener {
         DirectedWeightedGraphAlgorithms algo1 = new MainAlgo(this.graph);
         Container contain = getContentPane();
         try {
-            JFileChooser fc = new JFileChooser();
-            fc.setCurrentDirectory(new File("src/main/java"));
-            int option = fc.showOpenDialog(this);
-            if (option == JFileChooser.APPROVE_OPTION) {
+            JFileChooser load_file = new JFileChooser();
+            load_file.setCurrentDirectory(new File("src/main/java"));
+            int choose = load_file.showOpenDialog(this);
+            if (choose == JFileChooser.APPROVE_OPTION) {
                 contain.removeAll();
-                File f = fc.getSelectedFile();
+                File f = load_file.getSelectedFile();
                 algo1.load(String.valueOf(f));
-                Panel p = new Panel(algo1.getGraph());
-                this.panel = p;
-                contain.add(p);
+                Panel new_panel = new Panel(algo1.getGraph());
+                this.panel = new_panel;
+                contain.add(new_panel);
                 contain.validate();
                 contain.repaint();
                 //this.add(this.panel);
@@ -362,20 +362,6 @@ public class window extends JFrame implements ActionListener {
 
                 this.setVisible(true);
             }
-//        JFileChooser fileChooser = new JFileChooser();
-//        fileChooser.setDialogTitle("load file ");
-//
-//        DirectedWeightedGraphAlgorithms algo1 = new MainAlgo(this.graph);
-//        DirectedWeightedGraphAlgorithms algo2 = new MainAlgo(this.graph);
-//
-//        int returnV = fileChooser.showOpenDialog(this);
-//        if (returnV == JFileChooser.APPROVE_OPTION) {
-//            File selected = new File(fileChooser.getSelectedFile().getAbsolutePath());
-//            try {
-//                algo1.load(String.valueOf(selected));
-//                this.graph = algo1.getGraph();
-//
-//                intiGraph(this.graph);
 
 
             } catch (Exception exception) {

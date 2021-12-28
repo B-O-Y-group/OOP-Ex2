@@ -1,6 +1,4 @@
-import api.DirectedWeightedGraph;
-import api.DirectedWeightedGraphAlgorithms;
-import api.NodeData;
+import api.*;
 
 /**
  * This class is the main class for Ex2 - your implementation will be tested using this class.
@@ -8,12 +6,57 @@ import api.NodeData;
 public class Ex2 {
 
 
-    //some test
+    //Main
     public static void main(String[] args) {
 
-        //runGUI(args[0]);
-        runGUI("Ex2/data/G3.json");
-        // System.out.println(getGrapgAlgo("Ex2/data/G1.json").center());
+        if (args.length > 0) runGUI(args[0]);
+
+
+
+
+        //---------1,000 Nodes---------
+//        DirectedWeightedGraph graph_1 = new api.HashOfHashes();
+//        DirectedWeightedGraphAlgorithms g_algo_1 = new api.MainAlgo(graph_1);
+//        g_algo_1.load("Ex2/data/1000Nodes.json");
+//        long startTime = System.currentTimeMillis();
+//        String first = "" + g_algo_1.isConnected();
+//        long endTime = System.currentTimeMillis();
+//        long final_time = endTime - startTime;
+//        System.out.print("1,000 Nodes --> isConnected: " + first + "  " + final_time + " MS  ");
+//
+//        startTime = System.currentTimeMillis();
+//        first = "" + g_algo_1.center();
+//        endTime = System.currentTimeMillis();
+//        final_time = endTime - startTime;
+//
+//        System.out.println("Center: " + first + "  " + final_time + " MS");
+
+
+        //---------10,000 Nodes---------
+//        System.out.println("\n");
+//        DirectedWeightedGraph graph_2 = new HashOfHashes();
+//        DirectedWeightedGraphAlgorithms g_algo_2 = new MainAlgo(graph_2);
+//        g_algo_2.load("Ex2/data/10000Nodes.json");
+//
+//        long startTime = System.currentTimeMillis();
+//        String first = "" + g_algo_2.isConnected();
+//        long endTime = System.currentTimeMillis();
+//        long final_time = endTime - startTime;
+//        System.out.print("10,000 Nodes --> isConnected: " + first + "  " + final_time + " MS  ");
+//
+//        startTime = System.currentTimeMillis();
+//        first = "" + g_algo_2.center();
+//        endTime = System.currentTimeMillis();
+//        final_time = endTime - startTime;
+//
+//        System.out.println("Center: " + first + "  " + final_time + " MS");
+//
+//        //---------100,000 Nodes---------
+//        DirectedWeightedGraph graph_3 = new api.HashOfHashes();
+//        DirectedWeightedGraphAlgorithms g_algo_3 = new api.MainAlgo(graph_3);
+//        g_algo_3.load("Ex2/data/100000Nodes.json");
+//
+
 
     }
 
@@ -59,8 +102,7 @@ public class Ex2 {
         window win = new window(alg);
 
 
-        //
-        // ********************************
     }
+
 
 }

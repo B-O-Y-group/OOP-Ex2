@@ -1,6 +1,4 @@
-import api.DirectedWeightedGraph;
-import api.DirectedWeightedGraphAlgorithms;
-import api.NodeData;
+import api.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -129,18 +127,28 @@ class MainAlgoTest {
     }
     @Test
     void isConnected() {
-        assertTrue(hAlgo.isConnected());
-        h.removeEdge(1,6);
-        h.removeEdge(6,1);
-        h.removeEdge(6,5);
-        h.removeEdge(5,6);
-        assertFalse(hAlgo.isConnected());
+        DirectedWeightedGraph g = new HashOfHashes();
+        DirectedWeightedGraphAlgorithms f = new MainAlgo(g);
+        f.getGraph().addNode(new Vertex(0, new Point3D(1,1,1)));
+        f.getGraph().addNode(new Vertex(1, new Point3D(1,1,1)));
+        f.getGraph().connect(0, 1, 5);
+        f.getGraph().connect(1, 0, 5);
+        f.init(g);
+        assertTrue(f.isConnected());
+        f.load("Ex2/data/G1.json");
+        assertTrue(f.isConnected());
+//        assertTrue(hAlgo.isConnected());
+//        h.removeEdge(1,6);
+//        h.removeEdge(6,1);
+//        h.removeEdge(6,5);
+//        h.removeEdge(5,6);
+//        hAlgo.init(h);
+//        assertFalse(hAlgo.isConnected());
     }
 
     @Test
     void shortestPathDist() {
         assertEquals(1,hAlgo.shortestPathDist(1,2));
-//        assertEquals(2,gAlgo.shortestPathDist(1,4));
 
     }
 
@@ -152,7 +160,7 @@ class MainAlgoTest {
 
     @Test
     void center() {
-        assertEquals(new Vertex(1, new Point3D(3, 1, 0)),hAlgo.center());
+        assertEquals(1, hAlgo.center().getKey());
 
     }
 
@@ -196,49 +204,10 @@ class MainAlgoTest {
 
 
 
-        assertEquals("Id: 1, Id: 2 ",pAlgo.tsp(e1).toString());
+        assertEquals("[Id: 3, Id: 1, Id: 2, Id: 4]",pAlgo.tsp(e1).toString());
 
     }
 
-    @Test
-    void save() {
-        DirectedWeightedGraph p;
-        DirectedWeightedGraphAlgorithms pAlgo;
-        p = new HashOfHashes();
-        pAlgo = new MainAlgo(p);
-
-        NodeData p1 = new Vertex(1, new Point3D(2, 1, 0));
-        NodeData p2 = new Vertex(2, new Point3D(1, 3, 0));
-        NodeData p3 = new Vertex(3, new Point3D(3, 3, 0));
-        NodeData p4 = new Vertex(4, new Point3D(2, 2, 0));
-        p.addNode(p1);
-        p.addNode(p2);
-        p.addNode(p3);
-        p.addNode(p4);
-
-        p.connect(p1.getKey(), p2.getKey(), 10);
-        p.connect(p1.getKey(), p3.getKey(), 15);
-        p.connect(p1.getKey(), p4.getKey(), 20);
-        p.connect(p2.getKey(), p1.getKey(), 10);
-        p.connect(p2.getKey(), p4.getKey(), 25);
-        p.connect(p2.getKey(), p3.getKey(), 35);
-        p.connect(p3.getKey(), p2.getKey(), 35);
-        p.connect(p3.getKey(), p4.getKey(), 30);
-        p.connect(p3.getKey(), p1.getKey(), 15);
-        p.connect(p4.getKey(), p1.getKey(), 20);
-        p.connect(p4.getKey(), p2.getKey(), 25);
-        p.connect(p4.getKey(), p3.getKey(), 30);
-
-        pAlgo.init(p);
-        try {
-            pAlgo.save("file2.json");
-
-            pAlgo.load("C:\\Users\\אורון דובב\\Documents\\github\\OOP-Ex2\\file2.json");
-            assertEquals(pAlgo.getGraph().nodeSize(), pAlgo.getGraph().nodeSize());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @Test
     void load() {
